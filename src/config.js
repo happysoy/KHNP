@@ -32,7 +32,7 @@ export const HEADER = {
 
 export const NAVBAR = {
   BASE_WIDTH: 260,
-  DASHBOARD_WIDTH: 280,
+  DASHBOARD_WIDTH: 88,
   DASHBOARD_COLLAPSE_WIDTH: 88,
   //
   DASHBOARD_ITEM_ROOT_HEIGHT: 48,
@@ -41,8 +41,8 @@ export const NAVBAR = {
 };
 
 export const ICON = {
-  NAVBAR_ITEM: 22,
-  NAVBAR_ITEM_HORIZONTAL: 20,
+  NAVBAR_ITEM: 30,
+  NAVBAR_ITEM_HORIZONTAL: 30,
 };
 // LANGUAGES
 // ----------------------------------------------------------

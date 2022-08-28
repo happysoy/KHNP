@@ -1,3 +1,4 @@
+// next
 import Head from "next/head";
 import { AuthProvider } from "src/contexts/AwsCognitoContext";
 

@@ -6,16 +6,16 @@ import Layout from "src/layouts";
 import Page from "src/components/Page";
 import useAuth from "src/hooks/useAuth";
 
-AutoSignal.getLayout = function getLayout(page) {
+dataLoad.getLayout = function getLayout(page) {
   return <Layout>{page}</Layout>;
 };
 
-export default function AutoSignal() {
+export default function dataLoad() {
   const { user } = useAuth();
   return (
-    <Page title="자동신호수집">
+    <Page title="데이터로드">
       <Container>
-        <div>자동 신호 수집</div>
+        <div>데이터 로드</div>
         <p>{user?.displayName}</p>
       </Container>
     </Page>

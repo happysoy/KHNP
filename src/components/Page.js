@@ -5,10 +5,12 @@ import Head from "next/head";
 // @mui
 import { Box } from "@mui/material";
 
-const Page = forwardRef(({ title, meta, children, ...other }, ref) => (
+// ----------------------------------------------------------------------
+
+const Page = forwardRef(({ children, title = "", meta, ...other }, ref) => (
   <>
     <Head>
-      <title>{`${title}` | "DEEP-AI"}</title>
+      <title>{`${title} | DEEP-AI`}</title>
       {meta}
     </Head>
 

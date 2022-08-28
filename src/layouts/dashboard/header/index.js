@@ -18,7 +18,7 @@ const RootStyle = styled(
   boxShadow: "none",
   height: HEADER.MOBILE_HEIGHT,
   zIndex: theme.zIndex.appBar + 1,
-  backgroundColor: theme.palette.background.neutral,
+  backgroundColor: "#2c2c2c",
 }));
 
 export default function DashboardHeader() {

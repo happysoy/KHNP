@@ -1,4 +1,5 @@
 import Head from "next/head";
+import { AuthProvider } from "src/contexts/AwsCognitoContext";
 
 export default function MyApp(props) {
   const { Component, pageProps } = props;
@@ -8,8 +9,7 @@ export default function MyApp(props) {
       <Head>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
-
-      {getLayout(<Component {...pageProps} />)}
+      <AuthProvider>{getLayout(<Component {...pageProps} />)}</AuthProvider>
     </>
   );
 }

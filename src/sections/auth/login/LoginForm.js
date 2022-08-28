@@ -29,8 +29,8 @@ export default function LoginForm() {
   });
 
   const defaultValues = {
-    email: "demo@minimals.cc",
-    password: "demo1234",
+    email: "jeongsoyeon0130@naver.com",
+    password: "Asdf1234!",
     remember: true,
   };
 

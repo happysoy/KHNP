@@ -25,9 +25,9 @@ export const COGNITO_API = {
 // ----------------------------------------------------------
 export const HEADER = {
   MOBILE_HEIGHT: 64,
-  MAIN_DESKTOP_HEIGHT: 88,
+  MAIN_DESKTOP_HEIGHT: 60,
   DASHBOARD_DESKTOP_HEIGHT: 92,
-  DASHBOARD_DESKTOP_OFFSET_HEIGHT: 92 - 32,
+  DASHBOARD_DESKTOP_OFFSET_HEIGHT: 57,
 };
 
 export const NAVBAR = {

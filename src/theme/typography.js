@@ -2,8 +2,7 @@ import { pxToRem, responsiveFontSizes } from "../utils/getFontValue";
 
 // ----------------------------------------------------------------------
 
-const FONT_PRIMARY = "Public Sans, sans-serif"; // Google Font
-// const FONT_SECONDARY = 'CircularStd, sans-serif'; // Local Font
+const FONT_PRIMARY = "Noto Sans KR,sans-serif"; // Google Font
 
 const typography = {
   fontFamily: FONT_PRIMARY,

@@ -22,4 +22,5 @@ export const PATH_DASHBOARD = {
   autoResult: path(ROOTS_DASHBOARD, "/auto-result"),
   manualEvaluation: path(ROOTS_DASHBOARD, "/manual-evaluation"),
   report: path(ROOTS_DASHBOARD, "/report"),
+  settings: path(ROOTS_DASHBOARD, "/settings"),
 };

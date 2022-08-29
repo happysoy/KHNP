@@ -1,4 +1,10 @@
+// theme
+import ThemeProvider from "../theme";
+// context
+import { CollapseDrawerProvider } from "src/contexts/CollapseDrawerContext";
+// next
 import Head from "next/head";
+import { AuthProvider } from "src/contexts/AwsCognitoContext";
 
 export default function MyApp(props) {
   const { Component, pageProps } = props;
@@ -9,7 +15,13 @@ export default function MyApp(props) {
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
 
-      {getLayout(<Component {...pageProps} />)}
+      <AuthProvider>
+        <CollapseDrawerProvider>
+          <ThemeProvider>
+            {getLayout(<Component {...pageProps} />)}
+          </ThemeProvider>
+        </CollapseDrawerProvider>
+      </AuthProvider>
     </>
   );
 }

@@ -1,5 +1,7 @@
 // routes
 import { PATH_DASHBOARD } from "../../../routes/paths";
+
+import Iconify from "src/components/Iconify";
 // components
 import SvgIconStyle from "src/components/SvgIconStyle";
 // @mui

@@ -16,16 +16,17 @@ import { ICON, NAVBAR } from "../../../config";
 export const ListItemStyle = styled(ListItemButton, {
   shouldForwardProp: (prop) => prop !== "active",
 })(({ active, depth, theme }) => ({
-  position: "relative",
+  // position: "relative",
   textTransform: "capitalize",
-  alignItems: "left",
-  justifyContent: "left",
+  // alignItems: "left",
+  // justifyContent: "left",
   // paddingLeft: theme.spacing(2),
   // paddingRight: theme.spacing(1.5),
   marginBottom: theme.spacing(0.5),
   color: theme.palette.text.secondary,
   borderRadius: theme.shape.borderRadius,
   height: NAVBAR.DASHBOARD_ITEM_ROOT_HEIGHT,
+
   // Active item
   ...(active && {
     color: theme.palette.primary.main,
@@ -52,17 +53,17 @@ export const ListItemTextStyle = styled(ListItemText, {
 
 // ----------------------------------------------------------------------
 
-export const ListItemIconStyle = styled(ListItemIcon)({
-  width: ICON.NAVBAR_ITEM,
-  height: ICON.NAVBAR_ITEM,
-  // display: "relative",
-  // position: "relative",
-  // alignItems: "top",
-  // display: "flex",
-  // alignItems: "left",
-  // justifyContent: "left",
-  "& svg": { width: "100%", height: "100%" },
-});
+// export const ListItemIconStyle = styled(ListItemIcon, {
+//   shouldForwardProp: (prop) => prop !== "active",
+// })(({ active, theme }) => ({
+//   width: ICON.NAVBAR_ITEM,
+//   height: ICON.NAVBAR_ITEM,
+//   "& svg": { width: "100%", height: "100%" },
+//   // ...(active && {
+
+//   //   // color: theme.palette.primary.main,
+//   // }),
+// }));
 
 // ----------------------------------------------------------------------
 

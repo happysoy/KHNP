@@ -1,7 +1,9 @@
 import { useRouter } from "next/router";
 // @mui
-import { List, Collapse, Link, Box } from "@mui/material";
+import { List, Collapse, Link, Box, Icon } from "@mui/material";
 import { getActive } from "..";
+
+import { ICON } from "../../../config";
 //
 import { ListItemStyle, ListItemTextStyle, ListItemIconStyle } from "./style";
 import { Navigate } from "react-router-dom";
@@ -15,23 +17,35 @@ export default function NavItem({ data, isCollapse, ...other }) {
   };
 
   return (
-    <Box sx={{ margin: 2 }}>
-      <ListItemStyle active={active} onClick={handleClickItem} {...other}>
-        {icon && (
-          <ListItemIconStyle sx={{ margin: -2 }}>{icon}</ListItemIconStyle>
-        )}
-        <ListItemTextStyle
-          sx={{ margin: 2 }}
-          isCollapse={isCollapse}
-          primary={title}
-          primaryTypographyProps={{
-            noWrap: true,
-            // variant: "caption",
-            variant: active ? "subtitle2" : "body2",
-            // textAlign: "center",
-          }}
-        />
-      </ListItemStyle>
-    </Box>
+    <ListItemStyle
+      sx={{ margin: 2 }}
+      active={active}
+      onClick={handleClickItem}
+      {...other}
+    >
+      {icon && (
+        <>
+          <Icon
+            sx={{ display: "flex" }}
+            height={ICON.NAVBAR_ITEM}
+            width={ICON.NAVBAR_ITEM}
+          >
+            {icon}
+          </Icon>
+
+          <ListItemTextStyle
+            sx={{ margin: 2 }}
+            isCollapse={isCollapse}
+            primary={title}
+            primaryTypographyProps={{
+              noWrap: true,
+              // variant: "caption",
+              variant: active ? "subtitle2" : "body2",
+              // textAlign: "center",
+            }}
+          />
+        </>
+      )}
+    </ListItemStyle>
   );
 }

@@ -25,7 +25,7 @@ const RootStyle = styled(AppBar, {
   height: HEADER.MOBILE_HEIGHT,
   zIndex: theme.zIndex.appBar + 1,
   // backgroundColor: theme.palette.background.default,
-  // background: "orange",
+  background: "orange",
   transition: theme.transitions.create(["width", "height"], {
     duration: theme.transitions.duration.shorter,
   }),
@@ -47,7 +47,7 @@ const RootStyle = styled(AppBar, {
 }));
 
 export default function DashboardHeader({
-  isCollapse = false,
+  isCollapse = true,
   onOpenSidebar,
   verticalLayout = false,
 }) {

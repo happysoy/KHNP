@@ -7,12 +7,9 @@ import { useTheme } from "@mui/material/styles";
 // ----------------------------------------------------------------------
 
 const initialState = {
-  isCollapse: false,
+  isCollapse: true,
   collapseClick: false,
-  collapseHover: false,
   onToggleCollapse: () => {},
-  onHoverEnter: () => {},
-  onHoverLeave: () => {},
 };
 
 const CollapseDrawerContext = createContext(initialState);
@@ -27,15 +24,13 @@ function CollapseDrawerProvider({ children }) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
   const [collapse, setCollapse] = useState({
-    click: false,
-    hover: false,
+    click: true,
   });
 
   useEffect(() => {
     if (isMobile) {
       setCollapse({
         click: false,
-        hover: false,
       });
     }
   }, [isMobile]);
@@ -44,25 +39,12 @@ function CollapseDrawerProvider({ children }) {
     setCollapse({ ...collapse, click: !collapse.click });
   };
 
-  const handleHoverEnter = () => {
-    if (collapse.click) {
-      setCollapse({ ...collapse, hover: true });
-    }
-  };
-
-  const handleHoverLeave = () => {
-    setCollapse({ ...collapse, hover: false });
-  };
-
   return (
     <CollapseDrawerContext.Provider
       value={{
-        isCollapse: collapse.click && !collapse.hover,
+        isCollapse: collapse.click,
         collapseClick: collapse.click,
-        collapseHover: collapse.hover,
         onToggleCollapse: handleToggleCollapse,
-        onHoverEnter: handleHoverEnter,
-        onHoverLeave: handleHoverLeave,
       }}
     >
       {children}

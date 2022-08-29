@@ -1,9 +1,6 @@
 // routes
 import { PATH_DASHBOARD } from "../../../routes/paths";
 
-import Iconify from "src/components/Iconify";
-// components
-import SvgIconStyle from "src/components/SvgIconStyle";
 // @mui
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import AutorenewOutlinedIcon from "@mui/icons-material/AutorenewOutlined";
@@ -13,15 +10,7 @@ import InsertChartOutlinedTwoToneIcon from "@mui/icons-material/InsertChartOutli
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import AssignmentOutlinedIcon from "@mui/icons-material/AssignmentOutlined";
 
-const getIcon = (name) => (
-  <SvgIconStyle
-    src={`/assets/icons/navbar/${name}.svg`}
-    sx={{ width: 1, height: 1 }}
-  />
-);
-
 const ICONS = {
-  dashboard: getIcon("ic_dashboard"),
   autoSignal: <AutorenewOutlinedIcon />,
   dataLoad: <DriveFolderUploadOutlinedIcon />,
   autoEvaluation: <QueryStatsOutlinedIcon />,

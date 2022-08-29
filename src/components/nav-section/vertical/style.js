@@ -24,7 +24,7 @@ export const ListItemStyle = styled(ListItemButton, {
   // paddingRight: theme.spacing(1.5),
   marginBottom: theme.spacing(0.5),
   color: theme.palette.text.secondary,
-  borderRadius: theme.shape.borderRadius,
+  borderRadius: "15px",
   height: NAVBAR.DASHBOARD_ITEM_ROOT_HEIGHT,
 
   // Active item

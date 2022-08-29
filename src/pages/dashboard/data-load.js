@@ -3,6 +3,7 @@ import { Container } from "@mui/material";
 // layouts
 import Layout from "src/layouts";
 // components
+import Title from "src/components/Title";
 import Page from "src/components/Page";
 import useAuth from "src/hooks/useAuth";
 
@@ -15,8 +16,8 @@ export default function DataLoad() {
   return (
     <Page title="데이터로드">
       <Container>
-        <div>데이터 로드</div>
-        <p>{user?.displayName}</p>
+        <Title heading="Header Setting" desc="Manage the data by upload" />
+        <Title heading="Data Load" desc="Manage the data by upload" />
       </Container>
     </Page>
   );

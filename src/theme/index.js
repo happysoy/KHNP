@@ -10,15 +10,16 @@ import {
 import componentsOverride from "./overrides";
 import palette from "./palette";
 import typography from "./typography";
-// import shadows, { customShadows } from "./shadows";
+import shadows, { customShadows } from "./shadows";
 
 export default function ThemeProvider({ children }) {
   const themeOptions = useMemo(() => ({
-    palette,
+    palette: palette.light,
     typography,
     // breakpoints,
     shape: { borderRadius: 8 },
-    // shadows,
+    shadows: shadows.light,
+    customShadows: customShadows.light,
   }));
   const theme = createTheme(themeOptions);
   theme.components = componentsOverride(theme);

@@ -3,6 +3,7 @@ import { Container } from "@mui/material";
 // layouts
 import Layout from "src/layouts";
 // components
+import Title from "src/components/Title";
 import Page from "src/components/Page";
 import useAuth from "src/hooks/useAuth";
 
@@ -15,8 +16,8 @@ export default function Report() {
   return (
     <Page title="Report">
       <Container>
-        <div>Report</div>
-        <p>{user?.displayName}</p>
+        <Title heading="Analysis Setting" />
+        <Title heading="평가결과 Upload" />
       </Container>
     </Page>
   );

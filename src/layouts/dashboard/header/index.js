@@ -14,6 +14,7 @@ import { HEADER, NAVBAR } from "../../../config";
 import cssStyles from "src/utils/cssStyles";
 //
 import Account from "./Account";
+import NotificationsPopover from "./NotificationsPopover";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 
 const RootStyle = styled(AppBar, {
@@ -24,8 +25,6 @@ const RootStyle = styled(AppBar, {
   boxShadow: "none",
   height: HEADER.MOBILE_HEIGHT,
   zIndex: theme.zIndex.appBar + 1,
-  // backgroundColor: theme.palette.background.default,
-  background: "orange",
   transition: theme.transitions.create(["width", "height"], {
     duration: theme.transitions.duration.shorter,
   }),
@@ -41,7 +40,7 @@ const RootStyle = styled(AppBar, {
     ...(verticalLayout && {
       width: "100%",
       height: HEADER.DASHBOARD_DESKTOP_OFFSET_HEIGHT,
-      // backgroundColor: theme.palette.background.default,
+      backgroundColor: theme.palette.background.default,
     }),
   },
 }));
@@ -54,6 +53,7 @@ export default function DashboardHeader({
   const isOffset =
     useOffSetTop(HEADER.DASHBOARD_DESKTOP_HEIGHT) && !verticalLayout;
   const isDesktop = useResponsive("up", "lg");
+
   return (
     <RootStyle isCollapse={isCollapse} isOffset={isOffset}>
       <Toolbar
@@ -63,7 +63,6 @@ export default function DashboardHeader({
         }}
       >
         {isDesktop && verticalLayout && <Logo sx={{ mr: 2.5 }} />}
-
         {!isDesktop && (
           <AnimateIconButton
             onClick={onOpenSidebar}
@@ -73,7 +72,8 @@ export default function DashboardHeader({
           </AnimateIconButton>
         )}
         <Box sx={{ flexGrow: 1 }} />
-        <Stack>
+        <Stack direction="row" alignItems="center" spacing={{ xs: 0.5, sm: 4 }}>
+          <NotificationsPopover />
           <Account />
         </Stack>
       </Toolbar>

@@ -29,9 +29,9 @@ export const ListItemStyle = styled(ListItemButton, {
 
   // Active item
   ...(active && {
-    color: theme.palette.primary.main,
+    color: theme.palette.info.main,
     backgroundColor: alpha(
-      theme.palette.primary.main,
+      theme.palette.info.main,
       theme.palette.action.selectedOpacity
     ),
   }),

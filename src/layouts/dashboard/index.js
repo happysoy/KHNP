@@ -47,6 +47,7 @@ export default function DashboardLayout({ children }) {
         isCollapse={isCollapse}
         onOpenSidebar={() => setOpen(true)}
       />
+
       <NavbarVertical
         isOpenSidebar={open}
         onCloseSidebar={() => setOpen(false)}

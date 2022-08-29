@@ -9,14 +9,15 @@ import {
 //
 import componentsOverride from "./overrides";
 import palette from "./palette";
+import typography from "./typography";
 
 export default function ThemeProvider({ children }) {
   const themeOptions = useMemo(() => ({
     palette,
     typography,
-    breakpoints,
+    // breakpoints,
     shape: { borderRadius: 8 },
-    shadows,
+    // shadows,
   }));
   const theme = createTheme(themeOptions);
   theme.components = componentsOverride(theme);

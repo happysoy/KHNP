@@ -6,16 +6,16 @@ import Layout from "src/layouts";
 import Page from "src/components/Page";
 import useAuth from "src/hooks/useAuth";
 
-DataLoad.getLayout = function getLayout(page) {
+AutoResult.getLayout = function getLayout(page) {
   return <Layout>{page}</Layout>;
 };
 
-export default function DataLoad() {
+export default function AutoResult() {
   const { user } = useAuth();
   return (
-    <Page title="데이터로드">
+    <Page title="자동평가결과">
       <Container>
-        <div>데이터 로드</div>
+        <div>자동평가결과</div>
         <p>{user?.displayName}</p>
       </Container>
     </Page>

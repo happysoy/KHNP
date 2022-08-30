@@ -1,5 +1,8 @@
+import { useEffect, useState } from "react";
+
 // @mui
 import {
+  Box,
   Container,
   Card,
   TablePagination,
@@ -9,13 +12,26 @@ import {
 } from "@mui/material";
 // layouts
 import Layout from "src/layouts";
+// redux
+import { dispatch, useDispatch, useSelector } from "src/redux/store";
+import { getProducts } from "src/redux/slices/dataLoad";
+// hooks
+import useTable, { getComparator, emptyRows } from "src/hooks/useTable";
 // components
 import Title from "src/components/Title";
 import Page from "src/components/Page";
-import { DataTableToolbar } from "src/sections/dashboard/data-load";
-import { useState } from "react";
+
 import Scrollbar from "src/components/Scrollbar";
-import { TableHeadCustom, TableSkeleton } from "src/components/table";
+import {
+  TableHeadCustom,
+  TableSelectedActions,
+  TableSkeleton,
+} from "src/components/table";
+// sections
+import {
+  DataTableRow,
+  DataTableToolbar,
+} from "src/sections/dashboard/data-load";
 
 DataLoad.getLayout = function getLayout(page) {
   return <Layout>{page}</Layout>;
@@ -39,10 +55,52 @@ const TABLE_HEAD = [
 ];
 
 export default function DataLoad() {
+  const {
+    dense,
+    page,
+    order,
+    orderBy,
+    rowsPerPage,
+    setPage,
+    //
+    selected,
+    setSelected,
+    onSelectRow,
+    onSelectAllRows,
+    //
+    onSort,
+    onChangeDense,
+    onChangePage,
+    onChangeRowsPerPage,
+  } = useTable({
+    defaultOrderBy: "createdAt",
+  });
+
+  const dispatch = useDispatch();
+
+  const { products, isLoading } = useSelector((state) => state.product);
+  const [tableData, setTableData] = useState([]);
   const [filterName, setFilterName] = useState("");
+
   const handleFilterName = (filterName) => {
     setFilterName(filterName);
   };
+
+  useEffect(() => {
+    dispatch(getProducts());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (products.length) {
+      setTableData(products);
+    }
+  }, [products]);
+
+  const dataFiltered = applySortFilter({
+    tableData,
+    comparator: getComparator(order, orderBy),
+    filterName,
+  });
 
   return (
     <Page title="데이터로드">
@@ -57,18 +115,60 @@ export default function DataLoad() {
           />
           <Scrollbar>
             <TableContainer>
+              {/* <TableSelectedActions /> */}
+
               <Table size={"medium"}>
                 <TableHeadCustom headLabel={TABLE_HEAD} />
-
-                {/* <TableBody> */}
-                {/* <TableSkeleton /> */}
-                {/* <ProductTableRow/> */}
-                {/* </TableBody> */}
+                <TableBody>
+                  {(isLoading ? tableData : dataFiltered)
+                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                    .map((row, index) => (
+                      <DataTableRow
+                        key={row.id}
+                        row={row}
+                        // selected={selected.includes(row.id)}
+                        // onSelectRow={() => onSelectRow(row.id)}
+                        // onDeleteRow={() => handleDeleteRow(row.id)}
+                        // onEditRow={() => handleEditRow(row.name)}
+                      />
+                    ))}
+                </TableBody>
               </Table>
             </TableContainer>
           </Scrollbar>
+          <Box>
+            <TablePagination
+              rowsPerPageOptions={[5, 10, 25]}
+              component="div"
+              count={dataFiltered.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onPageChange={onChangePage}
+              onRowsPerPageChange={onChangeRowsPerPage}
+            />
+          </Box>
         </Card>
       </Container>
     </Page>
   );
+}
+
+function applySortFilter({ tableData, comparator, filterName }) {
+  const stabilizedThis = tableData.map((el, index) => [el, index]);
+
+  stabilizedThis.sort((a, b) => {
+    const order = comparator(a[0], b[0]);
+    if (order !== 0) return order;
+    return a[1] - b[1];
+  });
+
+  tableData = stabilizedThis.map((el) => el[0]);
+
+  if (filterName) {
+    tableData = tableData.filter(
+      (item) => item.name.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
+    );
+  }
+
+  return tableData;
 }

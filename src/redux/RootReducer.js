@@ -2,7 +2,9 @@ import { combineReducers } from "redux";
 import { persistReducer } from "redux-persist";
 import createWebStorage from "redux-persist/lib/storage/createWebStorage";
 // slices
-import dataLoadReducer from "./slices/dataLoad";
+import productReducer from "./slices/product";
+
+// ----------------------------------------------------------------------
 
 const createNoopStorage = () => ({
   getItem() {
@@ -21,22 +23,22 @@ const storage =
     ? createWebStorage("local")
     : createNoopStorage();
 
-const rootPersistsConfig = {
+const rootPersistConfig = {
   key: "root",
   storage,
   keyPrefix: "redux-",
   whitelist: [],
 };
 
-const dataLoadPersistConfig = {
-  key: "dataLoad",
+const productPersistConfig = {
+  key: "product",
   storage,
   keyPrefix: "redux-",
   whitelist: ["sortBy", "checkout"],
 };
 
 const rootReducer = combineReducers({
-  dataList: persistReducer(dataLoadPersistConfig, dataLoadReducer),
+  product: persistReducer(productPersistConfig, productReducer),
 });
 
-export { rootPersistsConfig, rootReducer };
+export { rootPersistConfig, rootReducer };

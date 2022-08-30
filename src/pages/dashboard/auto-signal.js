@@ -1,5 +1,5 @@
 // @mui
-import { Container } from "@mui/material";
+import { Container, Box } from "@mui/material";
 // layouts
 import Layout from "src/layouts";
 // components
@@ -16,9 +16,16 @@ export default function AutoSignal() {
   return (
     <Page title="자동신호수집">
       <Container maxWidth="lg">
-        <Title heading="자동 신호 수집 모드" />
-        <div>자동평가</div>
-        <p>{user?.displayName}</p>
+        <Title
+          heading="자동 신호 수집 모드"
+          desc="지동으로 신호를 수집하세요"
+        />
+        <Box width="700px">
+          <img
+            src="http://ec2-3-35-235-172.ap-northeast-2.compute.amazonaws.com/img/1.png"
+            alt="자동신호수집모드"
+          />
+        </Box>
       </Container>
     </Page>
   );

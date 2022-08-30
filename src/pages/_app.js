@@ -1,21 +1,28 @@
+// lightbox
+import "react-image-lightbox/style.css";
 // lazy image
 import "react-lazy-load-image-component/src/effects/blur.css";
 import "react-lazy-load-image-component/src/effects/opacity.css";
 import "react-lazy-load-image-component/src/effects/black-and-white.css";
-
+// @mui
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { LocalizationProvider } from "@mui/x-date-pickers";
 // scroll bar
 import "simplebar/src/simplebar.css";
 // theme
 import ThemeProvider from "../theme";
 // context
 import { CollapseDrawerProvider } from "src/contexts/CollapseDrawerContext";
+import NotistackProvider from "src/components/NotistackProvider";
+import { AuthProvider } from "src/contexts/AwsCognitoContext";
 // next
 import Head from "next/head";
 // redux
 import { Provider as ReduxProvider } from "react-redux";
 import { store } from "src/redux/store";
-
-import { AuthProvider } from "src/contexts/AwsCognitoContext";
+// components
+import MotionLazyContainer from "src/components/animate/MotionLazyContainer";
+import { ChartStyle } from "src/components/chart";
 
 export default function MyApp(props) {
   const { Component, pageProps } = props;
@@ -28,11 +35,18 @@ export default function MyApp(props) {
 
       <AuthProvider>
         <ReduxProvider store={store}>
-          <CollapseDrawerProvider>
-            <ThemeProvider>
-              {getLayout(<Component {...pageProps} />)}
-            </ThemeProvider>
-          </CollapseDrawerProvider>
+          <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <CollapseDrawerProvider>
+              <MotionLazyContainer>
+                <ThemeProvider>
+                  <NotistackProvider>
+                    <ChartStyle />
+                    {getLayout(<Component {...pageProps} />)}
+                  </NotistackProvider>
+                </ThemeProvider>
+              </MotionLazyContainer>
+            </CollapseDrawerProvider>
+          </LocalizationProvider>
         </ReduxProvider>
       </AuthProvider>
     </>

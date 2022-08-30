@@ -17,7 +17,12 @@ export const PATH_PAGE = {
 export const PATH_DASHBOARD = {
   root: ROOTS_DASHBOARD,
   autoSignal: path(ROOTS_DASHBOARD, "/auto-signal"),
-  dataLoad: path(ROOTS_DASHBOARD, "/data-load"),
+  dataLoad: {
+    root: path(ROOTS_DASHBOARD, "/data-load"),
+    new: path(ROOTS_DASHBOARD, "/data-load/data/new"),
+    view: (id) => path(ROOTS_DASHBOARD, `/data-load/data/${id}`),
+    edit: (id) => path(ROOTS_DASHBOARD, `/data-load/data/${id}/edit`),
+  },
   autoEvaluation: path(ROOTS_DASHBOARD, "/auto-evaluation"),
   autoResult: path(ROOTS_DASHBOARD, "/auto-result"),
   manualEvaluation: path(ROOTS_DASHBOARD, "/manual-evaluation"),

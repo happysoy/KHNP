@@ -20,7 +20,9 @@ export const COGNITO_API = {
   userPoolId: process.env.AWS_COGNITO_USER_POOL_ID,
   clientId: process.env.AWS_COGNITO_CLIENT_ID,
 };
-
+export const BACKEND_API = {
+  apiKey: process.env.API_URL,
+};
 // LAYOUT
 // ----------------------------------------------------------
 export const HEADER = {

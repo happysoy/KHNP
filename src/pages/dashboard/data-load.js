@@ -14,7 +14,7 @@ import {
 import Layout from "src/layouts";
 // redux
 import { dispatch, useDispatch, useSelector } from "src/redux/store";
-import { getProducts } from "src/redux/slices/dataLoad";
+import { getProducts } from "src/redux/slices/product";
 // hooks
 import useTable, { getComparator, emptyRows } from "src/hooks/useTable";
 // components

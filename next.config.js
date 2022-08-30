@@ -3,7 +3,7 @@ module.exports = {
   trailingSlash: true,
   env: {
     // HOST
-    HOST_API_KEY: process.env.API_URL,
+    HOST_API_KEY: process.env.NEXT_PUBLIC_API_URL,
 
     AWS_COGNITO_USER_POOL_ID: process.env.AWS_COGNITO_USER_POOL_ID,
     AWS_COGNITO_CLIENT_ID: process.env.AWS_COGNITO_CLIENT_ID,

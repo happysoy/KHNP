@@ -42,6 +42,7 @@ DataLoad.getLayout = function getLayout(page) {
 };
 
 const TABLE_HEAD = [
+  { id: "checkbox" },
   { id: "id", label: "No.", align: "left" },
   { id: "fileName", label: "File Name", align: "left" },
   { id: "directory", label: "Directory", align: "left" },
@@ -55,7 +56,7 @@ const TABLE_HEAD = [
   { id: "speed", label: "Speed", align: "left" },
   { id: "detector", label: "Detector", align: "left" },
   { id: "probe", label: "Probe", align: "left" },
-  { id: "" },
+  { id: "blank" },
 ];
 
 export default function DataLoad() {

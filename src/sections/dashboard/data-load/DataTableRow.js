@@ -40,6 +40,7 @@ export default function DataTableRow({
   // const theme = useTheme();
 
   const {
+    id,
     fileName,
     directory,
     fileSize,
@@ -70,7 +71,7 @@ export default function DataTableRow({
         <Checkbox checked={selected} />
         {/* onClick={onSelectRow} */}
       </TableCell>
-
+      <TableCell>{id}</TableCell>
       <TableCell sx={{ alignItems: "center" }}>
         <Typography variant="subtitle2" noWrap>
           {fileName}

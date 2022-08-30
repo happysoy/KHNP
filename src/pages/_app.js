@@ -1,3 +1,5 @@
+// scroll bar
+import "simplebar/src/simplebar.css";
 // theme
 import ThemeProvider from "../theme";
 // context

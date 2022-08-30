@@ -1,11 +1,13 @@
 import useAuth from "src/hooks/useAuth";
+// @mui
+import { Box, Divider, MenuItem, Stack, Typography } from "@mui/material";
+import { alpha } from "@mui/material/styles";
 // next
 import { useRouter } from "next/router";
 // routes
 import { PATH_DASHBOARD, PATH_AUTH } from "src/routes/paths";
 // hooks
 import { useState } from "react";
-import { Box, Divider, MenuItem, Stack, Typography } from "@mui/material";
 // components
 import MenuPopover from "src/components/MenuPopover";
 import AdminAvatar from "src/components/AdminAvatar";
@@ -34,7 +36,23 @@ export default function Account() {
 
   return (
     <>
-      <AnimateIconButton onClick={handleOpen}>
+      <AnimateIconButton
+        onClick={handleOpen}
+        sx={{
+          p: 0,
+          ...(open && {
+            "&:before": {
+              zIndex: 1,
+              content: "''",
+              width: "100%",
+              height: "100%",
+              borderRadius: "50%",
+              position: "absolute",
+              bgcolor: (theme) => alpha(theme.palette.grey[900], 0.8),
+            },
+          }),
+        }}
+      >
         <AdminAvatar />
       </AnimateIconButton>
 
@@ -63,6 +81,8 @@ export default function Account() {
 
         <Divider sx={{ borderStyle: "dashed" }} />
         <MenuItem sx={{ m: 1 }}>Settings</MenuItem>
+        <MenuItem sx={{ m: 1 }}>Profile</MenuItem>
+        <Divider sx={{ borderStyle: "dashed" }} />
         <MenuItem onClick={handleLogout} sx={{ m: 1 }}>
           Logout
         </MenuItem>

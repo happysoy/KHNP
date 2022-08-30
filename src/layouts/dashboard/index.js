@@ -18,12 +18,10 @@ const MainStyle = styled("main", {
   paddingBottom: HEADER.MOBILE_HEIGHT + 24,
   // marginLeft: NAVBAR.DASHBOARD_COLLAPSE_WIDTH,
   [theme.breakpoints.up("lg")]: {
-    paddingLeft: 16,
-    paddingRight: 16,
     paddingTop: HEADER.DASHBOARD_DESKTOP_HEIGHT + 24,
     paddingBottom: HEADER.DASHBOARD_DESKTOP_HEIGHT + 24,
     width: `calc(100% - ${NAVBAR.DASHBOARD_WIDTH}px)`,
-    transition: theme.transitions.create("margin-left", {
+    transition: theme.transitions.create("margin-right", {
       duration: theme.transitions.duration.shorter,
     }),
     ...(collapseClick && {
@@ -47,6 +45,7 @@ export default function DashboardLayout({ children }) {
         isCollapse={isCollapse}
         onOpenSidebar={() => setOpen(true)}
       />
+
       <NavbarVertical
         isOpenSidebar={open}
         onCloseSidebar={() => setOpen(false)}

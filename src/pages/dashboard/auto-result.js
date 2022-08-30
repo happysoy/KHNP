@@ -5,6 +5,7 @@ import Layout from "src/layouts";
 // components
 import Page from "src/components/Page";
 import useAuth from "src/hooks/useAuth";
+import Title from "src/components/Title";
 
 AutoResult.getLayout = function getLayout(page) {
   return <Layout>{page}</Layout>;
@@ -15,7 +16,7 @@ export default function AutoResult() {
   return (
     <Page title="자동평가결과">
       <Container>
-        <div>자동평가결과</div>
+        <Title heading="Analysis Result Verification" />
         <p>{user?.displayName}</p>
       </Container>
     </Page>

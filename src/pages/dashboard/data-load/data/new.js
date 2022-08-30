@@ -17,7 +17,7 @@ export default function DataLoadNew() {
   return (
     <Page title="UPLOAD">
       <Container>
-        <Title heading="Upload your Data" />
+        <Title heading="DATA UPLOAD" />
         <DataNewEditForm />
       </Container>
     </Page>

@@ -112,7 +112,7 @@ export default function DataLoad() {
         {/* <Title heading="Header Setting" desc="Manage the data by upload" /> */}
         <Title
           heading="Data Load"
-          desc="Manage the data by upload"
+          desc="업로드된 데이터를 확인하세요"
           action={
             <NextLink href={PATH_DASHBOARD.dataLoad.new} passHref>
               <Button

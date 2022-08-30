@@ -3,7 +3,8 @@ import * as Yup from "yup";
 import { useSnackbar } from "notistack";
 // @mui
 import { styled } from "@mui/material/styles";
-import { Grid, Stack, Card, Typography } from "@mui/material";
+import { LoadingButton } from "@mui/lab";
+import { Grid, Stack, Card, Typography, MenuItem } from "@mui/material";
 // form
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, Controller } from "react-hook-form";
@@ -14,24 +15,46 @@ import {
   RHFTextField,
   RHFUploadMultiFile,
 } from "src/components/hook-form";
+import DataEditStatusDate from "./DataEditStatusDate";
+import { useRouter } from "next/router";
 
-const UNIT_OPTION = ["Shirts", "T-shirts", "Jeans", "Leather"];
+const UNIT_OPTIONS = ["1", "2", "3", "4", "5", "6", "7", "8"];
+const EQUIPMENT_OPTIONS = ["SG", "Condensor", "Heater"];
+const SPEED_OPTIONS = ["1.0 m/s", "1.5 m/s", "2.0 m/s"];
+const DETECTOR_OPTIONS = ["MIZ200", "MS5800", "MIZ80"];
+const PROBE_OPTIONS = ["Bobbin", "ARRAY"];
+
 const LabelStyle = styled(Typography)(({ theme }) => ({
   ...theme.typography.subtitle2,
   color: theme.palette.text.secondary,
   marginBottom: theme.spacing(1),
 }));
 
-export default function DataNewEditForm() {
+export default function DataNewEditForm({ currentData }) {
+  const { push } = useRouter();
   const { enquenceSnackbar } = useSnackbar();
 
   const NewDataSchema = Yup.object().shape({
-    fileName: Yup.string().required("File Name is required"),
+    fileName: Yup.string().required("필수 입력 항목입니다"),
+    company: Yup.string().required("필수 입력 항목입니다"),
+    unitNo: Yup.number().required("필수 입력 항목입니다"),
   });
-  const defaultValues = useMemo(() => ({
-    fileName: "야호",
-    images: [],
-  }));
+  const defaultValues = useMemo(
+    () => ({
+      fileName: currentData?.fileName || "",
+      company: currentData?.company || "",
+      site: currentData?.site || "",
+      tubeSetting: currentData?.tubeSetting || "",
+      company: currentData?.company || "",
+      unitNo: currentData?.unitNo || [UNIT_OPTIONS[0]],
+      equipment: currentData?.equipment || [EQUIPMENT_OPTIONS[0]],
+      speed: currentData?.speed || [SPEED_OPTIONS[0]],
+      detector: currentData?.detector || [DETECTOR_OPTIONS[0]],
+      probe: currentData?.probe || [PROBE_OPTIONS[0]],
+      images: currentData?.images || [],
+    }),
+    [currentData]
+  );
 
   const methods = useForm({
     resolver: yupResolver(NewDataSchema),
@@ -51,6 +74,7 @@ export default function DataNewEditForm() {
       await new Promise((resolve) => setTimeout(resolve, 500));
       reset();
       enquenceSnackbar("업로드 성공!");
+      // push(PATH_DASHBOARD.dataLoad.root);
     } catch (error) {
       console.error(error);
     }
@@ -87,18 +111,16 @@ export default function DataNewEditForm() {
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Grid container spacing={3}>
-        <Grid item xs={12} md={12}>
+        <Grid item xs={12} md={8}>
           <Card sx={{ p: 3 }}>
             <Stack spacing={3}>
               <RHFTextField name="fileName" label="File Name" />
-              <Stack direction="row" spacing={10} mt={2}>
-                <RHFTextField name="name1" label="Company" />
-                <RHFTextField name="name2" label="Company" />
-                <RHFTextField name="name3" label="Company" />
+              <DataEditStatusDate />
+              <Stack direction="row" spacing={3} mt={2}>
+                <RHFTextField name="company" label="Company" />
+                <RHFTextField name="site" label="Site" />
+                <RHFTextField name="tubeSetting" label="Tube setting" />
               </Stack>
-              <div>
-                <LabelStyle>Description</LabelStyle>
-              </div>
 
               <div>
                 <LabelStyle>Images</LabelStyle>
@@ -109,38 +131,161 @@ export default function DataNewEditForm() {
                   onDrop={handleDrop}
                   onRemove={handleRemove}
                   onRemoveAll={handleRemoveAll}
-                  onUpload={() => console.log("ON UPLOAD")}
+                  onUpload={() => console.log("업로드 성공")}
                 />
               </div>
             </Stack>
           </Card>
         </Grid>
-        <Grid item xs={12} md={12}>
-          <Card sx={{ p: 3 }}>
-            <Stack direction="row" spacing={10} mt={2}>
-              <RHFSelect name="category1" label="Category">
-                {UNIT_OPTION.map((classify) => (
-                  <option key={classify} value={classify}>
-                    {classify}
-                  </option>
-                ))}
-              </RHFSelect>
-              <RHFSelect name="category2" label="Category">
-                {UNIT_OPTION.map((classify) => (
-                  <option key={classify} value={classify}>
-                    {classify}
-                  </option>
-                ))}
-              </RHFSelect>
-              <RHFSelect name="category3" label="Category">
-                {UNIT_OPTION.map((classify) => (
-                  <option key={classify} value={classify}>
-                    {classify}
-                  </option>
-                ))}
-              </RHFSelect>
-            </Stack>
-          </Card>
+        <Grid item xs={12} md={4}>
+          <Stack direction="column" spacing={5}>
+            <Card sx={{ p: 3 }}>
+              <Stack direction="column" spacing={5} mt={2}>
+                <RHFSelect
+                  fullWidth
+                  name="unitNo"
+                  label="Unit No.(#)"
+                  InputLabelProps={{ shrink: true }}
+                  SelectProps={{
+                    native: false,
+                    sx: { textTransform: "capitalize" },
+                  }}
+                >
+                  {UNIT_OPTIONS.map((option) => (
+                    <MenuItem
+                      key={option}
+                      value={option}
+                      sx={{
+                        mx: 1,
+                        my: 0.5,
+                        borderRadius: 0.75,
+                        typography: "body2",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      {option}
+                    </MenuItem>
+                  ))}
+                </RHFSelect>
+
+                <RHFSelect
+                  fullWidth
+                  name="equipment"
+                  label="Equipment"
+                  InputLabelProps={{ shrink: true }}
+                  SelectProps={{
+                    native: false,
+                    sx: { textTransform: "capitalize" },
+                  }}
+                >
+                  {EQUIPMENT_OPTIONS.map((option) => (
+                    <MenuItem
+                      key={option}
+                      value={option}
+                      sx={{
+                        mx: 1,
+                        my: 0.5,
+                        borderRadius: 0.75,
+                        typography: "body2",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      {option}
+                    </MenuItem>
+                  ))}
+                </RHFSelect>
+
+                <RHFSelect
+                  fullWidth
+                  name="speed"
+                  label="Speed"
+                  InputLabelProps={{ shrink: true }}
+                  SelectProps={{
+                    native: false,
+                    sx: { textTransform: "capitalize" },
+                  }}
+                >
+                  {SPEED_OPTIONS.map((option) => (
+                    <MenuItem
+                      key={option}
+                      value={option}
+                      sx={{
+                        mx: 1,
+                        my: 0.5,
+                        borderRadius: 0.75,
+                        typography: "body2",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      {option}
+                    </MenuItem>
+                  ))}
+                </RHFSelect>
+
+                <RHFSelect
+                  fullWidth
+                  name="detector"
+                  label="Detector"
+                  InputLabelProps={{ shrink: true }}
+                  SelectProps={{
+                    native: false,
+                    sx: { textTransform: "capitalize" },
+                  }}
+                >
+                  {DETECTOR_OPTIONS.map((option) => (
+                    <MenuItem
+                      key={option}
+                      value={option}
+                      sx={{
+                        mx: 1,
+                        my: 0.5,
+                        borderRadius: 0.75,
+                        typography: "body2",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      {option}
+                    </MenuItem>
+                  ))}
+                </RHFSelect>
+
+                <RHFSelect
+                  fullWidth
+                  name="probe"
+                  label="Probe"
+                  InputLabelProps={{ shrink: true }}
+                  SelectProps={{
+                    native: false,
+                    sx: { textTransform: "capitalize" },
+                  }}
+                >
+                  {PROBE_OPTIONS.map((option) => (
+                    <MenuItem
+                      key={option}
+                      value={option}
+                      sx={{
+                        mx: 1,
+                        my: 0.5,
+                        borderRadius: 0.75,
+                        typography: "body2",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      {option}
+                    </MenuItem>
+                  ))}
+                </RHFSelect>
+              </Stack>
+            </Card>
+            <LoadingButton
+              type="submit"
+              variant="contained"
+              size="large"
+              loading={isSubmitting}
+            >
+              저장
+            </LoadingButton>
+          </Stack>
         </Grid>
       </Grid>
     </FormProvider>

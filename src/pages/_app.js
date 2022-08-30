@@ -4,7 +4,9 @@ import "react-image-lightbox/style.css";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import "react-lazy-load-image-component/src/effects/opacity.css";
 import "react-lazy-load-image-component/src/effects/black-and-white.css";
-
+// @mui
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { LocalizationProvider } from "@mui/x-date-pickers";
 // scroll bar
 import "simplebar/src/simplebar.css";
 // theme
@@ -32,15 +34,17 @@ export default function MyApp(props) {
 
       <AuthProvider>
         <ReduxProvider store={store}>
-          <CollapseDrawerProvider>
-            <MotionLazyContainer>
-              <ThemeProvider>
-                <NotistackProvider>
-                  {getLayout(<Component {...pageProps} />)}
-                </NotistackProvider>
-              </ThemeProvider>
-            </MotionLazyContainer>
-          </CollapseDrawerProvider>
+          <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <CollapseDrawerProvider>
+              <MotionLazyContainer>
+                <ThemeProvider>
+                  <NotistackProvider>
+                    {getLayout(<Component {...pageProps} />)}
+                  </NotistackProvider>
+                </ThemeProvider>
+              </MotionLazyContainer>
+            </CollapseDrawerProvider>
+          </LocalizationProvider>
         </ReduxProvider>
       </AuthProvider>
     </>

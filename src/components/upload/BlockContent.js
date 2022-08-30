@@ -24,13 +24,13 @@ export default function BlockContent() {
         </Typography>
 
         <Typography variant="body2" sx={{ color: "text.secondary" }}>
-          최대 파일 크기 00MB &nbsp;
+          최대 파일 크기 00MB &nbsp; 지원 확장자
           <Typography
             variant="body2"
             component="span"
             sx={{ color: "primary.main", textDecoration: "underline" }}
           >
-            TODO 확장자 추가 및 용량 증대
+            .png .pdf
           </Typography>
         </Typography>
       </Box>

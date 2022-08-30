@@ -16,17 +16,13 @@ ManualEvaluation.getLayout = function getLayout(page) {
 export default function ManualEvaluation() {
   return (
     <Page title="수동평가">
-      <Container>
+      <Container maxWidth="xl">
         <Title
           heading="Analysis Result Verification"
           desc="수동평가에 대한 설명"
         />
         <Grid container spacing={3}>
-          <Grid item xs={12} sm={12} md={12}>
-            <PlotlyComponent />
-          </Grid>
-
-          <Grid item xs={12} sm={6} md={6}>
+          <Grid item xs={12} sm={6} md={3}>
             <Lissajous
               chartLabels={["0", "5k", "10k"]}
               chartData={[
@@ -51,7 +47,7 @@ export default function ManualEvaluation() {
               ]}
             />
           </Grid>
-          <Grid item xs={12} sm={6} md={6}>
+          <Grid item xs={12} sm={6} md={3}>
             <Lissajous
               chartLabels={["0", "5k", "10k"]}
               chartData={[
@@ -76,7 +72,7 @@ export default function ManualEvaluation() {
               ]}
             />
           </Grid>
-          <Grid item xs={12} sm={6} md={6}>
+          <Grid item xs={12} sm={6} md={3}>
             <Lissajous
               chartLabels={["0", "5k", "10k"]}
               chartData={[
@@ -101,7 +97,7 @@ export default function ManualEvaluation() {
               ]}
             />
           </Grid>
-          <Grid item xs={12} sm={6} md={6}>
+          <Grid item xs={12} sm={6} md={3}>
             <Lissajous
               chartLabels={["0", "5k", "10k"]}
               chartData={[
@@ -125,6 +121,10 @@ export default function ManualEvaluation() {
                 },
               ]}
             />
+          </Grid>
+
+          <Grid item xs={12} sm={12} md={12}>
+            <PlotlyComponent />
           </Grid>
         </Grid>
       </Container>

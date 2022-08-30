@@ -13,7 +13,7 @@ import NavbarVertical from "./navbar/NavbarVertical";
 const MainStyle = styled("main", {
   shouldForwardProp: (prop) => prop !== "collapseClick",
 })(({ collapseClick, theme }) => ({
-  // flexGrow: 1,
+  flexGrow: 1,
   paddingTop: HEADER.MOBILE_HEIGHT + 24,
   paddingBottom: HEADER.MOBILE_HEIGHT + 24,
   // marginLeft: NAVBAR.DASHBOARD_COLLAPSE_WIDTH,

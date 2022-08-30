@@ -14,7 +14,7 @@ export default function PlotlyComponent(props) {
         },
         { type: "bar", x: [1, 2, 3], y: [2, 5, 3] },
       ]}
-      layout={{ width: "100%", height: "100%", title: "A Fancy Plot" }}
+      layout={{ width: 1000, height: 400, title: "A Fancy Plot" }}
     />
   );
 }

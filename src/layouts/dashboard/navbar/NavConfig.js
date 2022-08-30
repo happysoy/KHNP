@@ -28,7 +28,7 @@ const navConfig = [
   },
   {
     title: `DATA LOAD`,
-    path: PATH_DASHBOARD.dataLoad,
+    path: PATH_DASHBOARD.dataLoad.root,
     icon: ICONS.dataLoad,
   },
   {

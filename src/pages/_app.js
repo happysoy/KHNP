@@ -1,3 +1,5 @@
+// lightbox
+import "react-image-lightbox/style.css";
 // lazy image
 import "react-lazy-load-image-component/src/effects/blur.css";
 import "react-lazy-load-image-component/src/effects/opacity.css";
@@ -16,6 +18,8 @@ import { Provider as ReduxProvider } from "react-redux";
 import { store } from "src/redux/store";
 
 import { AuthProvider } from "src/contexts/AwsCognitoContext";
+import NotistackProvider from "src/components/NotistackProvider";
+import MotionLazyContainer from "src/components/animate/MotionLazyContainer";
 
 export default function MyApp(props) {
   const { Component, pageProps } = props;
@@ -29,9 +33,13 @@ export default function MyApp(props) {
       <AuthProvider>
         <ReduxProvider store={store}>
           <CollapseDrawerProvider>
-            <ThemeProvider>
-              {getLayout(<Component {...pageProps} />)}
-            </ThemeProvider>
+            <MotionLazyContainer>
+              <ThemeProvider>
+                <NotistackProvider>
+                  {getLayout(<Component {...pageProps} />)}
+                </NotistackProvider>
+              </ThemeProvider>
+            </MotionLazyContainer>
           </CollapseDrawerProvider>
         </ReduxProvider>
       </AuthProvider>

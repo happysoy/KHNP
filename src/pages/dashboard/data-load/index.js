@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
-
+// next
+import NextLink from "next/link";
 // @mui
 import {
   Box,
+  Button,
   Container,
   Card,
   TablePagination,
@@ -32,6 +34,8 @@ import {
   DataTableRow,
   DataTableToolbar,
 } from "src/sections/dashboard/data-load";
+import Iconify from "src/components/Iconify";
+import { PATH_DASHBOARD } from "src/routes/paths";
 
 DataLoad.getLayout = function getLayout(page) {
   return <Layout>{page}</Layout>;
@@ -106,7 +110,20 @@ export default function DataLoad() {
     <Page title="데이터로드">
       <Container>
         {/* <Title heading="Header Setting" desc="Manage the data by upload" /> */}
-        <Title heading="Data Load" desc="Manage the data by upload" />
+        <Title
+          heading="Data Load"
+          desc="Manage the data by upload"
+          action={
+            <NextLink href={PATH_DASHBOARD.dataLoad.new} passHref>
+              <Button
+                variant="contained"
+                startIcon={<Iconify icon="eva:plus-fill" />}
+              >
+                UPLOAD
+              </Button>
+            </NextLink>
+          }
+        />
 
         <Card>
           <DataTableToolbar

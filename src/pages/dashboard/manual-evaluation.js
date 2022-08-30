@@ -7,13 +7,13 @@ import Page from "src/components/Page";
 import useAuth from "src/hooks/useAuth";
 import Title from "src/components/Title";
 import Lissajous from "src/sections/dashboard/manual-evaluation/lissajous";
+import PlotlyComponent from "src/sections/dashboard/manual-evaluation/PlotlyComponent";
 
 ManualEvaluation.getLayout = function getLayout(page) {
   return <Layout>{page}</Layout>;
 };
 
 export default function ManualEvaluation() {
-  const { user } = useAuth();
   return (
     <Page title="수동평가">
       <Container>
@@ -22,6 +22,10 @@ export default function ManualEvaluation() {
           desc="수동평가에 대한 설명"
         />
         <Grid container spacing={3}>
+          <Grid item xs={12} sm={12} md={12}>
+            <PlotlyComponent />
+          </Grid>
+
           <Grid item xs={12} sm={6} md={6}>
             <Lissajous
               chartLabels={["0", "5k", "10k"]}

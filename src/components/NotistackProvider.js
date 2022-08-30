@@ -73,7 +73,7 @@ export default function NotistackProvider({ children }) {
         maxSnack={5}
         preventDuplicate
         autoHideDuration={3000}
-        TransitionComponent="Collapse" // undefined}
+        TransitionComponent={Collapse} // undefined}
         variant="success" // Set default variant
         anchorOrigin={{ vertical: "top", horizontal: "right" }}
         iconVariant={{

@@ -183,7 +183,8 @@ function applySortFilter({ tableData, comparator, filterName }) {
 
   if (filterName) {
     tableData = tableData.filter(
-      (item) => item.name.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
+      (item) =>
+        item.fileName.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
     );
   }
 

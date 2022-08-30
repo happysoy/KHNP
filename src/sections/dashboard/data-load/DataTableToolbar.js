@@ -16,7 +16,7 @@ export default function DataTableToolbar({ filterName, onFilterName }) {
       sx={{ py: 2.5, px: 3 }}
     >
       <TextField
-        placeholder="Search..."
+        placeholder="파일 이름으로 검색하세요"
         value={filterName}
         onChange={(event) => onFilterName(event.target.value)}
         InputProps={{

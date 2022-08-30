@@ -37,9 +37,22 @@ export default function DataTableRow({
   // onSelectRow,
   // onDeleteRow,
 }) {
-  const theme = useTheme();
+  // const theme = useTheme();
 
-  const { name, cover, createdAt, inventoryType, price } = row;
+  const {
+    fileName,
+    directory,
+    fileSize,
+    company,
+    site,
+    unitNo,
+    equipment,
+    createdAt,
+    tubeSetting,
+    speed,
+    detector,
+    probe,
+  } = row;
 
   const [openMenu, setOpenMenuActions] = useState(null);
 
@@ -58,35 +71,22 @@ export default function DataTableRow({
         {/* onClick={onSelectRow} */}
       </TableCell>
 
-      <TableCell sx={{ display: "flex", alignItems: "center" }}>
-        <Image
-          disabledEffect
-          alt={name}
-          src={cover}
-          sx={{ borderRadius: 1.5, width: 48, height: 48, mr: 2 }}
-        />
+      <TableCell sx={{ alignItems: "center" }}>
         <Typography variant="subtitle2" noWrap>
-          {name}
+          {fileName}
         </Typography>
       </TableCell>
-
+      <TableCell>{directory}</TableCell>
+      <TableCell>{fileSize}</TableCell>
+      <TableCell>{company}</TableCell>
+      <TableCell>{site}</TableCell>
+      <TableCell>{unitNo}</TableCell>
+      <TableCell>{equipment}</TableCell>
       <TableCell>{fDate(createdAt)}</TableCell>
-
-      <TableCell align="center">
-        <Label
-          variant={theme.palette.mode === "light" ? "ghost" : "filled"}
-          color={
-            (inventoryType === "out_of_stock" && "error") ||
-            (inventoryType === "low_stock" && "warning") ||
-            "success"
-          }
-          sx={{ textTransform: "capitalize" }}
-        >
-          {inventoryType ? sentenceCase(inventoryType) : ""}
-        </Label>
-      </TableCell>
-
-      <TableCell align="right">{fCurrency(price)}</TableCell>
+      <TableCell>{tubeSetting}</TableCell>
+      <TableCell>{speed}</TableCell>
+      <TableCell>{detector}</TableCell>
+      <TableCell>{probe}</TableCell>
 
       <TableCell align="right">
         <TableMoreMenu

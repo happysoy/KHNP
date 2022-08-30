@@ -8,6 +8,8 @@ import { Grid, Stack, Card, Typography, MenuItem } from "@mui/material";
 // form
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, Controller } from "react-hook-form";
+// routes
+import { PATH_DASHBOARD } from "src/routes/paths";
 // components
 import {
   FormProvider,
@@ -32,7 +34,7 @@ const LabelStyle = styled(Typography)(({ theme }) => ({
 
 export default function DataNewEditForm({ currentData }) {
   const { push } = useRouter();
-  const { enquenceSnackbar } = useSnackbar();
+  const { enqueueSnackbar } = useSnackbar();
 
   const NewDataSchema = Yup.object().shape({
     fileName: Yup.string().required("필수 입력 항목입니다"),
@@ -64,6 +66,7 @@ export default function DataNewEditForm({ currentData }) {
   const {
     handleSubmit,
     watch,
+    reset,
     setValue,
     getValues,
     formState: { isSubmitting },
@@ -73,8 +76,8 @@ export default function DataNewEditForm({ currentData }) {
     try {
       await new Promise((resolve) => setTimeout(resolve, 500));
       reset();
-      enquenceSnackbar("업로드 성공!");
-      // push(PATH_DASHBOARD.dataLoad.root);
+      enqueueSnackbar("성공적으로 업로드하였습니다");
+      push(PATH_DASHBOARD.dataLoad.root);
     } catch (error) {
       console.error(error);
     }

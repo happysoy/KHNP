@@ -13,15 +13,16 @@ import "simplebar/src/simplebar.css";
 import ThemeProvider from "../theme";
 // context
 import { CollapseDrawerProvider } from "src/contexts/CollapseDrawerContext";
+import NotistackProvider from "src/components/NotistackProvider";
+import { AuthProvider } from "src/contexts/AwsCognitoContext";
 // next
 import Head from "next/head";
 // redux
 import { Provider as ReduxProvider } from "react-redux";
 import { store } from "src/redux/store";
-
-import { AuthProvider } from "src/contexts/AwsCognitoContext";
-import NotistackProvider from "src/components/NotistackProvider";
+// components
 import MotionLazyContainer from "src/components/animate/MotionLazyContainer";
+import { ChartStyle } from "src/components/chart";
 
 export default function MyApp(props) {
   const { Component, pageProps } = props;
@@ -39,6 +40,7 @@ export default function MyApp(props) {
               <MotionLazyContainer>
                 <ThemeProvider>
                   <NotistackProvider>
+                    <ChartStyle />
                     {getLayout(<Component {...pageProps} />)}
                   </NotistackProvider>
                 </ThemeProvider>

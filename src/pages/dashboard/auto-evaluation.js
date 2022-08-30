@@ -16,9 +16,7 @@ export default function AutoEvaluation() {
   return (
     <Page title="자동평가">
       <Container maxWidth="lg">
-        <Title heading="Analysis Setting" />
-        <div>자동평가</div>
-        <p>{user?.displayName}</p>
+        <Title heading="Analysis Setting" desc="자동평가에 대한 설명" />
       </Container>
     </Page>
   );

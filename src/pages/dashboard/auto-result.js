@@ -16,8 +16,10 @@ export default function AutoResult() {
   return (
     <Page title="자동평가결과">
       <Container>
-        <Title heading="Analysis Result Verification" />
-        <p>{user?.displayName}</p>
+        <Title
+          heading="Analysis Result Verification"
+          desc="자동평가 결과를 확인하세요"
+        />
       </Container>
     </Page>
   );

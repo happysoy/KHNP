@@ -33,13 +33,26 @@ const slice = createSlice({
 });
 
 export default slice.reducer;
+export const { actions } = slice;
 
 export function getDatas() {
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
-      const response = await axios.get("/api/test");
+      const response = await axios.get("/api/data-load/selectData");
       dispatch(slice.actions.getDatasSuccess(response.data));
+    } catch (error) {
+      dispatch(slice.actions.hasError(error));
+    }
+  };
+}
+export function insertData(newData) {
+  return async () => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const response = await axios.post("/api/data-load/insertData", newData);
+      console.log("response", response);
+      // dispatch(slice.actions.getDatasSuccess(response.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
     }

@@ -1,17 +1,20 @@
-import mysql from "mysql2";
-require("dotenv").config;
-let db;
-
-try {
-  db = mysql.createConnection({
+import mysql from "serverless-mysql";
+const db = mysql({
+  config: {
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,
     database: process.env.DB,
-  });
-} catch (err) {
-  console.error(err);
-}
+  },
+});
 
-module.exports = db;
+export default async function executeQuery({ query, values }) {
+  try {
+    const results = await db.query(query, values);
+    await db.end();
+    return results;
+  } catch (error) {
+    return { error };
+  }
+}

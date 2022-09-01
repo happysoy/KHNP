@@ -33,50 +33,9 @@ export default function PlotlyComponent() {
     xaxis: "x2",
   };
 
-  var data = [trace0, trace1, trace2, trace3];
-
-  var layout = {
-    width: 800,
-    height: 500,
-    title: "Lissajous Chart",
-    xaxis: {
-      nticks: 10,
-      domain: [0, 0.45],
-    },
-    yaxis: {
-      scaleanchor: "x",
-      domain: [0, 0.45],
-      scaleratio: 0.2,
-    },
-    yaxis2: {
-      scaleanchor: "x",
-      scaleratio: 0.2,
-      domain: [0.55, 1], // 1,2,3,4 분면 영역 결정
-    },
-    //
-    xaxis2: {
-      nticks: 10,
-      domain: [0.55, 1],
-      // anchor: "y3",
-    },
-    yaxis3: {
-      scaleanchor: "x", // 기준이 되는 anchor
-      scaleratio: 0.2,
-      domain: [0, 0.45],
-      anchor: "x2",
-    },
-    yaxis4: {
-      scaleanchor: "x",
-      scaleratio: 0.2,
-      domain: [0.55, 1],
-      anchor: "x2",
-    },
-
-    showlegend: true,
-  };
-
-  //
   var long_trace = {
+    yaxis: "y5",
+    xaxis: "x3",
     x: [
       "2000-01-01",
       "2000-01-02",
@@ -117,31 +76,71 @@ export default function PlotlyComponent() {
     ],
     mode: "lines",
     type: "scatter",
-    name: "2000",
   };
 
-  var long_data = [long_trace];
+  var data = [trace0, trace1, trace2, trace3, long_trace];
 
-  var long_layout = {
+  var layout = {
+    width: 1200,
+    height: 560,
+    title: "Lissajous Chart",
     xaxis: {
-      type: "date",
-      // title: "January Weather",
+      nticks: 10,
+      domain: [0.15, 0.45],
     },
     yaxis: {
+      scaleanchor: "x",
+      domain: [0.45, 0.7],
+      // scaleratio: 0.2,
+    },
+    yaxis2: {
+      scaleanchor: "x",
+      // scaleratio: 0.2,
+      domain: [0.8, 1], // 1,2,3,4 분면 영역 결정
+    },
+    //
+    xaxis2: {
+      nticks: 10,
+      domain: [0.55, 0.9],
+      anchor: "y4",
+    },
+    yaxis3: {
+      scaleanchor: "x", // 기준이 되는 anchor
+      // scaleratio: 0.2,
+      domain: [0.45, 0.7],
+      anchor: "x2",
+    },
+    yaxis4: {
+      scaleanchor: "x",
+      // scaleratio: 0.2,
+      domain: [0.8, 1],
+      anchor: "x2",
+    },
+
+    showlegend: true,
+    //
+    xaxis3: {
+      type: "date",
+      domain: [0, 1],
+      anchor: "y5",
+      title: "January Weather",
+    },
+    yaxis5: {
+      scaleanchor: "x",
+      domain: [0, 0.3],
       // title: "Daily Mean Temperature",
     },
-    title: "2nd defect location of CH1Y",
   };
+
+  //
 
   useEffect(() => {
     Plotly.newPlot("lissajous_chart", data, layout);
-    Plotly.newPlot("long_chart", long_data, long_layout);
   }, []);
 
   return (
     <div>
       <div id="lissajous_chart"></div>
-      <div id="long_chart"></div>
     </div>
   );
 }

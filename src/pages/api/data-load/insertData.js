@@ -7,6 +7,8 @@ export default async (req, res) => {
       company,
       fileName,
       site,
+      createDate,
+      dueDate,
       tubeSetting,
       equipment,
       speed,
@@ -15,13 +17,17 @@ export default async (req, res) => {
     } = req.body;
     const directory = "src/pages";
     const fileSize = "2M";
-    const testPeriod = "2020";
+    const createDateSplit = createDate.split("T");
+    const dueDateSplit = dueDate.split("T");
+
+    const testPeriod = `${createDateSplit[0]}/${dueDateSplit[0]}`;
+
     const images =
       "https://cdnweb01.wikitree.co.kr/webdata/editor/202203/30/img_20220330160332_5b5ab5c0.webp";
 
     const result = await executeQuery({
-      query: `INSERT INTO DATA(fileName, directory, fileSize, company, site, unitNo, equipment, tubeSetting, speed, detector, probe, images)
-      VALUES (?, ?,?,?,?,?,?,?,?,?,?,?);`,
+      query: `INSERT INTO DATA(fileName, directory, fileSize, company, site, unitNo, equipment, testPeriod, tubeSetting, speed, detector, probe, images)
+      VALUES (?, ?,?,?,?,?,?,?,?,?,?,?,?);`,
       values: [
         fileName,
         directory,
@@ -29,15 +35,15 @@ export default async (req, res) => {
         company,
         site,
         unitNo,
-        equipment[0],
+        equipment,
+        testPeriod,
         tubeSetting,
-        speed[0],
-        detector[0],
-        probe[0],
+        speed,
+        detector,
+        probe,
         images,
       ],
     });
-    console.log("메러러러럴ㅇ", result);
     res.status(200).json(result);
   } catch (error) {
     console.log(error);

@@ -43,6 +43,8 @@ export default function DataNewEditForm({ currentData }) {
   const NewDataSchema = Yup.object().shape({
     fileName: Yup.string().required("필수 입력 항목입니다"),
     company: Yup.string().required("필수 입력 항목입니다"),
+    site: Yup.string().required("필수 입력 항목입니다"),
+    tubeSetting: Yup.string().required("필수 입력 항목입니다"),
     unitNo: Yup.number().required("필수 입력 항목입니다"),
   });
   const defaultValues = useMemo(
@@ -51,6 +53,8 @@ export default function DataNewEditForm({ currentData }) {
       company: currentData?.company || "",
       site: currentData?.site || "",
       tubeSetting: currentData?.tubeSetting || "",
+      createDate: currentData?.createDate || new Date(),
+      dueDate: currentData?.dueDate || new Date(),
       company: currentData?.company || "",
       unitNo: currentData?.unitNo || [UNIT_OPTIONS[0]],
       equipment: currentData?.equipment || [EQUIPMENT_OPTIONS[0]],
@@ -79,7 +83,7 @@ export default function DataNewEditForm({ currentData }) {
   const onSubmit = async (data) => {
     try {
       dispatch(insertData(data));
-      await new Promise((resolve) => setTimeout(resolve, 500));
+      await new Promise((resolve) => setTimeout(resolve, 3000));
       reset();
       enqueueSnackbar("성공적으로 업로드하였습니다");
       push(PATH_DASHBOARD.dataLoad.root);

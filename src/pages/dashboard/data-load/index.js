@@ -16,7 +16,7 @@ import {
 import Layout from "src/layouts";
 // redux
 import { dispatch, useDispatch, useSelector } from "src/redux/store";
-import { getDatas } from "src/redux/slices/data";
+import { deleteData, getDatas } from "src/redux/slices/data";
 // hooks
 import useTable, { getComparator, emptyRows } from "src/hooks/useTable";
 // components
@@ -109,6 +109,14 @@ export default function DataLoad() {
     filterName,
   });
 
+  const handleDeleteRow = (row) => {
+    const id = row.id;
+    const deleteRow = tableData.filter((row) => row.id !== id);
+    setSelected([]);
+    setTableData(deleteRow);
+    dispatch(deleteData(row));
+  };
+
   return (
     <Page title="데이터로드">
       <Container maxWidth="xl">
@@ -148,7 +156,7 @@ export default function DataLoad() {
                         row={row}
                         // selected={selected.includes(row.id)}
                         // onSelectRow={() => onSelectRow(row.id)}
-                        // onDeleteRow={() => handleDeleteRow(row.id)}
+                        onDeleteRow={() => handleDeleteRow(row)}
                         // onEditRow={() => handleEditRow(row.name)}
                       />
                     ))}

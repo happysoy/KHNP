@@ -29,6 +29,14 @@ const slice = createSlice({
       state.isLoading = false;
       state.data = action.payload;
     },
+    insertDataSuccess(state, action) {
+      state.isLoading = false;
+      state.datas = action.payload;
+    },
+    deleteDataSuccess(state, action) {
+      state.isLoading = false;
+      state.datas = action.payload;
+    },
   },
 });
 
@@ -39,20 +47,32 @@ export function getDatas() {
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
-      const response = await axios.get("/api/data-load/selectData");
+      const response = await axios.get("/api/data-load/getDatas");
       dispatch(slice.actions.getDatasSuccess(response.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
     }
   };
 }
+
 export function insertData(newData) {
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
       const response = await axios.post("/api/data-load/insertData", newData);
-      console.log("response", response);
-      // dispatch(slice.actions.getDatasSuccess(response.data));
+      dispatch(slice.actions.insertDataSuccess(response.data));
+    } catch (error) {
+      dispatch(slice.actions.hasError(error));
+    }
+  };
+}
+
+export function deleteData(row) {
+  return async () => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const response = await axios.post("/api/data-load/deleteData", row);
+      dispatch(slice.actions.deleteDataSuccess(response.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
     }

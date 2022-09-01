@@ -83,7 +83,8 @@ export default function DataTableRow({
       <TableCell>{site}</TableCell>
       <TableCell>{unitNo}</TableCell>
       <TableCell>{equipment}</TableCell>
-      <TableCell>{fDate(createdAt)}</TableCell>
+      <TableCell>{createdAt}</TableCell>
+      {/* <TableCell>{fDate(createdAt)}</TableCell> */}
       <TableCell>{tubeSetting}</TableCell>
       <TableCell>{speed}</TableCell>
       <TableCell>{detector}</TableCell>

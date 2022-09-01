@@ -8,16 +8,25 @@ import useTabs from "src/hooks/useTabs";
 import Title from "src/components/Title";
 import Page from "src/components/Page";
 import useAuth from "src/hooks/useAuth";
+// sections
+import Joint from "src/sections/dashboard/auto-signal/Joint";
 
 AutoSignal.getLayout = function getLayout(page) {
   return <Layout>{page}</Layout>;
 };
 
-const STATUS_OPTIONS = ["조인트", "태스크"];
+const STATUS_OPTIONS = [
+  {
+    value: "조인트",
+    component: <Joint />,
+  },
+  {
+    value: "태스크",
+  },
+];
 
 export default function AutoSignal() {
-  const { currentTab: filterStatus, onChangeTab: onChangeFilterStatus } =
-    useTabs("조인트");
+  const { currentTab, onChangeTab } = useTabs("조인트");
 
   return (
     <Page title="자동신호수집">
@@ -40,8 +49,8 @@ export default function AutoSignal() {
                 allowScrollButtonsMobile
                 variant="scrollable"
                 scrollButtons="auto"
-                value={filterStatus}
-                onChange={onChangeFilterStatus}
+                value={currentTab}
+                onChange={onChangeTab}
                 sx={{
                   px: 2,
                   bgcolor: "background.neutral",
@@ -50,9 +59,9 @@ export default function AutoSignal() {
                 {STATUS_OPTIONS.map((tab) => (
                   <Tab
                     disableRipple
-                    key={tab}
-                    label={tab}
-                    value={tab}
+                    key={tab.value}
+                    label={tab.value}
+                    value={tab.value}
                     sx={{
                       width: "44%",
                       display: "flex",
@@ -61,8 +70,11 @@ export default function AutoSignal() {
                   />
                 ))}
               </Tabs>
-
               <Divider />
+              {STATUS_OPTIONS.map((tab) => {
+                const isMatched = tab.value === currentTab;
+                return isMatched && <Box key={tab.value}>{tab.component}</Box>;
+              })}
             </Card>
           </Grid>
         </Grid>

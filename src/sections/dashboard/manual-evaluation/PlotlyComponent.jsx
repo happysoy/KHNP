@@ -65,8 +65,6 @@ export default function PlotlyComponent() {
     var x = [];
     var y = [];
 
-    console.log(rawData.length);
-
     rawData.forEach(function (datum, i) {
       if (i % 100) return;
 

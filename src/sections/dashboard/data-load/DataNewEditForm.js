@@ -1,10 +1,12 @@
-import { useCallback, useMemo } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import * as Yup from "yup";
 import { useSnackbar } from "notistack";
 // @mui
 import { styled } from "@mui/material/styles";
 import { LoadingButton } from "@mui/lab";
 import { Grid, Stack, Card, Typography, MenuItem } from "@mui/material";
+// redux
+import { useDispatch, useSelector } from "src/redux/store";
 // form
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, Controller } from "react-hook-form";
@@ -19,6 +21,8 @@ import {
 } from "src/components/hook-form";
 import DataEditStatusDate from "./DataEditStatusDate";
 import { useRouter } from "next/router";
+// redux
+import { insertData } from "src/redux/slices/data";
 
 const UNIT_OPTIONS = ["1", "2", "3", "4", "5", "6", "7", "8"];
 const EQUIPMENT_OPTIONS = ["SG", "Condensor", "Heater"];
@@ -39,6 +43,8 @@ export default function DataNewEditForm({ currentData }) {
   const NewDataSchema = Yup.object().shape({
     fileName: Yup.string().required("필수 입력 항목입니다"),
     company: Yup.string().required("필수 입력 항목입니다"),
+    site: Yup.string().required("필수 입력 항목입니다"),
+    tubeSetting: Yup.string().required("필수 입력 항목입니다"),
     unitNo: Yup.number().required("필수 입력 항목입니다"),
   });
   const defaultValues = useMemo(
@@ -47,6 +53,8 @@ export default function DataNewEditForm({ currentData }) {
       company: currentData?.company || "",
       site: currentData?.site || "",
       tubeSetting: currentData?.tubeSetting || "",
+      createDate: currentData?.createDate || new Date(),
+      dueDate: currentData?.dueDate || new Date(),
       company: currentData?.company || "",
       unitNo: currentData?.unitNo || [UNIT_OPTIONS[0]],
       equipment: currentData?.equipment || [EQUIPMENT_OPTIONS[0]],
@@ -71,10 +79,11 @@ export default function DataNewEditForm({ currentData }) {
     getValues,
     formState: { isSubmitting },
   } = methods;
-
-  const onSubmit = async () => {
+  const dispatch = useDispatch();
+  const onSubmit = async (data) => {
     try {
-      await new Promise((resolve) => setTimeout(resolve, 500));
+      dispatch(insertData(data));
+      await new Promise((resolve) => setTimeout(resolve, 3000));
       reset();
       enqueueSnackbar("성공적으로 업로드하였습니다");
       push(PATH_DASHBOARD.dataLoad.root);

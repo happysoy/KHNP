@@ -35,7 +35,7 @@ export default function DataTableRow({
   selected,
   // onEditRow,
   // onSelectRow,
-  // onDeleteRow,
+  onDeleteRow,
 }) {
   // const theme = useTheme();
 
@@ -48,7 +48,7 @@ export default function DataTableRow({
     site,
     unitNo,
     equipment,
-    createdAt,
+    testPeriod,
     tubeSetting,
     speed,
     detector,
@@ -83,7 +83,8 @@ export default function DataTableRow({
       <TableCell>{site}</TableCell>
       <TableCell>{unitNo}</TableCell>
       <TableCell>{equipment}</TableCell>
-      <TableCell>{fDate(createdAt)}</TableCell>
+      <TableCell>{testPeriod}</TableCell>
+      {/* <TableCell>{fDate(createdAt)}</TableCell> */}
       <TableCell>{tubeSetting}</TableCell>
       <TableCell>{speed}</TableCell>
       <TableCell>{detector}</TableCell>
@@ -98,7 +99,7 @@ export default function DataTableRow({
             <>
               <MenuItem
                 onClick={() => {
-                  // onDeleteRow();
+                  onDeleteRow();
                   handleCloseMenu();
                 }}
                 sx={{ color: "error.main" }}

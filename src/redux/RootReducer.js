@@ -3,6 +3,7 @@ import { persistReducer } from "redux-persist";
 import createWebStorage from "redux-persist/lib/storage/createWebStorage";
 // slices
 import productReducer from "./slices/product";
+import dataReducer from "./slices/data";
 
 // ----------------------------------------------------------------------
 
@@ -36,9 +37,16 @@ const productPersistConfig = {
   keyPrefix: "redux-",
   whitelist: ["sortBy", "checkout"],
 };
+const dataPersistConfig = {
+  key: "data",
+  storage,
+  keyPrefix: "redux-",
+  whitelist: [],
+};
 
 const rootReducer = combineReducers({
   product: persistReducer(productPersistConfig, productReducer),
+  data: persistReducer(dataPersistConfig, dataReducer),
 });
 
 export { rootPersistConfig, rootReducer };

@@ -16,7 +16,7 @@ import {
 import Layout from "src/layouts";
 // redux
 import { dispatch, useDispatch, useSelector } from "src/redux/store";
-import { getProducts } from "src/redux/slices/product";
+import { deleteData, getDatas } from "src/redux/slices/data";
 // hooks
 import useTable, { getComparator, emptyRows } from "src/hooks/useTable";
 // components
@@ -83,7 +83,9 @@ export default function DataLoad() {
 
   const dispatch = useDispatch();
 
-  const { products, isLoading } = useSelector((state) => state.product);
+  // const { products, isLoading } = useSelector((state) => state.product);
+  // console.log(products);
+  const { datas, isLoading } = useSelector((state) => state.data);
   const [tableData, setTableData] = useState([]);
   const [filterName, setFilterName] = useState("");
 
@@ -92,20 +94,28 @@ export default function DataLoad() {
   };
 
   useEffect(() => {
-    dispatch(getProducts());
+    dispatch(getDatas());
   }, [dispatch]);
 
   useEffect(() => {
-    if (products.length) {
-      setTableData(products);
+    if (datas.length) {
+      setTableData(datas);
     }
-  }, [products]);
+  }, [datas]);
 
   const dataFiltered = applySortFilter({
     tableData,
     comparator: getComparator(order, orderBy),
     filterName,
   });
+
+  const handleDeleteRow = (row) => {
+    const id = row.id;
+    const deleteRow = tableData.filter((row) => row.id !== id);
+    setSelected([]);
+    setTableData(deleteRow);
+    dispatch(deleteData(row));
+  };
 
   return (
     <Page title="데이터로드">
@@ -146,7 +156,7 @@ export default function DataLoad() {
                         row={row}
                         // selected={selected.includes(row.id)}
                         // onSelectRow={() => onSelectRow(row.id)}
-                        // onDeleteRow={() => handleDeleteRow(row.id)}
+                        onDeleteRow={() => handleDeleteRow(row)}
                         // onEditRow={() => handleEditRow(row.name)}
                       />
                     ))}

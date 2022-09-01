@@ -15,7 +15,7 @@ export default function Settings() {
   const { user } = useAuth();
   return (
     <Page title="Settings">
-      <Container>
+      <Container maxWidth="lg">
         <Title heading="Program Setting" />
         <div>Settings</div>
         <p>{user?.displayName}</p>

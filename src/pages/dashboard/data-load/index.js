@@ -109,7 +109,7 @@ export default function DataLoad() {
 
   return (
     <Page title="데이터로드">
-      <Container>
+      <Container maxWidth="xl">
         {/* <Title heading="Header Setting" desc="Manage the data by upload" /> */}
         <Title
           heading="Data Load"

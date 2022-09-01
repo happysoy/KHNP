@@ -15,7 +15,7 @@ export default function Report() {
   const { user } = useAuth();
   return (
     <Page title="Report">
-      <Container>
+      <Container maxWidth="lg">
         <Title heading="Analysis Setting" />
         <Title heading="평가결과 Upload" />
       </Container>

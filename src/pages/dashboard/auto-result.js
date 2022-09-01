@@ -15,7 +15,7 @@ export default function AutoResult() {
   const { user } = useAuth();
   return (
     <Page title="자동평가결과">
-      <Container>
+      <Container maxWidth="lg">
         <Title
           heading="Analysis Result Verification"
           desc="자동평가 결과를 확인하세요"

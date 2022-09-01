@@ -4,10 +4,91 @@ import dynamic from "next/dynamic";
 // const Plotly = dynamic(() => import("plotly.js-dist-min"), { ssr: false });
 
 export default function PlotlyComponent() {
+  var rawDataURL =
+    "https://raw.githubusercontent.com/plotly/datasets/master/2016-weather-data-seattle.csv";
+  var xField = "Date";
+  var yField = "Mean_TemperatureC";
+
+  var selectorOptions = {
+    buttons: [
+      {
+        step: "month",
+        stepmode: "backward",
+        count: 1,
+        label: "1m",
+      },
+      {
+        step: "month",
+        stepmode: "backward",
+        count: 6,
+        label: "6m",
+      },
+      {
+        step: "year",
+        stepmode: "todate",
+        count: 1,
+        label: "YTD",
+      },
+      {
+        step: "year",
+        stepmode: "backward",
+        count: 1,
+        label: "1y",
+      },
+      {
+        step: "all",
+      },
+    ],
+  };
+
+  useEffect(() => {
+    Plotly.d3.csv(rawDataURL, function (err, rawData) {
+      if (err) throw err;
+
+      var data = prepData(rawData);
+      var layout = {
+        title: "Time series with range slider and selectors",
+        xaxis: {
+          rangeselector: selectorOptions,
+          rangeslider: {},
+        },
+        yaxis: {
+          fixedrange: true,
+        },
+      };
+
+      Plotly.newPlot("graph", data, layout, { showSendToCloud: true });
+    });
+  });
+
+  function prepData(rawData) {
+    var x = [];
+    var y = [];
+
+    console.log(rawData.length);
+
+    rawData.forEach(function (datum, i) {
+      if (i % 100) return;
+
+      x.push(new Date(datum[xField]));
+      y.push(datum[yField]);
+    });
+
+    return [
+      {
+        mode: "lines",
+        x: x,
+        y: y,
+      },
+    ];
+  }
+
   var trace0 = {
     x: [0, 1, 2, 3],
     y: [1, 2, 4, 8],
     name: "chart 1",
+    xaxis: "x1",
+    yaxis: "y1",
   };
 
   var trace1 = {
@@ -15,6 +96,7 @@ export default function PlotlyComponent() {
     y: [1, 2, 4, 8],
     name: "chart 3",
     yaxis: "y2",
+    xaxis: "x",
   };
 
   var trace2 = {
@@ -82,53 +164,51 @@ export default function PlotlyComponent() {
 
   var layout = {
     width: 1200,
-    height: 560,
+    height: 800,
     title: "Lissajous Chart",
     xaxis: {
-      nticks: 10,
-      domain: [0.15, 0.45],
+      domain: [0.1, 0.45],
     },
     yaxis: {
-      scaleanchor: "x",
+      scaleanchor: "y",
       domain: [0.45, 0.7],
-      // scaleratio: 0.2,
     },
     yaxis2: {
-      scaleanchor: "x",
-      // scaleratio: 0.2,
+      scaleanchor: "y",
+      side: "left",
+      // overlaying: "y",
       domain: [0.8, 1], // 1,2,3,4 분면 영역 결정
     },
-    //
+
     xaxis2: {
-      nticks: 10,
       domain: [0.55, 0.9],
-      anchor: "y4",
     },
     yaxis3: {
-      scaleanchor: "x", // 기준이 되는 anchor
-      // scaleratio: 0.2,
+      scaleanchor: "y", // 기준이 되는 anchor
+      anchor: "free",
+      position: 0.55,
       domain: [0.45, 0.7],
-      anchor: "x2",
     },
     yaxis4: {
-      scaleanchor: "x",
-      // scaleratio: 0.2,
+      scaleanchor: "y",
+      anchor: "free",
+      position: 0.55,
       domain: [0.8, 1],
-      anchor: "x2",
     },
 
     showlegend: true,
-    //
+
     xaxis3: {
       type: "date",
       domain: [0, 1],
       anchor: "y5",
-      title: "January Weather",
+      title: {
+        text: "2nd defect location of CH1Y",
+      },
     },
     yaxis5: {
-      scaleanchor: "x",
+      scaleanchor: "y",
       domain: [0, 0.3],
-      // title: "Daily Mean Temperature",
     },
   };
 
@@ -141,6 +221,7 @@ export default function PlotlyComponent() {
   return (
     <div>
       <div id="lissajous_chart"></div>
+      <div id="graph"></div>
     </div>
   );
 }

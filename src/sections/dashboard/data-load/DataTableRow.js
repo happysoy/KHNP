@@ -33,7 +33,7 @@ DataTableRow.propTypes = {
 export default function DataTableRow({
   row,
   selected,
-  // onEditRow,
+  onEditRow,
   // onSelectRow,
   onDeleteRow,
 }) {
@@ -109,7 +109,7 @@ export default function DataTableRow({
               </MenuItem>
               <MenuItem
                 onClick={() => {
-                  // onEditRow();
+                  onEditRow();
                   handleCloseMenu();
                 }}
               >

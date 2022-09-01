@@ -25,7 +25,7 @@ const slice = createSlice({
       state.isLoading = false;
       state.datas = action.payload;
     },
-    getDataSuccess(state, action) {
+    updateDataSuccess(state, action) {
       state.isLoading = false;
       state.data = action.payload;
     },
@@ -49,6 +49,18 @@ export function getDatas() {
     try {
       const response = await axios.get("/api/data-load/getDatas");
       dispatch(slice.actions.getDatasSuccess(response.data));
+    } catch (error) {
+      dispatch(slice.actions.hasError(error));
+    }
+  };
+}
+
+export function updateData(newData) {
+  return async () => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const response = await axios.post("/api/data-load/updateData", newData);
+      dispatch(slice.actions.updateDataSuccess(response.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
     }

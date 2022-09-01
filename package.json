@@ -25,6 +25,7 @@
     "axios": "^0.27.2",
     "change-case": "^4.1.2",
     "cors": "^2.8.5",
+    "d3": "^7.6.1",
     "date-fns": "^2.29.2",
     "express": "^4.18.1",
     "firebase": "^9.9.3",
@@ -36,6 +37,7 @@
     "notistack": "^2.0.5",
     "numeral": "^2.0.6",
     "plotly.js": "^2.14.0",
+    "plotly.js-dist-min": "^2.14.0",
     "react": "18.2.0",
     "react-apexcharts": "^1.4.0",
     "react-dom": "18.2.0",
@@ -54,6 +56,7 @@
   "devDependencies": {
     "@next/eslint-plugin-next": "^12.2.5",
     "eslint": "8.23.0",
-    "eslint-config-next": "12.2.5"
+    "eslint-config-next": "^12.2.5",
+    "eslint-config-prettier": "^8.5.0"
   }
 }

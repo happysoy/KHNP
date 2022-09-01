@@ -22,7 +22,7 @@ export default function ManualEvaluation() {
           desc="수동평가에 대한 설명"
         />
         <Grid container spacing={3}>
-          <Grid item xs={12} sm={6} md={3}>
+          {/* <Grid item xs={12} sm={6} md={3}>
             <Lissajous
               chartLabels={["0", "5k", "10k"]}
               chartData={[
@@ -121,9 +121,15 @@ export default function ManualEvaluation() {
                 },
               ]}
             />
-          </Grid>
+          </Grid> */}
 
-          <Grid item xs={12} sm={12} md={12}>
+          <Grid
+            item
+            xs={12}
+            sm={12}
+            md={12}
+            sx={{ justifyContent: "center", display: "flex" }}
+          >
             <PlotlyComponent />
           </Grid>
         </Grid>

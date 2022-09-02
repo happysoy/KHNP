@@ -1,13 +1,12 @@
 // @mui
 import { Container, Grid } from "@mui/material";
 // layouts
-import Layout from "src/layouts";
+import Layout from "../../layouts";
 // components
-import Page from "src/components/Page";
-import useAuth from "src/hooks/useAuth";
-import Title from "src/components/Title";
-import Lissajous from "src/sections/dashboard/manual-evaluation/lissajous";
-import PlotlyComponent from "src/sections/dashboard/manual-evaluation/PlotlyComponent";
+import Page from "../../components/Page";
+import useAuth from "../../hooks/useAuth";
+import Title from "../../components/Title";
+import PlotlyComponent from "../../sections/dashboard/manual-evaluation/PlotlyComponent";
 
 ManualEvaluation.getLayout = function getLayout(page) {
   return <Layout>{page}</Layout>;

@@ -91,7 +91,7 @@ export default function NotificationsPopover() {
         </Box>
 
         <Divider sx={{ borderStyle: "dashed" }} />
-
+        {/* 
         <Scrollbar sx={{ height: { xs: 340, sm: "auto" } }}>
           <List
             disablePadding
@@ -132,7 +132,7 @@ export default function NotificationsPopover() {
           </List>
         </Scrollbar>
 
-        <Divider sx={{ borderStyle: "dashed" }} />
+        <Divider sx={{ borderStyle: "dashed" }} /> */}
 
         <Box sx={{ p: 1 }}>
           <Button fullWidth disableRipple>

@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 // routes
-import { PATH_DASHBOARD } from "src/routes/paths";
+import { PATH_DASHBOARD } from "../../../routes/paths";
 // @mui
 import {
   Box,
@@ -16,28 +16,28 @@ import {
   TableBody,
 } from "@mui/material";
 // layouts
-import Layout from "src/layouts";
+import Layout from "../../../layouts";
 // redux
-import { useDispatch, useSelector } from "src/redux/store";
-import { deleteData, getDatas } from "src/redux/slices/data";
+import { useDispatch, useSelector } from "../../../redux/store";
+import { deleteData, getDatas } from "../../../redux/slices/data";
 // hooks
-import useTable, { getComparator, emptyRows } from "src/hooks/useTable";
+import useTable, { getComparator, emptyRows } from "../../../hooks/useTable";
 // components
-import Title from "src/components/Title";
-import Page from "src/components/Page";
+import Title from "../../../components/Title";
+import Page from "../../../components/Page";
 
-import Scrollbar from "src/components/Scrollbar";
+import Scrollbar from "../../../components/Scrollbar";
 import {
   TableHeadCustom,
   TableSelectedActions,
   TableSkeleton,
-} from "src/components/table";
+} from "../../../components/table";
 // sections
 import {
   DataTableRow,
   DataTableToolbar,
-} from "src/sections/dashboard/data-load";
-import Iconify from "src/components/Iconify";
+} from "../../../sections/dashboard/data-load";
+import Iconify from "../../../components/Iconify";
 
 DataLoad.getLayout = function getLayout(page) {
   return <Layout>{page}</Layout>;

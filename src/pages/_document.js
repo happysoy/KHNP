@@ -1,8 +1,8 @@
-import * as React from "react";
+import * as React from 'react';
 // next
-import Document, { Html, Head, Main, NextScript } from "next/document";
+import Document, { Html, Head, Main, NextScript } from 'next/document';
 // theme
-import palette from "../theme/palette";
+import palette from '../theme/palette';
 
 export default class MyDocument extends Document {
   render() {
@@ -14,19 +14,14 @@ export default class MyDocument extends Document {
           <meta name="theme-color" content={palette.light.primary.main} />
 
           <link rel="manifest" href="/manifest.json" />
+          <script async src="https://cdn.plot.ly/plotly-latest.min.js" />
 
           <link rel="preconnect" href="https://fonts.googleapis.com" />
-          <link
-            rel="preconnect"
-            href="https://fonts.gstatic.com"
-            crossOrigin="true"
-          />
+          <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="true" />
           <link
             href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap"
             rel="stylesheet"
           />
-          <script src="https://cdn.plot.ly/plotly-latest.min.js" />
-
           <meta name="description" content="한국수력원자력" />
 
           <meta name="keywords" content="DEEP-AI" />

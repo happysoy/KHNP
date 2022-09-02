@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Box } from "@mui/material";
 import { styled } from "@mui/material/styles";
 // hooks
-import useCollapseDrawer from "src/hooks/useCollapseDrawer";
+import useCollapseDrawer from "../../hooks/useCollapseDrawer";
 // config
 import { HEADER, NAVBAR } from "../../config";
 //

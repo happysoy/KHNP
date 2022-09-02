@@ -1,15 +1,15 @@
 // @mui
 import { Container, Box, Card, Tabs, Tab, Divider, Grid } from "@mui/material";
 // layouts
-import Layout from "src/layouts";
+import Layout from "../../layouts";
 // hooks
-import useTabs from "src/hooks/useTabs";
+import useTabs from "../../hooks/useTabs";
 // components
-import Title from "src/components/Title";
-import Page from "src/components/Page";
-import useAuth from "src/hooks/useAuth";
+import Title from "../../components/Title";
+import Page from "../../components/Page";
+import useAuth from "../../hooks/useAuth";
 // sections
-import Joint from "src/sections/dashboard/auto-signal/Joint";
+import Joint from "../../sections/dashboard/auto-signal/Joint";
 
 AutoSignal.getLayout = function getLayout(page) {
   return <Layout>{page}</Layout>;

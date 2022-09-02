@@ -1,17 +1,17 @@
-import useAuth from "src/hooks/useAuth";
+import useAuth from "../../../hooks/useAuth";
 // @mui
 import { Box, Divider, MenuItem, Stack, Typography } from "@mui/material";
 import { alpha } from "@mui/material/styles";
 // next
 import { useRouter } from "next/router";
 // routes
-import { PATH_DASHBOARD, PATH_AUTH } from "src/routes/paths";
+import { PATH_AUTH } from "../../../routes/paths";
 // hooks
 import { useState } from "react";
 // components
-import MenuPopover from "src/components/MenuPopover";
-import AdminAvatar from "src/components/AdminAvatar";
-import { AnimateIconButton } from "src/components/animate";
+import MenuPopover from "../../../components/MenuPopover";
+import AdminAvatar from "../../../components/AdminAvatar";
+import { AnimateIconButton } from "../../../components/animate";
 
 export default function Account() {
   const router = useRouter();

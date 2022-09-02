@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Box } from "@mui/material";
 import KeyboardTabOutlinedIcon from "@mui/icons-material/KeyboardTabOutlined";
 // components
-import AnimateIconButton from "src/components/animate/AnimateIconButton";
+import AnimateIconButton from "../../../components/animate/AnimateIconButton";
 
 // ----------------------------------------------------------------------
 

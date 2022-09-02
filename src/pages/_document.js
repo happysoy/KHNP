@@ -14,6 +14,7 @@ export default class MyDocument extends Document {
           <meta name="theme-color" content={palette.light.primary.main} />
 
           <link rel="manifest" href="/manifest.json" />
+          <script async src="https://cdn.plot.ly/plotly-latest.min.js" />
 
           <link rel="preconnect" href="https://fonts.googleapis.com" />
           <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="true" />
@@ -21,8 +22,6 @@ export default class MyDocument extends Document {
             href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap"
             rel="stylesheet"
           />
-          <script async src="https://cdn.plot.ly/plotly-latest.min.js" />
-
           <meta name="description" content="한국수력원자력" />
 
           <meta name="keywords" content="DEEP-AI" />

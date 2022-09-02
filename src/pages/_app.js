@@ -14,7 +14,7 @@ import ThemeProvider from '../theme';
 // context
 import { CollapseDrawerProvider } from '../contexts/CollapseDrawerContext';
 import NotistackProvider from '../components/NotistackProvider';
-import { AuthProvider } from '../contexts/CognitoContext';
+import { AuthProvider } from '../contexts/AwsCognitoContext';
 
 import Head from 'next/head';
 // redux

@@ -48,6 +48,7 @@ const AuthContext = createContext({
   register: () => Promise.resolve(),
   logout: () => Promise.resolve(),
 });
+
 // ----------------------------------------------------------------------
 
 AuthProvider.propTypes = {
@@ -87,7 +88,6 @@ function AuthProvider({ children }) {
             } else {
               const attributes = await getUserAttributes(user);
               const token = session.getIdToken().getJwtToken();
-              // use the token or Bearer depend on the wait BE handle, by default amplify API only need to token.
               axios.defaults.headers.common.Authorization = token;
               dispatch({
                 type: 'AUTHENTICATE',

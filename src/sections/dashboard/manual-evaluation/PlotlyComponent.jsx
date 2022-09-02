@@ -1,7 +1,9 @@
-/*eslint no-undef: "error"*/
-import * as d3 from 'd3';
+/* eslint no-undef: "error" */
+// import * as d3 from 'd3';
+/* global Plotly */
 import { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
+// const Plotly = require('react-plotly.js').default;
 // const Plotly = dynamic(() => import('plotly.js-dist-min'), { ssr: false });
 
 export default function PlotlyComponent() {

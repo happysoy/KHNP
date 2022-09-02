@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 // next
 import NextLink from "next/link";
+import { useRouter } from "next/router";
+// routes
+import { PATH_DASHBOARD } from "src/routes/paths";
 // @mui
 import {
   Box,
@@ -15,7 +18,7 @@ import {
 // layouts
 import Layout from "src/layouts";
 // redux
-import { dispatch, useDispatch, useSelector } from "src/redux/store";
+import { useDispatch, useSelector } from "src/redux/store";
 import { deleteData, getDatas } from "src/redux/slices/data";
 // hooks
 import useTable, { getComparator, emptyRows } from "src/hooks/useTable";
@@ -35,7 +38,6 @@ import {
   DataTableToolbar,
 } from "src/sections/dashboard/data-load";
 import Iconify from "src/components/Iconify";
-import { PATH_DASHBOARD } from "src/routes/paths";
 
 DataLoad.getLayout = function getLayout(page) {
   return <Layout>{page}</Layout>;
@@ -88,7 +90,7 @@ export default function DataLoad() {
   const { datas, isLoading } = useSelector((state) => state.data);
   const [tableData, setTableData] = useState([]);
   const [filterName, setFilterName] = useState("");
-
+  const { push } = useRouter();
   const handleFilterName = (filterName) => {
     setFilterName(filterName);
   };
@@ -116,11 +118,13 @@ export default function DataLoad() {
     setTableData(deleteRow);
     dispatch(deleteData(row));
   };
-
+  const handleEditRow = (row) => {
+    const id = row.id;
+    push(PATH_DASHBOARD.dataLoad.edit(id));
+  };
   return (
     <Page title="데이터로드">
       <Container maxWidth="xl">
-        {/* <Title heading="Header Setting" desc="Manage the data by upload" /> */}
         <Title
           heading="Data Load"
           desc="업로드된 데이터를 확인하세요"
@@ -157,7 +161,7 @@ export default function DataLoad() {
                         // selected={selected.includes(row.id)}
                         // onSelectRow={() => onSelectRow(row.id)}
                         onDeleteRow={() => handleDeleteRow(row)}
-                        // onEditRow={() => handleEditRow(row.name)}
+                        onEditRow={() => handleEditRow(row)}
                       />
                     ))}
                 </TableBody>

@@ -22,7 +22,7 @@ import {
 import DataEditStatusDate from "./DataEditStatusDate";
 import { useRouter } from "next/router";
 // redux
-import { insertData } from "src/redux/slices/data";
+import { insertData, updateData } from "src/redux/slices/data";
 
 const UNIT_OPTIONS = ["1", "2", "3", "4", "5", "6", "7", "8"];
 const EQUIPMENT_OPTIONS = ["SG", "Condensor", "Heater"];
@@ -36,7 +36,7 @@ const LabelStyle = styled(Typography)(({ theme }) => ({
   marginBottom: theme.spacing(1),
 }));
 
-export default function DataNewEditForm({ currentData }) {
+export default function DataNewEditForm({ isEdit, currentData }) {
   const { push } = useRouter();
   const { enqueueSnackbar } = useSnackbar();
 
@@ -49,6 +49,7 @@ export default function DataNewEditForm({ currentData }) {
   });
   const defaultValues = useMemo(
     () => ({
+      id: currentData?.id || "",
       fileName: currentData?.fileName || "",
       company: currentData?.company || "",
       site: currentData?.site || "",
@@ -61,7 +62,7 @@ export default function DataNewEditForm({ currentData }) {
       speed: currentData?.speed || [SPEED_OPTIONS[0]],
       detector: currentData?.detector || [DETECTOR_OPTIONS[0]],
       probe: currentData?.probe || [PROBE_OPTIONS[0]],
-      images: currentData?.images || [],
+      images: [],
     }),
     [currentData]
   );
@@ -82,10 +83,18 @@ export default function DataNewEditForm({ currentData }) {
   const dispatch = useDispatch();
   const onSubmit = async (data) => {
     try {
-      dispatch(insertData(data));
+      if (!isEdit) {
+        dispatch(insertData(data));
+      } else {
+        dispatch(updateData(data));
+      }
       await new Promise((resolve) => setTimeout(resolve, 3000));
       reset();
-      enqueueSnackbar("성공적으로 업로드하였습니다");
+      if (!isEdit) {
+        enqueueSnackbar("성공적으로 업로드하였습니다");
+      } else {
+        enqueueSnackbar("성공적으로 변경하였습니다");
+      }
       push(PATH_DASHBOARD.dataLoad.root);
     } catch (error) {
       console.error(error);
@@ -119,6 +128,14 @@ export default function DataNewEditForm({ currentData }) {
 
     setValue("images", filteredItems);
   };
+  useEffect(() => {
+    if (isEdit && currentData) {
+      reset(defaultValues);
+    }
+    if (!isEdit) {
+      reset(defaultValues);
+    }
+  }, [isEdit, currentData]);
 
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
@@ -295,7 +312,7 @@ export default function DataNewEditForm({ currentData }) {
               size="large"
               loading={isSubmitting}
             >
-              저장
+              {!isEdit ? "저장하기" : "변경하기"}
             </LoadingButton>
           </Stack>
         </Grid>

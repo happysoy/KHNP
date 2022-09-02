@@ -75,6 +75,7 @@ export default function LoginForm() {
         size="large"
         type="submit"
         variant="contained"
+        sx={{ mt: 3 }}
         loading={isSubmitting}
       >
         Login

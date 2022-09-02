@@ -1,34 +1,29 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
-import * as Yup from "yup";
-import { useSnackbar } from "notistack";
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import * as Yup from 'yup';
+import { useSnackbar } from 'notistack';
 // @mui
-import { styled } from "@mui/material/styles";
-import { LoadingButton } from "@mui/lab";
-import { Grid, Stack, Card, Typography, MenuItem } from "@mui/material";
+import { styled } from '@mui/material/styles';
+import { LoadingButton } from '@mui/lab';
+import { Grid, Stack, Card, Typography, MenuItem } from '@mui/material';
 // redux
-import { useDispatch, useSelector } from "../../../redux/store";
+import { useDispatch, useSelector } from '../../../redux/store';
 // form
-import { yupResolver } from "@hookform/resolvers/yup";
-import { useForm, Controller } from "react-hook-form";
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useForm, Controller } from 'react-hook-form';
 // routes
-import { PATH_DASHBOARD } from "../../../routes/paths";
+import { PATH_DASHBOARD } from '../../../routes/paths';
 // components
-import {
-  FormProvider,
-  RHFSelect,
-  RHFTextField,
-  RHFUploadMultiFile,
-} from "../../../components/hook-form";
-import DataEditStatusDate from "./DataEditStatusDate";
-import { useRouter } from "next/router";
+import { FormProvider, RHFSelect, RHFTextField, RHFUploadMultiFile } from '../../../components/hook-form';
+import DataEditStatusDate from './DataEditStatusDate';
+import { useRouter } from 'next/router';
 // redux
-import { insertData, updateData } from "../../../redux/slices/data";
+import { insertData, updateData } from '../../../redux/slices/data';
 
-const UNIT_OPTIONS = ["1", "2", "3", "4", "5", "6", "7", "8"];
-const EQUIPMENT_OPTIONS = ["SG", "Condensor", "Heater"];
-const SPEED_OPTIONS = ["1.0 m/s", "1.5 m/s", "2.0 m/s"];
-const DETECTOR_OPTIONS = ["MIZ200", "MS5800", "MIZ80"];
-const PROBE_OPTIONS = ["Bobbin", "ARRAY"];
+const UNIT_OPTIONS = ['1', '2', '3', '4', '5', '6', '7', '8'];
+const EQUIPMENT_OPTIONS = ['SG', 'Condensor', 'Heater'];
+const SPEED_OPTIONS = ['1.0 m/s', '1.5 m/s', '2.0 m/s'];
+const DETECTOR_OPTIONS = ['MIZ200', 'MS5800', 'MIZ80'];
+const PROBE_OPTIONS = ['Bobbin', 'ARRAY'];
 
 const LabelStyle = styled(Typography)(({ theme }) => ({
   ...theme.typography.subtitle2,
@@ -41,22 +36,21 @@ export default function DataNewEditForm({ isEdit, currentData }) {
   const { enqueueSnackbar } = useSnackbar();
 
   const NewDataSchema = Yup.object().shape({
-    fileName: Yup.string().required("필수 입력 항목입니다"),
-    company: Yup.string().required("필수 입력 항목입니다"),
-    site: Yup.string().required("필수 입력 항목입니다"),
-    tubeSetting: Yup.string().required("필수 입력 항목입니다"),
-    unitNo: Yup.number().required("필수 입력 항목입니다"),
+    fileName: Yup.string().required('필수 입력 항목입니다'),
+    company: Yup.string().required('필수 입력 항목입니다'),
+    site: Yup.string().required('필수 입력 항목입니다'),
+    tubeSetting: Yup.string().required('필수 입력 항목입니다'),
+    unitNo: Yup.number().required('필수 입력 항목입니다'),
   });
   const defaultValues = useMemo(
     () => ({
-      id: currentData?.id || "",
-      fileName: currentData?.fileName || "",
-      company: currentData?.company || "",
-      site: currentData?.site || "",
-      tubeSetting: currentData?.tubeSetting || "",
+      id: currentData?.id || '',
+      fileName: currentData?.fileName || '',
+      company: currentData?.company || '',
+      site: currentData?.site || '',
+      tubeSetting: currentData?.tubeSetting || '',
       createDate: currentData?.createDate || new Date(),
       dueDate: currentData?.dueDate || new Date(),
-      company: currentData?.company || "",
       unitNo: currentData?.unitNo || [UNIT_OPTIONS[0]],
       equipment: currentData?.equipment || [EQUIPMENT_OPTIONS[0]],
       speed: currentData?.speed || [SPEED_OPTIONS[0]],
@@ -91,9 +85,9 @@ export default function DataNewEditForm({ isEdit, currentData }) {
       await new Promise((resolve) => setTimeout(resolve, 3000));
       reset();
       if (!isEdit) {
-        enqueueSnackbar("성공적으로 업로드하였습니다");
+        enqueueSnackbar('성공적으로 업로드하였습니다');
       } else {
-        enqueueSnackbar("성공적으로 변경하였습니다");
+        enqueueSnackbar('성공적으로 변경하였습니다');
       }
       push(PATH_DASHBOARD.dataLoad.root);
     } catch (error) {
@@ -106,7 +100,7 @@ export default function DataNewEditForm({ isEdit, currentData }) {
     (acceptedFiles) => {
       const images = values.images || [];
 
-      setValue("images", [
+      setValue('images', [
         ...images,
         ...acceptedFiles.map((file) =>
           Object.assign(file, {
@@ -119,14 +113,13 @@ export default function DataNewEditForm({ isEdit, currentData }) {
   );
 
   const handleRemoveAll = () => {
-    setValue("images", []);
+    setValue('images', []);
   };
 
   const handleRemove = (file) => {
-    const filteredItems =
-      values.images && values.images?.filter((_file) => _file !== file);
+    const filteredItems = values.images && values.images?.filter((_file) => _file !== file);
 
-    setValue("images", filteredItems);
+    setValue('images', filteredItems);
   };
   useEffect(() => {
     if (isEdit && currentData) {
@@ -160,7 +153,7 @@ export default function DataNewEditForm({ isEdit, currentData }) {
                   onDrop={handleDrop}
                   onRemove={handleRemove}
                   onRemoveAll={handleRemoveAll}
-                  onUpload={() => console.log("업로드 성공")}
+                  onUpload={() => console.log('업로드 성공')}
                 />
               </div>
             </Stack>
@@ -177,7 +170,7 @@ export default function DataNewEditForm({ isEdit, currentData }) {
                   InputLabelProps={{ shrink: true }}
                   SelectProps={{
                     native: false,
-                    sx: { textTransform: "capitalize" },
+                    sx: { textTransform: 'capitalize' },
                   }}
                 >
                   {UNIT_OPTIONS.map((option) => (
@@ -188,8 +181,8 @@ export default function DataNewEditForm({ isEdit, currentData }) {
                         mx: 1,
                         my: 0.5,
                         borderRadius: 0.75,
-                        typography: "body2",
-                        textTransform: "capitalize",
+                        typography: 'body2',
+                        textTransform: 'capitalize',
                       }}
                     >
                       {option}
@@ -204,7 +197,7 @@ export default function DataNewEditForm({ isEdit, currentData }) {
                   InputLabelProps={{ shrink: true }}
                   SelectProps={{
                     native: false,
-                    sx: { textTransform: "capitalize" },
+                    sx: { textTransform: 'capitalize' },
                   }}
                 >
                   {EQUIPMENT_OPTIONS.map((option) => (
@@ -215,8 +208,8 @@ export default function DataNewEditForm({ isEdit, currentData }) {
                         mx: 1,
                         my: 0.5,
                         borderRadius: 0.75,
-                        typography: "body2",
-                        textTransform: "capitalize",
+                        typography: 'body2',
+                        textTransform: 'capitalize',
                       }}
                     >
                       {option}
@@ -231,7 +224,7 @@ export default function DataNewEditForm({ isEdit, currentData }) {
                   InputLabelProps={{ shrink: true }}
                   SelectProps={{
                     native: false,
-                    sx: { textTransform: "capitalize" },
+                    sx: { textTransform: 'capitalize' },
                   }}
                 >
                   {SPEED_OPTIONS.map((option) => (
@@ -242,8 +235,8 @@ export default function DataNewEditForm({ isEdit, currentData }) {
                         mx: 1,
                         my: 0.5,
                         borderRadius: 0.75,
-                        typography: "body2",
-                        textTransform: "capitalize",
+                        typography: 'body2',
+                        textTransform: 'capitalize',
                       }}
                     >
                       {option}
@@ -258,7 +251,7 @@ export default function DataNewEditForm({ isEdit, currentData }) {
                   InputLabelProps={{ shrink: true }}
                   SelectProps={{
                     native: false,
-                    sx: { textTransform: "capitalize" },
+                    sx: { textTransform: 'capitalize' },
                   }}
                 >
                   {DETECTOR_OPTIONS.map((option) => (
@@ -269,8 +262,8 @@ export default function DataNewEditForm({ isEdit, currentData }) {
                         mx: 1,
                         my: 0.5,
                         borderRadius: 0.75,
-                        typography: "body2",
-                        textTransform: "capitalize",
+                        typography: 'body2',
+                        textTransform: 'capitalize',
                       }}
                     >
                       {option}
@@ -285,7 +278,7 @@ export default function DataNewEditForm({ isEdit, currentData }) {
                   InputLabelProps={{ shrink: true }}
                   SelectProps={{
                     native: false,
-                    sx: { textTransform: "capitalize" },
+                    sx: { textTransform: 'capitalize' },
                   }}
                 >
                   {PROBE_OPTIONS.map((option) => (
@@ -296,8 +289,8 @@ export default function DataNewEditForm({ isEdit, currentData }) {
                         mx: 1,
                         my: 0.5,
                         borderRadius: 0.75,
-                        typography: "body2",
-                        textTransform: "capitalize",
+                        typography: 'body2',
+                        textTransform: 'capitalize',
                       }}
                     >
                       {option}
@@ -306,13 +299,8 @@ export default function DataNewEditForm({ isEdit, currentData }) {
                 </RHFSelect>
               </Stack>
             </Card>
-            <LoadingButton
-              type="submit"
-              variant="contained"
-              size="large"
-              loading={isSubmitting}
-            >
-              {!isEdit ? "저장하기" : "변경하기"}
+            <LoadingButton type="submit" variant="contained" size="large" loading={isSubmitting}>
+              {!isEdit ? '저장하기' : '변경하기'}
             </LoadingButton>
           </Stack>
         </Grid>

@@ -1,25 +1,20 @@
-import PropTypes from "prop-types";
-import { createContext, useCallback, useEffect, useReducer } from "react";
-import {
-  CognitoUser,
-  CognitoUserPool,
-  AuthenticationDetails,
-} from "amazon-cognito-identity-js";
+import PropTypes from 'prop-types';
+import { createContext, useCallback, useEffect, useReducer } from 'react';
+import { CognitoUser, CognitoUserPool, AuthenticationDetails } from 'amazon-cognito-identity-js';
 // utils
-import axios from "../utils/axios";
+import axios from '../utils/axios';
 // routes
-import { PATH_AUTH } from "../routes/paths";
+import { PATH_AUTH } from '../routes/paths';
 //
-import { COGNITO_API } from "../config";
+import { COGNITO_API } from '../config';
 
 // ----------------------------------------------------------------------
-
-// CAUTION: User Cognito is slily difference from firebase, so be sure to read the doc carefully.
 
 export const UserPool = new CognitoUserPool({
   UserPoolId: COGNITO_API.userPoolId,
   ClientId: COGNITO_API.clientId,
 });
+
 const initialState = {
   isAuthenticated: false,
   isInitialized: false,
@@ -44,12 +39,11 @@ const handlers = {
   }),
 };
 
-const reducer = (state, action) =>
-  handlers[action.type] ? handlers[action.type](state, action) : state;
+const reducer = (state, action) => (handlers[action.type] ? handlers[action.type](state, action) : state);
 
 const AuthContext = createContext({
   ...initialState,
-  method: "cognito",
+  method: 'cognito',
   login: () => Promise.resolve(),
   register: () => Promise.resolve(),
   logout: () => Promise.resolve(),
@@ -96,7 +90,7 @@ function AuthProvider({ children }) {
               // use the token or Bearer depend on the wait BE handle, by default amplify API only need to token.
               axios.defaults.headers.common.Authorization = token;
               dispatch({
-                type: "AUTHENTICATE",
+                type: 'AUTHENTICATE',
                 payload: { isAuthenticated: true, user: attributes },
               });
               resolve({
@@ -108,7 +102,7 @@ function AuthProvider({ children }) {
           });
         } else {
           dispatch({
-            type: "AUTHENTICATE",
+            type: 'AUTHENTICATE',
             payload: {
               isAuthenticated: false,
               user: null,
@@ -124,7 +118,7 @@ function AuthProvider({ children }) {
       await getSession();
     } catch {
       dispatch({
-        type: "AUTHENTICATE",
+        type: 'AUTHENTICATE',
         payload: {
           isAuthenticated: false,
           user: null,
@@ -137,9 +131,6 @@ function AuthProvider({ children }) {
     initial();
   }, [initial]);
 
-  // We make sure to handle the user update here, but return the resolve value in order for our components to be
-  // able to chain additional `.then()` logic. Additionally, we `.catch` the error and "enhance it" by providing
-  // a message that our React components can use.
   const login = useCallback(
     (email, password) =>
       new Promise((resolve, reject) => {
@@ -163,19 +154,18 @@ function AuthProvider({ children }) {
           },
           newPasswordRequired: () => {
             // Handle this on login page for update password.
-            resolve({ message: "newPasswordRequired" });
+            resolve({ message: 'newPasswordRequired' });
           },
         });
       }),
     [getSession]
   );
 
-  // same thing here
   const logout = () => {
     const user = UserPool.getCurrentUser();
     if (user) {
       user.signOut();
-      dispatch({ type: "LOGOUT" });
+      dispatch({ type: 'LOGOUT' });
     }
   };
 
@@ -185,8 +175,8 @@ function AuthProvider({ children }) {
         email,
         password,
         [
-          { Name: "email", Value: email },
-          { Name: "name", Value: `${firstName} ${lastName}` },
+          { Name: 'email', Value: email },
+          { Name: 'name', Value: `${firstName} ${lastName}` },
         ],
         null,
         async (err) => {
@@ -204,10 +194,10 @@ function AuthProvider({ children }) {
     <AuthContext.Provider
       value={{
         ...state,
-        method: "cognito",
+        method: 'cognito',
         user: {
-          displayName: state?.user?.name || "Admin",
-          role: "admin",
+          displayName: state?.user?.name || 'Admin',
+          role: 'admin',
           ...state.user,
         },
         login,

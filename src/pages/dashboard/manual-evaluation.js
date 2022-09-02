@@ -6,7 +6,6 @@ import Layout from "../../layouts";
 import Page from "../../components/Page";
 import useAuth from "../../hooks/useAuth";
 import Title from "../../components/Title";
-import Lissajous from "../../sections/dashboard/manual-evaluation/lissajous";
 import PlotlyComponent from "../../sections/dashboard/manual-evaluation/PlotlyComponent";
 
 ManualEvaluation.getLayout = function getLayout(page) {

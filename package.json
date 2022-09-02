@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "next dev"
   },
   "dependencies": {
     "@auth0/auth0-spa-js": "^1.22.3",

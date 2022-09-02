@@ -25,6 +25,7 @@ export default function DataLoadEdit() {
   const { id } = query;
   const { datas } = useSelector((state) => state.data);
   const currentData = datas.find((data) => data.id === parseInt(id));
+
   useEffect(() => {
     dispatch(getDatas());
   }, [dispatch]);
@@ -32,7 +33,7 @@ export default function DataLoadEdit() {
   return (
     <Page title="Edit">
       <Container>
-        <Title heading="DATA Edit" des="데이터를 수정하세요" />
+        <Title heading="DATA Edit" desc="데이터를 수정하세요" />
         <DataNewEditForm isEdit currentData={currentData} />
       </Container>
     </Page>

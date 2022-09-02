@@ -720,7 +720,7 @@ function AuthProvider({ children  }) {
 
 // ----------------------------------------------------------------------
 const axiosInstance = axios__WEBPACK_IMPORTED_MODULE_0___default().create({
-    baseURL: "http://localhost:3000" || 0
+    baseURL: "http://localhost:8000" || 0
 });
 axiosInstance.interceptors.response.use((response)=>response, (error)=>Promise.reject(error.response && error.response.data || "Axios Error"));
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (axiosInstance);

@@ -3,16 +3,16 @@ import { useRouter } from "next/router";
 // @ mui
 import { Container } from "@mui/material";
 // components
-import Title from "src/components/Title";
+import Title from "../../../../../components/Title";
 // sections
-import DataNewEditForm from "src/sections/dashboard/data-load/DataNewEditForm";
+import DataNewEditForm from "../../../../../sections/dashboard/data-load/DataNewEditForm";
 // redux
-import { useDispatch, useSelector } from "src/redux/store";
+import { useDispatch, useSelector } from "../../../../../redux/store";
 //
-import Page from "src/components/Page";
-import Layout from "src/layouts";
+import Page from "../../../../../components/Page";
+import Layout from "../../../../../layouts";
 // redux
-import { getDatas } from "src/redux/slices/data";
+import { getDatas } from "../../../../../redux/slices/data";
 import { useEffect } from "react";
 
 DataLoadEdit.getLayout = function getLayout(page) {

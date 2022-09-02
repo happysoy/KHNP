@@ -1,13 +1,13 @@
 // @mui
 import { styled } from "@mui/material/styles";
 import { Card, Container, Stack, Box, Typography } from "@mui/material";
-import Page from "src/components/Page";
+import Page from "../../components/Page";
 // components
-import Logo from "src/components/Logo";
+import Logo from "../../components/Logo";
 // guards
-import GuestGuard from "src/guards/GuestGuard";
+import GuestGuard from "../../guards/GuestGuard";
 // sections
-import LoginForm from "src/sections/auth/login/LoginForm";
+import LoginForm from "../../sections/auth/login/LoginForm";
 
 const RootStyle = styled("div")(({ theme }) => ({
   [theme.breakpoints.up("md")]: {

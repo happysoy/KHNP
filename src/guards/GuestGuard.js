@@ -1,10 +1,10 @@
 // next
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import useAuth from "src/hooks/useAuth";
+import useAuth from "../hooks/useAuth";
 
 // routes
-import { PATH_DASHBOARD } from "src/routes/paths";
+import { PATH_DASHBOARD } from "../routes/paths";
 // components
 // import LoadingScreen from ""
 

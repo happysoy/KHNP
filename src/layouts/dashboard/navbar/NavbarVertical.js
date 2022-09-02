@@ -5,15 +5,15 @@ import { useRouter } from "next/router";
 import { styled, useTheme } from "@mui/material/styles";
 import { Box, Stack, Drawer } from "@mui/material";
 // hooks
-import useResponsive from "src/hooks/useResponsive";
-import useCollapseDrawer from "src/hooks/useCollapseDrawer";
+import useResponsive from "../../../hooks/useResponsive";
+import useCollapseDrawer from "../../../hooks/useCollapseDrawer";
 // utils
-import cssStyles from "src/utils/cssStyles";
+import cssStyles from "../../../utils/cssStyles";
 // config
-import { NAVBAR } from "src/config";
+import { NAVBAR } from "../../../config";
 // components
-import Logo from "src/components/Logo";
-import { NavSectionVertical } from "src/components/nav-section";
+import Logo from "../../../components/Logo";
+import { NavSectionVertical } from "../../../components/nav-section";
 //
 import navConfig from "./NavConfig";
 import CollapseButton from "./CollapseButton";

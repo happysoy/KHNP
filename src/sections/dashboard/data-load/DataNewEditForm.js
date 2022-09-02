@@ -6,23 +6,23 @@ import { styled } from "@mui/material/styles";
 import { LoadingButton } from "@mui/lab";
 import { Grid, Stack, Card, Typography, MenuItem } from "@mui/material";
 // redux
-import { useDispatch, useSelector } from "src/redux/store";
+import { useDispatch, useSelector } from "../../../redux/store";
 // form
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, Controller } from "react-hook-form";
 // routes
-import { PATH_DASHBOARD } from "src/routes/paths";
+import { PATH_DASHBOARD } from "../../../routes/paths";
 // components
 import {
   FormProvider,
   RHFSelect,
   RHFTextField,
   RHFUploadMultiFile,
-} from "src/components/hook-form";
+} from "../../../components/hook-form";
 import DataEditStatusDate from "./DataEditStatusDate";
 import { useRouter } from "next/router";
 // redux
-import { insertData, updateData } from "src/redux/slices/data";
+import { insertData, updateData } from "../../../redux/slices/data";
 
 const UNIT_OPTIONS = ["1", "2", "3", "4", "5", "6", "7", "8"];
 const EQUIPMENT_OPTIONS = ["SG", "Condensor", "Heater"];

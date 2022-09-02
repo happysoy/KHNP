@@ -1,11 +1,11 @@
 // @mui
 import { Container } from "@mui/material";
 // layouts
-import Layout from "src/layouts";
+import Layout from "../../layouts";
 // components
-import Title from "src/components/Title";
-import Page from "src/components/Page";
-import useAuth from "src/hooks/useAuth";
+import Title from "../../components/Title";
+import Page from "../../components/Page";
+import useAuth from "../../hooks/useAuth";
 
 AutoEvaluation.getLayout = function getLayout(page) {
   return <Layout>{page}</Layout>;

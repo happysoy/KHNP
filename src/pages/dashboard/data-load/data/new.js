@@ -1,13 +1,13 @@
 // @ mui
 import { Container } from "@mui/material";
 // components
-import Title from "src/components/Title";
+import Title from "../../../../components/Title";
 // sections
-import DataNewEditForm from "src/sections/dashboard/data-load/DataNewEditForm";
+import DataNewEditForm from "../../../../sections/dashboard/data-load/DataNewEditForm";
 
 //
-import Page from "src/components/Page";
-import Layout from "src/layouts";
+import Page from "../../../../components/Page";
+import Layout from "../../../../layouts";
 
 DataLoadNew.getLayout = function getLayout(page) {
   return <Layout>{page}</Layout>;

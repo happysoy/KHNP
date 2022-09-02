@@ -2,16 +2,16 @@
 import { styled } from "@mui/material/styles";
 import { Stack, Toolbar, Box, AppBar } from "@mui/material";
 // hooks
-import useOffSetTop from "src/hooks/useOffSetTop";
-import useResponsive from "src/hooks/useResponsive";
+import useOffSetTop from "../../../hooks/useOffSetTop";
+import useResponsive from "../../../hooks/useResponsive";
 // components
 // import Iconify from "src/components/Iconify";
-import Logo from "src/components/Logo";
-import { AnimateIconButton } from "src/components/animate";
+import Logo from "../../../components/Logo";
+import { AnimateIconButton } from "../../../components/animate";
 // config
 import { HEADER, NAVBAR } from "../../../config";
 // utils
-import cssStyles from "src/utils/cssStyles";
+import cssStyles from "../../../utils/cssStyles";
 //
 import Account from "./Account";
 import NotificationsPopover from "./NotificationsPopover";

@@ -1,0 +1,1 @@
+self.__REACT_LOADABLE_MANIFEST={"..\\components\\animate\\MotionLazyContainer.js -> ./features.js":{id:82754,files:["static/chunks/263.be745bfa8202316f.js","static/chunks/754.464d86d1244a0a8c.js"]},"..\\components\\chart\\index.js -> react-apexcharts":{id:47229,files:["static/chunks/6c44d60f.540d681bd1d986c5.js","static/chunks/229.e7e80998bcebb1df.js"]}};

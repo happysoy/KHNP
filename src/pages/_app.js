@@ -22,7 +22,6 @@ import { Provider as ReduxProvider } from 'react-redux';
 import { store } from '../redux/store';
 // components
 import MotionLazyContainer from '../components/animate/MotionLazyContainer';
-import { ChartStyle } from '../components/chart';
 
 export default function MyApp(props) {
   const { Component, pageProps } = props;
@@ -39,10 +38,7 @@ export default function MyApp(props) {
             <CollapseDrawerProvider>
               <MotionLazyContainer>
                 <ThemeProvider>
-                  <NotistackProvider>
-                    <ChartStyle />
-                    {getLayout(<Component {...pageProps} />)}
-                  </NotistackProvider>
+                  <NotistackProvider>{getLayout(<Component {...pageProps} />)}</NotistackProvider>
                 </ThemeProvider>
               </MotionLazyContainer>
             </CollapseDrawerProvider>

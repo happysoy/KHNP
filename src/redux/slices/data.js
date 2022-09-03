@@ -1,7 +1,7 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
-import axios from "../../utils/axios";
-import { dispatch } from "../store";
+import axios from '../../utils/axios';
+import { dispatch } from '../store';
 
 const initialState = {
   isLoading: false,
@@ -11,7 +11,7 @@ const initialState = {
 };
 
 const slice = createSlice({
-  name: "data",
+  name: 'data',
   initialState,
   reducers: {
     startLoading(state) {
@@ -47,7 +47,7 @@ export function getDatas() {
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
-      const response = await axios.get("/api/data-load/getDatas");
+      const response = await axios.get('/api/data-load/getDatas');
       dispatch(slice.actions.getDatasSuccess(response.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
@@ -59,7 +59,7 @@ export function updateData(newData) {
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
-      const response = await axios.post("/api/data-load/updateData", newData);
+      const response = await axios.post('/api/data-load/updateData', newData);
       dispatch(slice.actions.updateDataSuccess(response.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
@@ -71,7 +71,8 @@ export function insertData(newData) {
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
-      const response = await axios.post("/api/data-load/insertData", newData);
+      const response = await axios.post('/api/data-load/insertData', newData);
+      console.log(response);
       dispatch(slice.actions.insertDataSuccess(response.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
@@ -83,7 +84,7 @@ export function deleteData(row) {
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
-      const response = await axios.post("/api/data-load/deleteData", row);
+      const response = await axios.post('/api/data-load/deleteData', row);
       dispatch(slice.actions.deleteDataSuccess(response.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error));

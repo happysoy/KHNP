@@ -213,13 +213,13 @@ export default function PlotlyComponent() {
 
   //
 
-  useEffect(() => {
-    Plotly.newPlot('lissajous_chart', data, layout);
-  }, []);
+  // useEffect(() => {
+  //   Plotly.newPlot('lissajous_chart', data, layout);
+  // }, []);
 
   return (
     <div>
-      <div id="lissajous_chart"> </div>
+      {/* <div id="lissajous_chart"> </div> */}
       <div id="graph"> </div>
     </div>
   );

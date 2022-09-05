@@ -3,6 +3,7 @@ import executeQuery from '../../../common/config/db/db';
 export default async (req, res) => {
   try {
     const {
+      files,
       unitNo,
       company,
       fileName,
@@ -14,7 +15,6 @@ export default async (req, res) => {
       speed,
       detector,
       probe,
-      images,
     } = req.body;
     const directory = 'src/pages';
     const fileSize = '2M';
@@ -22,11 +22,11 @@ export default async (req, res) => {
     const dueDateSplit = dueDate.split('T');
 
     const testPeriod = `${createDateSplit[0]}/${dueDateSplit[0]}`;
-    console.log(images);
+    const fileURL = `https://khnp-deep-ai.s3.ap-northeast-2.amazonaws.com/${files}`;
     // const images = 'https://cdnweb01.wikitree.co.kr/webdata/editor/202203/30/img_20220330160332_5b5ab5c0.webp';
 
     const result = await executeQuery({
-      query: `INSERT INTO DATA(fileName, directory, fileSize, company, site, unitNo, equipment, testPeriod, tubeSetting, speed, detector, probe, images)
+      query: `INSERT INTO DATA(fileName, directory, fileSize, company, site, unitNo, equipment, testPeriod, tubeSetting, speed, detector, probe,fileURL )
       VALUES (?, ?,?,?,?,?,?,?,?,?,?,?,?);`,
       values: [
         fileName,
@@ -41,7 +41,7 @@ export default async (req, res) => {
         speed,
         detector,
         probe,
-        images[0].preview,
+        fileURL,
       ],
     });
     res.status(200).json(result);

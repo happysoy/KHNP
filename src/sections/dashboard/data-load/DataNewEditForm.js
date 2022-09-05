@@ -86,7 +86,6 @@ export default function DataNewEditForm({ isEdit, currentData }) {
 
   const onSubmit = async (data) => {
     try {
-      console.log(data);
       if (!isEdit) {
         dispatch(insertData(data));
       } else {

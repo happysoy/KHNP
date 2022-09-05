@@ -65,18 +65,7 @@ export function RHFUploadDatFile({ name, ...other }) {
     setProgress(0);
     setSelectedFile(file);
   }, [file]);
-  // useEffect(() => {
-  //   console.log('file', file);
-  //   const fileExt = file.name.split('.').pop();
 
-  //   if (fileExt !== 'dat') {
-  //     alert('dat 파일만 업로드 할 수 있습니다');
-  //     return;
-  //   }
-
-  //   setProgress(0);
-  //   setSelectedFile(e.target.files[0]);
-  // }, [file]);
   return (
     <Controller
       name={name}
@@ -91,7 +80,7 @@ export function RHFUploadDatFile({ name, ...other }) {
                 type="file"
                 onChange={(e) => {
                   setFile(e.target.files[0]);
-                  field.onChange(e.target.files[0]);
+                  field.onChange(e.target.files[0].name);
                 }}
               />
 
@@ -110,7 +99,7 @@ export function RHFUploadDatFile({ name, ...other }) {
                 {showAlert ? (
                   <Alert color="primary">업로드 진행률 : {progress}%</Alert>
                 ) : (
-                  <Alert color="error">파일을 선택해 주세요.</Alert>
+                  <Alert color="error">파일 선택 후 업로드 버튼을 눌러주세요</Alert>
                 )}
               </Box>
             </Box>

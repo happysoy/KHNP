@@ -91,7 +91,7 @@ export function RHFUploadMultiFile({ name, ...other }) {
 
         return (
           <UploadMultiFile
-            accept={{ dat: [] }}
+            accept={{ 'image/*': [] }}
             files={field.value}
             error={checkError}
             helperText={

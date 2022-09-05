@@ -60,7 +60,7 @@ export default function UploadMultiFile({
           }),
         }}
       >
-        <input type="file" {...getInputProps()} />
+        <input {...getInputProps()} />
 
         <BlockContent />
       </DropZoneStyle>

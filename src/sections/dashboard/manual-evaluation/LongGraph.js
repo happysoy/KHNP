@@ -5,13 +5,15 @@
 // import dynamic from 'next/dynamic';
 // // const Plotly = require('react-plotly.js').default;
 // // const Plotly = dynamic(() => import('plotly.js-dist-min'), { ssr: false });
-
 import { useEffect, useRef, useState } from 'react';
+import useAxis from 'src/hooks/useAxis';
+import useGraphAction from 'src/hooks/useGraphActions';
 
 export default function LongGraph() {
   const ref = useRef(null);
-  let [start, setStart] = useState(0);
-  let [end, setEnd] = useState(0);
+  // const range = useAxis();
+  // console.log('long', range);
+  const { onChangeRange } = useGraphAction();
 
   useEffect(() => {
     const myDiv = ref.current;
@@ -88,16 +90,9 @@ export default function LongGraph() {
     Plotly.newPlot(myDiv, data, layout, { showSendToCloud: true });
 
     myDiv.on('plotly_relayout', function (eventdata) {
-      setStart(eventdata['xaxis.range[0]']);
-      setEnd(eventdata['xaxis.range[1]']);
+      onChangeRange(eventdata);
     });
   }, []);
-
-  if (start !== 0 && end !== 0) {
-    start = Math.floor(start);
-    end = Math.floor(end);
-    console.log(start, end);
-  }
 
   return (
     <>

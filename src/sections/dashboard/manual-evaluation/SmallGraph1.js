@@ -1,7 +1,10 @@
 import { useEffect, useRef } from 'react';
+import useAxis from 'src/hooks/useAxis';
 
 export default function SmallGraph1() {
   const ref = useRef(null);
+  const range = useAxis();
+  console.log('small', range);
 
   useEffect(() => {
     const myDiv = ref.current;
@@ -116,7 +119,7 @@ export default function SmallGraph1() {
           eventdata['xaxis.range[1]']
       );
     });
-  });
+  }, []);
 
   return (
     <>

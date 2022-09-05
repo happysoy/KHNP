@@ -76,7 +76,6 @@ export default function LongGraph() {
         -220.8929477, -211.4144185, -207.0175612, -207.4261089,
       ],
     };
-
     const data = [trace1];
     const layout = {
       title: 'defect location of CH1X',

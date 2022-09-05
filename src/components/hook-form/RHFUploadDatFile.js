@@ -75,6 +75,13 @@ export function RHFUploadDatFile({ name, ...other }) {
 
         return (
           <Box>
+            <Box>
+              {showAlert ? (
+                <Alert color="primary">업로드 진행률 : {progress}%</Alert>
+              ) : (
+                <Alert color="error">파일 선택 후 업로드 버튼을 눌러주세요</Alert>
+              )}
+            </Box>
             <Box sx={{ mt: 2 }}>
               <input
                 type="file"
@@ -83,7 +90,6 @@ export function RHFUploadDatFile({ name, ...other }) {
                   field.onChange(e.target.files[0].name);
                 }}
               />
-
               {selectedFile ? (
                 <Button
                   sx={{ ml: 15 }}
@@ -95,13 +101,6 @@ export function RHFUploadDatFile({ name, ...other }) {
                   업로드하기
                 </Button>
               ) : null}
-              <Box sx={{ mt: 1 }}>
-                {showAlert ? (
-                  <Alert color="primary">업로드 진행률 : {progress}%</Alert>
-                ) : (
-                  <Alert color="error">파일 선택 후 업로드 버튼을 눌러주세요</Alert>
-                )}
-              </Box>
             </Box>
           </Box>
         );

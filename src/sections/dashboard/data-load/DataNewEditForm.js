@@ -152,17 +152,15 @@ export default function DataNewEditForm({ isEdit, currentData }) {
                 <RHFTextField name="site" label="Site" />
                 <RHFTextField name="tubeSetting" label="Tube setting" />
               </Stack>
-
               <LabelStyle>Dat File</LabelStyle>
-              {/* <RHFUploadMultiFile name="files"> */}
               <RHFUploadDatFile
                 name="files"
-                showPreview
-                maxSize={3145728}
-                onDrop={handleDrop}
-                onRemove={handleRemove}
-                onRemoveAll={handleRemoveAll}
-                onUpload={(e) => console.log(e.target)}
+                // showPreview
+                // maxSize={3145728}
+                // onDrop={handleDrop}
+                // onRemove={handleRemove}
+                // onRemoveAll={handleRemoveAll}
+                // onUpload={(e) => console.log(e.target)}
               />
             </Stack>
           </Card>

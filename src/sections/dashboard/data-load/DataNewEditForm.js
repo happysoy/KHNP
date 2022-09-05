@@ -4,7 +4,7 @@ import { useSnackbar } from 'notistack';
 // @mui
 import { styled } from '@mui/material/styles';
 import { LoadingButton } from '@mui/lab';
-import { Grid, Stack, Card, Typography, MenuItem } from '@mui/material';
+import { Grid, Stack, Card, Typography, MenuItem, Button, Alert, Box } from '@mui/material';
 // redux
 import { useDispatch, useSelector } from '../../../redux/store';
 // form
@@ -18,6 +18,8 @@ import DataEditStatusDate from './DataEditStatusDate';
 import { useRouter } from 'next/router';
 // redux
 import { insertData, updateData } from '../../../redux/slices/data';
+// aws
+import AWS from 'aws-sdk';
 
 const UNIT_OPTIONS = ['1', '2', '3', '4', '5', '6', '7', '8'];
 const EQUIPMENT_OPTIONS = ['SG', 'Condensor', 'Heater'];
@@ -56,7 +58,8 @@ export default function DataNewEditForm({ isEdit, currentData }) {
       speed: currentData?.speed || [SPEED_OPTIONS[0]],
       detector: currentData?.detector || [DETECTOR_OPTIONS[0]],
       probe: currentData?.probe || [PROBE_OPTIONS[0]],
-      images: [],
+      // images: currentData?.images[0].preview || [],
+      files: currentData?.files || [],
     }),
     [currentData]
   );
@@ -74,7 +77,9 @@ export default function DataNewEditForm({ isEdit, currentData }) {
     getValues,
     formState: { isSubmitting },
   } = methods;
+
   const dispatch = useDispatch();
+
   const onSubmit = async (data) => {
     try {
       if (!isEdit) {
@@ -130,6 +135,58 @@ export default function DataNewEditForm({ isEdit, currentData }) {
     }
   }, [isEdit, currentData]);
 
+  const [progress, setProgress] = useState(0);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [showAlert, setShowAlert] = useState(false);
+
+  const ACCESS_KEY = 'AKIAS55UZLJMB4CQCJGG';
+  const SECRET_ACCESS_KEY = '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';
+  const REGION = 'ap-northeast-2';
+  const S3_BUCKET = 'khnp-deep-ai';
+
+  AWS.config.update({
+    accessKeyId: ACCESS_KEY,
+    secretAccessKey: SECRET_ACCESS_KEY,
+  });
+
+  const myBucket = new AWS.S3({
+    params: { Bucket: S3_BUCKET },
+    region: REGION,
+  });
+
+  const handleFileInput = (e) => {
+    const file = e.target.files[0];
+    const fileExt = file.name.split('.').pop();
+
+    if (fileExt !== 'dat') {
+      alert('dat 파일만 업로드 할 수 있습니다');
+      return;
+    }
+
+    setProgress(0);
+    setSelectedFile(e.target.files[0]);
+  };
+
+  const uploadFile = (file) => {
+    console.log(file.name);
+    const params = {
+      ACL: 'public-read',
+      Body: file,
+      Bucket: S3_BUCKET,
+      Key: file.name,
+    };
+
+    myBucket
+      .putObject(params)
+      .on('httpUploadProgress', (evt) => {
+        setProgress(Math.round((evt.loaded / evt.total) * 100));
+        setShowAlert(true);
+      })
+      .send((err) => {
+        if (err) console.log(err);
+      });
+  };
+
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Grid container spacing={3}>
@@ -143,19 +200,43 @@ export default function DataNewEditForm({ isEdit, currentData }) {
                 <RHFTextField name="site" label="Site" />
                 <RHFTextField name="tubeSetting" label="Tube setting" />
               </Stack>
+              <LabelStyle>Dat File</LabelStyle>
+              <RHFUploadMultiFile name="files">
+                <Box>
+                  <Box sx={{ mt: 2 }}>
+                    <input type="file" onChange={handleFileInput} />
+                    {selectedFile ? (
+                      <Button
+                        sx={{ ml: 15 }}
+                        variant="outlined"
+                        size="small"
+                        color="primary"
+                        onClick={() => uploadFile(selectedFile)}
+                      >
+                        업로드하기
+                      </Button>
+                    ) : null}
+                    <Box sx={{ mt: 1 }}>
+                      {showAlert ? (
+                        <Alert color="primary">업로드 진행률 : {progress}%</Alert>
+                      ) : (
+                        <Alert color="error">파일을 선택해 주세요.</Alert>
+                      )}
+                    </Box>
+                  </Box>
+                </Box>
+              </RHFUploadMultiFile>
 
-              <div>
-                <LabelStyle>Images</LabelStyle>
-                <RHFUploadMultiFile
+              {/* <AWSUploadFile/> */}
+              {/* <RHFUploadMultiFile
                   showPreview
                   name="images"
                   maxSize={3145728}
                   onDrop={handleDrop}
                   onRemove={handleRemove}
                   onRemoveAll={handleRemoveAll}
-                  onUpload={() => console.log('업로드 성공')}
-                />
-              </div>
+                  onUpload={(e) => console.log(e.target.files[0])}
+                /> */}
             </Stack>
           </Card>
         </Grid>

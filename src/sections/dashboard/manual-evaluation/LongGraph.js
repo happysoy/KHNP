@@ -6,129 +6,49 @@
 // // const Plotly = require('react-plotly.js').default;
 // // const Plotly = dynamic(() => import('plotly.js-dist-min'), { ssr: false });
 
-import { useEffect } from 'react';
-
-// export default function LongGraph() {
-//   const ref = useRef(null);
-
-//   var rawDataURL = 'https://raw.githubusercontent.com/plotly/datasets/master/2016-weather-data-seattle.csv';
-//   var xField = 'Date';
-//   var yField = 'Mean_TemperatureC';
-
-//   var selectorOptions = {
-//     buttons: [
-
-//         step: 'month',
-//         stepmode: 'backward',
-//         count: 1,
-//         label: '1m',
-//       },
-//       {
-//         step: 'month',
-//         stepmode: 'backward',
-//         count: 6,
-//         label: '6m',
-//       },
-//       {
-//         step: 'year',
-//         stepmode: 'todate',
-//         count: 1,
-//         label: 'YTD',
-//       },
-//       {
-//         step: 'year',
-//         stepmode: 'backward',
-//         count: 1,
-//         label: '1y',
-//       },
-//       {
-//         step: 'all',
-//       },
-//     ],
-//   };
-
-//   useEffect(() => {
-//     Plotly.d3.csv(rawDataURL, function (err, rawData) {
-//       if (err) throw err;
-
-//       var data = prepData(rawData);
-//       var layout = {
-//         width: 1200,
-//         height: 500,
-//         title: 'Time series with range slider and selectors',
-//         xaxis: {
-//           rangeselector: selectorOptions,
-//           rangeslider: {},
-//         },
-//         yaxis: {
-//           fixedrange: true,
-//         },
-//         hovermode: 'closest',
-//       };
-
-//       Plotly.newPlot('graph', data, layout, { showSendToCloud: true });
-
-//       Plotly.relayout('graph', 'xaxis.range[0]');
-//     });
-//   });
-
-//   // useEffect(() => {
-//   //   const el2 = ref.current;
-//   //   console.log(el2);
-//   //   el2.on((event) => console.log(event));
-//   //   // el2.on('plotly_click', function (data) {
-//   //   //   console.log(data);
-//   //   // });
-//   //   // // const el = document.querySelector('#graph');
-//   //   // // console.log(el);
-//   //   // Plotly.relayout(el2, {
-
-//   //   // }
-//   //   // );
-//   //   // el2.on('plotly_relayout', function (eventdata) {
-//   //   //   console.log(eventdata);
-//   //   // });
-//   // }, []);
-
-//   function prepData(rawData) {
-//     var x = [];
-//     var y = [];
-
-//     rawData.forEach(function (datum, i) {
-//       if (i % 100) return;
-
-//       x.push(new Date(datum[xField]));
-//       y.push(datum[yField]);
-//     });
-
-//     return [
-//       {
-//         mode: 'lines',
-//         x: x,
-//         y: y,
-//       },
-//     ];
-//   }
-
-//   return (
-//     <div>
-//       <div ref={ref} id="graph">
-//         {' '}
-//       </div>
-//     </div>
-//   );
-// }
+import { useEffect, useRef } from 'react';
 
 export default function LongGraph() {
-  useEffect(() => {
-    var myDiv = document.getElementById('myDiv');
+  const ref = useRef(null);
 
-    var d3 = Plotly.d3,
-      N = 40,
-      x = d3.range(N),
-      y = d3.range(N).map(d3.random.normal()),
-      data = [{ x: x, y: y }];
-    var layout = { title: 'Click-drag to zoom' };
+  useEffect(() => {
+    const myDiv = ref.current;
+
+    const trace1 = {
+      // x: [
+      //   15778, 15779, 15780, 15781, 15782, 15783, 15784, 15785, 15786, 15787, 15788, 15789, 15790, 15791, 15792, 15793,
+      //   15794, 15795, 15796, 15797, 15798, 15799, 15800, 15801, 15802, 15803, 15804, 15805, 15806, 15807, 15808, 15809,
+      //   15810, 15811, 15812, 15813, 15814, 15815, 15816, 15817, 15818, 15819, 15820, 15821, 15822, 15823, 15824, 15825,
+      //   15826, 15827, 15828, 15829, 15830, 15831,
+      // ],
+      CH1X: [
+        -407.6540476, -400.9264804, -389.1172414, -375.1095737, -361.101906, -348.3315859, -340.366671, -338.1682423,
+        -340.0904044, -347.0942382, -356.9813152, -366.8683921, -374.5570404, -382.2456887, -388.0121749, -391.856499,
+        -395.7008231, -399.5451473, -402.704657, -403.9420046, -403.2571902, -397.490704, -388.5647081, -376.7554691,
+        -362.062987, -348.3315859, -334.3239182, -323.4757602, -317.709274, -313.8649499, -312.9038688, -315.7871119,
+        -320.5925171, -326.6352699, -334.3239182, -341.327752, -344.4872618, -345.4483428, -339.6818566, -329.7947797,
+        -316.748193, -303.4253397, -292.3009151, -285.9818956, -284.744548, -289.2736865, -300.1218445, -313.4446978,
+        -326.4912845, -338.8530567, -346.8179716, -349.9774813, -351.214829, -345.8568906,
+      ],
+      CH1Y: [
+        105.7363583, 103.8024919, 101.4483734, 99.50280272, 97.55723202, 94.92684691, 93.67779493, 94.08634271,
+        94.63887596, 95.61166131, 97.41324654, 99.21483177, 101.4249648, 103.6350978, 105.2926976, 106.3977641,
+        107.5028306, 108.6078971, 108.4756159, 107.7908015, 106.5534538, 104.8958541, 103.3705355, 101.016417,
+        97.83349864, 94.92684691, 92.98127621, 90.90342435, 89.24582459, 88.14075809, 87.86449146, 88.69329134,
+        90.07462447, 90.7711432, 92.98127621, 93.95406156, 93.8217804, 94.09804703, 92.44044727, 90.63886204,
+        88.96955797, 88.26133492, 87.1445641, 87.40912641, 88.09394081, 90.43635498, 92.51420683, 93.22242988,
+        94.89173395, 95.32369037, 96.57274235, 96.44046119, 95.75564679, 96.29647572,
+      ],
+    };
+
+    const data = [trace1];
+    const layout = {
+      width: 1200,
+      height: 500,
+      yaxis: {
+        fixedrange: true,
+      },
+    };
 
     Plotly.newPlot(myDiv, data, layout, { showSendToCloud: true });
 
@@ -151,7 +71,7 @@ export default function LongGraph() {
 
   return (
     <>
-      <div id="myDiv"></div>
+      <div ref={ref} id="myDiv"></div>
       <script></script>
     </>
   );

@@ -72,7 +72,6 @@ export function insertData(newData) {
     dispatch(slice.actions.startLoading());
     try {
       const response = await axios.post('/api/data-load/insertData', newData);
-      console.log(response);
       dispatch(slice.actions.insertDataSuccess(response.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error));

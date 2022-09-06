@@ -37,6 +37,10 @@ const slice = createSlice({
       state.isLoading = false;
       state.datas = action.payload;
     },
+    postFileSuccess(state, action) {
+      state.isLoading = false;
+      state.datas = action.payload;
+    },
   },
 });
 
@@ -85,6 +89,18 @@ export function deleteData(row) {
     try {
       const response = await axios.post('/api/data-load/deleteData', row);
       dispatch(slice.actions.deleteDataSuccess(response.data));
+    } catch (error) {
+      dispatch(slice.actions.hasError(error));
+    }
+  };
+}
+
+export function postFileURL(data) {
+  return async () => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const response = await axios.post('/api/manual-evaluation/postFileURL', data);
+      dispatch(slice.actions.postFileSuccess(response.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
     }

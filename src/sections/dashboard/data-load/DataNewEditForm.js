@@ -63,7 +63,7 @@ export default function DataNewEditForm({ isEdit, currentData }) {
       detector: currentData?.detector || [DETECTOR_OPTIONS[0]],
       probe: currentData?.probe || [PROBE_OPTIONS[0]],
       // images: currentData?.images[0].preview || [],
-      files: currentData?.files || [],
+      files: currentData?.files.name || [],
     }),
     [currentData]
   );

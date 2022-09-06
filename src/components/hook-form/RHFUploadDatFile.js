@@ -15,19 +15,14 @@ export function RHFUploadDatFile({ name, ...other }) {
   const [selectedFile, setSelectedFile] = useState(null);
   const [showAlert, setShowAlert] = useState(false);
 
-  const ACCESS_KEY = 'AKIAS55UZLJMB4CQCJGG';
-  const SECRET_ACCESS_KEY = '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';
-  const REGION = 'ap-northeast-2';
-  const S3_BUCKET = 'khnp-deep-ai';
-
   AWS.config.update({
-    accessKeyId: ACCESS_KEY,
-    secretAccessKey: SECRET_ACCESS_KEY,
+    accessKeyId: process.env.ACCESS_KEY,
+    secretAccessKey: process.env.SECRET_ACCESS_KEY,
   });
 
   const myBucket = new AWS.S3({
-    params: { Bucket: S3_BUCKET },
-    region: REGION,
+    params: { Bucket: process.env.S3_BUCKET },
+    region: process.env.REGION,
   });
 
   // const handleFileInput = (e) => {
@@ -87,7 +82,7 @@ export function RHFUploadDatFile({ name, ...other }) {
                 type="file"
                 onChange={(e) => {
                   setFile(e.target.files[0]);
-                  field.onChange(e.target.files[0].name);
+                  field.onChange({ name: e.target.files[0].name, size: e.target.files[0].size });
                 }}
               />
               {selectedFile ? (

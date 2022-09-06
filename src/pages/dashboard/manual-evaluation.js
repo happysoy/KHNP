@@ -13,6 +13,7 @@ import Page from '../../components/Page';
 import useAuth from '../../hooks/useAuth';
 import Title from '../../components/Title';
 import PlotlyComponent from '../../sections/dashboard/manual-evaluation/PlotlyComponent';
+import DataSelectForm from '../../sections/dashboard/manual-evaluation/DataSelectForm';
 
 ManualEvaluation.getLayout = function getLayout(page) {
   return <Layout>{page}</Layout>;
@@ -23,7 +24,11 @@ export default function ManualEvaluation() {
     <Page title="수동평가">
       <Container maxWidth="xl">
         <Title heading="Analysis Result Verification" desc="수동평가에 대한 설명" />
+        <DataSelectForm />
         <Grid container spacing={3}>
+          <Grid item xs={12} sm={12} md={12} sx={{ justifyContent: 'center', display: 'flex' }}>
+            <LongGraph />
+          </Grid>
           <Grid item md={12} sx={{ justifyContent: 'center', display: 'flex' }}>
             <SmallGraph1 />
             <SmallGraph3 />
@@ -32,10 +37,6 @@ export default function ManualEvaluation() {
             <SmallGraph5 />
             <SmallGraph7 />
           </Grid> */}
-
-          <Grid item xs={12} sm={12} md={12} sx={{ justifyContent: 'center', display: 'flex' }}>
-            <LongGraph />
-          </Grid>
         </Grid>
       </Container>
     </Page>

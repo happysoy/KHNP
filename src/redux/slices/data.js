@@ -8,6 +8,7 @@ const initialState = {
   error: null,
   datas: [],
   data: null,
+  graphDatas: [],
 };
 
 const slice = createSlice({
@@ -37,9 +38,13 @@ const slice = createSlice({
       state.isLoading = false;
       state.datas = action.payload;
     },
-    postFileSuccess(state, action) {
+    postGraphDatasSuccess(state, action) {
       state.isLoading = false;
-      state.datas = action.payload;
+      // state.graphDatas = action.payload;
+    },
+    getGraphDatasSuccess(state, action) {
+      state.isLoading = false;
+      state.graphDatas = action.payload;
     },
   },
 });
@@ -95,12 +100,23 @@ export function deleteData(row) {
   };
 }
 
-export function postFileURL(data) {
+export function postGraphDatas(data) {
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
-      const response = await axios.post('/api/manual-evaluation/postFileURL', data);
-      dispatch(slice.actions.postFileSuccess(response.data));
+      const response = await axios.post('/api/manual-evaluation/postGraphDatas', data);
+      dispatch(slice.actions.postGraphDatasSuccess(response.data));
+    } catch (error) {
+      dispatch(slice.actions.hasError(error));
+    }
+  };
+}
+export function getGraphDatas() {
+  return async () => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const response = await axios.post('/api/manual-evaluation/getGraphDatas');
+      dispatch(slice.actions.getGraphDatasSuccess(response.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
     }

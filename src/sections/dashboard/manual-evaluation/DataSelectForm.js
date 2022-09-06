@@ -4,13 +4,18 @@ import { useDispatch, useSelector } from '../../../redux/store';
 // components
 import { FormProvider, RHFSelect } from '../../../components/hook-form';
 // redux
-import { getDatas, postFileURL } from '../../../redux/slices/data';
+import { getDatas, postGraphDatas } from '../../../redux/slices/data';
 import { Grid, MenuItem, Stack } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 
 export default function DataSelectForm() {
   const dispatch = useDispatch();
-  const { datas } = useSelector((state) => state.data);
+
+  const { datas, isLoading } = useSelector((state) => state.data);
+  useEffect(() => {
+    dispatch(getDatas());
+  }, [dispatch]);
+
   const defaultValues = useMemo(
     () => ({
       fileURL: '',
@@ -25,13 +30,9 @@ export default function DataSelectForm() {
     formState: { isSubmitting },
   } = methods;
 
-  useEffect(() => {
-    dispatch(getDatas());
-  }, [dispatch]);
-
   const onSubmit = async (data) => {
     try {
-      dispatch(postFileURL(data));
+      dispatch(postGraphDatas(data));
     } catch (error) {
       console.error(error);
     }

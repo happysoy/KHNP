@@ -1,9 +1,8 @@
-import { combineReducers } from "redux";
-import { persistReducer } from "redux-persist";
-import createWebStorage from "redux-persist/lib/storage/createWebStorage";
+import { combineReducers } from 'redux';
+import { persistReducer } from 'redux-persist';
+import createWebStorage from 'redux-persist/lib/storage/createWebStorage';
 // slices
-import productReducer from "./slices/product";
-import dataReducer from "./slices/data";
+import dataReducer from './slices/data';
 
 // ----------------------------------------------------------------------
 
@@ -19,33 +18,23 @@ const createNoopStorage = () => ({
   },
 });
 
-const storage =
-  typeof window !== "undefined"
-    ? createWebStorage("local")
-    : createNoopStorage();
+const storage = typeof window !== 'undefined' ? createWebStorage('local') : createNoopStorage();
 
 const rootPersistConfig = {
-  key: "root",
+  key: 'root',
   storage,
-  keyPrefix: "redux-",
+  keyPrefix: 'redux-',
   whitelist: [],
 };
 
-const productPersistConfig = {
-  key: "product",
-  storage,
-  keyPrefix: "redux-",
-  whitelist: ["sortBy", "checkout"],
-};
 const dataPersistConfig = {
-  key: "data",
+  key: 'data',
   storage,
-  keyPrefix: "redux-",
+  keyPrefix: 'redux-',
   whitelist: [],
 };
 
 const rootReducer = combineReducers({
-  product: persistReducer(productPersistConfig, productReducer),
   data: persistReducer(dataPersistConfig, dataReducer),
 });
 

@@ -11,18 +11,12 @@ export default function SmallGraph1() {
   useEffect(() => {
     dispatch(getGraphDatas());
   }, [dispatch]);
-  console.log(graphDatas);
-  // const { graphDatas, isLoading } = useSelector((state) => state.data);
-
-  // useEffect(() => {
-  //   dispatch(getGraphDatas);
-  // }, [dispatch]);
 
   const ref = useRef(null);
   const range = useAxis();
-  console.log('current range', range);
 
   useEffect(() => {
+    console.log('current range', range);
     const myDiv = ref.current;
     if (graphDatas.length === 0) {
       return;
@@ -41,13 +35,16 @@ export default function SmallGraph1() {
         fixedrange: true,
       },
     };
-
+    const config = {
+      displayModeBar: false, // hides the bar.
+    };
     if (isNaN(range[0]) || range[0] === undefined) {
       data = [blank];
-      Plotly.newPlot(myDiv, data, layout);
+      Plotly.newPlot(myDiv, data, layout, config);
       return;
     }
-    Plotly.newPlot(myDiv, data, layout, { showSendToCloud: true });
+
+    Plotly.newPlot(myDiv, data, layout, config);
 
     let startValue = Object(graphDatas['CH1X'][range[0]]);
     let endValue = Object(graphDatas['CH1X'][range[1]]);

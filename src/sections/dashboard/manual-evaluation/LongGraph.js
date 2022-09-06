@@ -41,9 +41,11 @@ export default function LongGraph() {
         fixedrange: true,
       },
     };
-
-    Plotly.newPlot(myDiv, data, layout, { showSendToCloud: true });
-
+    const config = {
+      displayModeBar: false, // hides the bar.
+    };
+    Plotly.newPlot(myDiv, data, layout, config);
+    // { showSendToCloud: true }
     myDiv.on('plotly_relayout', function (eventdata) {
       onChangeRange(eventdata);
     });

@@ -4,7 +4,7 @@ import { useSnackbar } from 'notistack';
 // @mui
 import { styled } from '@mui/material/styles';
 import { LoadingButton } from '@mui/lab';
-import { Grid, Stack, Card, Typography, MenuItem } from '@mui/material';
+import { Grid, Stack, Card, Typography, MenuItem, Button, Alert, Box } from '@mui/material';
 // redux
 import { useDispatch, useSelector } from '../../../redux/store';
 // form
@@ -13,7 +13,13 @@ import { useForm, Controller } from 'react-hook-form';
 // routes
 import { PATH_DASHBOARD } from '../../../routes/paths';
 // components
-import { FormProvider, RHFSelect, RHFTextField, RHFUploadMultiFile } from '../../../components/hook-form';
+import {
+  FormProvider,
+  RHFSelect,
+  RHFTextField,
+  RHFUploadMultiFile,
+  RHFUploadDatFile,
+} from '../../../components/hook-form';
 import DataEditStatusDate from './DataEditStatusDate';
 import { useRouter } from 'next/router';
 // redux
@@ -46,9 +52,9 @@ export default function DataNewEditForm({ isEdit, currentData }) {
     () => ({
       id: currentData?.id || '',
       fileName: currentData?.fileName || '',
-      company: currentData?.company || '',
-      site: currentData?.site || '',
-      tubeSetting: currentData?.tubeSetting || '',
+      company: currentData?.company || 'a',
+      site: currentData?.site || 'b',
+      tubeSetting: currentData?.tubeSetting || 'c',
       createDate: currentData?.createDate || new Date(),
       dueDate: currentData?.dueDate || new Date(),
       unitNo: currentData?.unitNo || [UNIT_OPTIONS[0]],
@@ -56,7 +62,8 @@ export default function DataNewEditForm({ isEdit, currentData }) {
       speed: currentData?.speed || [SPEED_OPTIONS[0]],
       detector: currentData?.detector || [DETECTOR_OPTIONS[0]],
       probe: currentData?.probe || [PROBE_OPTIONS[0]],
-      images: [],
+      // images: currentData?.images[0].preview || [],
+      files: currentData?.files.name || [],
     }),
     [currentData]
   );
@@ -74,11 +81,24 @@ export default function DataNewEditForm({ isEdit, currentData }) {
     getValues,
     formState: { isSubmitting },
   } = methods;
+
   const dispatch = useDispatch();
+
   const onSubmit = async (data) => {
     try {
       if (!isEdit) {
-        dispatch(insertData(data));
+        const { files, fileName } = data;
+        files.map((file) => {
+          let filterData = {
+            name: file.name,
+            lastModifiedDate: file.lastModifiedDate,
+            size: file.size,
+            webkitRelativePath: file.webkitRelativePath,
+            fileName: fileName,
+          };
+
+          dispatch(insertData(filterData));
+        });
       } else {
         dispatch(updateData(data));
       }
@@ -143,19 +163,16 @@ export default function DataNewEditForm({ isEdit, currentData }) {
                 <RHFTextField name="site" label="Site" />
                 <RHFTextField name="tubeSetting" label="Tube setting" />
               </Stack>
-
-              <div>
-                <LabelStyle>Images</LabelStyle>
-                <RHFUploadMultiFile
-                  showPreview
-                  name="images"
-                  maxSize={3145728}
-                  onDrop={handleDrop}
-                  onRemove={handleRemove}
-                  onRemoveAll={handleRemoveAll}
-                  onUpload={() => console.log('업로드 성공')}
-                />
-              </div>
+              <LabelStyle>Dat File</LabelStyle>
+              <RHFUploadDatFile
+                name="files"
+                // showPreview
+                // maxSize={3145728}
+                // onDrop={handleDrop}
+                // onRemove={handleRemove}
+                // onRemoveAll={handleRemoveAll}
+                // onUpload={(e) => console.log(e.target)}
+              />
             </Stack>
           </Card>
         </Grid>

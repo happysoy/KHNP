@@ -8,6 +8,7 @@ const initialState = {
   error: null,
   datas: [],
   data: null,
+  graphDatas: [],
 };
 
 const slice = createSlice({
@@ -36,6 +37,14 @@ const slice = createSlice({
     deleteDataSuccess(state, action) {
       state.isLoading = false;
       state.datas = action.payload;
+    },
+    postGraphDatasSuccess(state, action) {
+      state.isLoading = false;
+      state.graphDatas = action.payload;
+    },
+    getGraphDatasSuccess(state, action) {
+      state.isLoading = false;
+      state.graphDatas = action.payload;
     },
   },
 });
@@ -72,7 +81,6 @@ export function insertData(newData) {
     dispatch(slice.actions.startLoading());
     try {
       const response = await axios.post('/api/data-load/insertData', newData);
-      console.log(response);
       dispatch(slice.actions.insertDataSuccess(response.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
@@ -86,6 +94,29 @@ export function deleteData(row) {
     try {
       const response = await axios.post('/api/data-load/deleteData', row);
       dispatch(slice.actions.deleteDataSuccess(response.data));
+    } catch (error) {
+      dispatch(slice.actions.hasError(error));
+    }
+  };
+}
+
+export function postGraphDatas(data) {
+  return async () => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const response = await axios.post('/api/manual-evaluation/postGraphDatas', data);
+      dispatch(slice.actions.postGraphDatasSuccess(response.data));
+    } catch (error) {
+      dispatch(slice.actions.hasError(error));
+    }
+  };
+}
+export function getGraphDatas() {
+  return async () => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const response = await axios.post('/api/manual-evaluation/getGraphDatas');
+      dispatch(slice.actions.getGraphDatasSuccess(response.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
     }

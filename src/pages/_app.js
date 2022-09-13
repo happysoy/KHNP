@@ -15,6 +15,7 @@ import ThemeProvider from '../theme';
 import { CollapseDrawerProvider } from '../contexts/CollapseDrawerContext';
 import NotistackProvider from '../components/NotistackProvider';
 import { AuthProvider } from '../contexts/AwsCognitoContext';
+import { AxisStateProvider } from '../contexts/AxisStateContext';
 
 import Head from 'next/head';
 // redux
@@ -36,11 +37,13 @@ export default function MyApp(props) {
         <ReduxProvider store={store}>
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <CollapseDrawerProvider>
-              <MotionLazyContainer>
-                <ThemeProvider>
-                  <NotistackProvider>{getLayout(<Component {...pageProps} />)}</NotistackProvider>
-                </ThemeProvider>
-              </MotionLazyContainer>
+              <AxisStateProvider>
+                <MotionLazyContainer>
+                  <ThemeProvider>
+                    <NotistackProvider>{getLayout(<Component {...pageProps} />)}</NotistackProvider>
+                  </ThemeProvider>
+                </MotionLazyContainer>
+              </AxisStateProvider>
             </CollapseDrawerProvider>
           </LocalizationProvider>
         </ReduxProvider>

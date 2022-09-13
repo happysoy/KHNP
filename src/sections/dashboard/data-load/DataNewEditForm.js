@@ -52,9 +52,9 @@ export default function DataNewEditForm({ isEdit, currentData }) {
     () => ({
       id: currentData?.id || '',
       fileName: currentData?.fileName || '',
-      company: currentData?.company || '',
-      site: currentData?.site || '',
-      tubeSetting: currentData?.tubeSetting || '',
+      company: currentData?.company || 'a',
+      site: currentData?.site || 'b',
+      tubeSetting: currentData?.tubeSetting || 'c',
       createDate: currentData?.createDate || new Date(),
       dueDate: currentData?.dueDate || new Date(),
       unitNo: currentData?.unitNo || [UNIT_OPTIONS[0]],
@@ -87,7 +87,18 @@ export default function DataNewEditForm({ isEdit, currentData }) {
   const onSubmit = async (data) => {
     try {
       if (!isEdit) {
-        dispatch(insertData(data));
+        const { files, fileName } = data;
+        files.map((file) => {
+          let filterData = {
+            name: file.name,
+            lastModifiedDate: file.lastModifiedDate,
+            size: file.size,
+            webkitRelativePath: file.webkitRelativePath,
+            fileName: fileName,
+          };
+
+          dispatch(insertData(filterData));
+        });
       } else {
         dispatch(updateData(data));
       }

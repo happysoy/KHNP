@@ -1,23 +1,17 @@
-import PropTypes from "prop-types";
-import { useState } from "react";
-import { sentenceCase } from "change-case";
+import PropTypes from 'prop-types';
+import { useState } from 'react';
+import { sentenceCase } from 'change-case';
 // @mui
-import { useTheme } from "@mui/material/styles";
-import {
-  TableRow,
-  Checkbox,
-  TableCell,
-  Typography,
-  MenuItem,
-} from "@mui/material";
+import { useTheme } from '@mui/material/styles';
+import { TableRow, Checkbox, TableCell, Typography, MenuItem } from '@mui/material';
 // utils
-import { fDate } from "../../../utils/formatTime";
-import { fCurrency } from "../../../utils/formatNumber";
+import { fDate } from '../../../utils/formatTime';
+import { fCurrency } from '../../../utils/formatNumber';
 // components
-import Label from "../../../components/Label";
-import Image from "../../../components/Image";
-import Iconify from "../../../components/Iconify";
-import { TableMoreMenu } from "../../../components/table";
+import Label from '../../../components/Label';
+import Image from '../../../components/Image';
+import Iconify from '../../../components/Iconify';
+import { TableMoreMenu } from '../../../components/table';
 //
 
 // ----------------------------------------------------------------------
@@ -44,15 +38,8 @@ export default function DataTableRow({
     fileName,
     directory,
     fileSize,
-    company,
-    site,
-    unitNo,
-    equipment,
+
     testPeriod,
-    tubeSetting,
-    speed,
-    detector,
-    probe,
   } = row;
 
   const [openMenu, setOpenMenuActions] = useState(null);
@@ -72,23 +59,16 @@ export default function DataTableRow({
         {/* onClick={onSelectRow} */}
       </TableCell>
       <TableCell>{id}</TableCell>
-      <TableCell sx={{ alignItems: "center" }}>
+      <TableCell sx={{ alignItems: 'center' }}>
         <Typography variant="subtitle2" noWrap>
           {fileName}
         </Typography>
       </TableCell>
       <TableCell>{directory}</TableCell>
       <TableCell>{fileSize}</TableCell>
-      <TableCell>{company}</TableCell>
-      <TableCell>{site}</TableCell>
-      <TableCell>{unitNo}</TableCell>
-      <TableCell>{equipment}</TableCell>
+
       <TableCell>{testPeriod}</TableCell>
       {/* <TableCell>{fDate(createdAt)}</TableCell> */}
-      <TableCell>{tubeSetting}</TableCell>
-      <TableCell>{speed}</TableCell>
-      <TableCell>{detector}</TableCell>
-      <TableCell>{probe}</TableCell>
 
       <TableCell align="right">
         <TableMoreMenu
@@ -102,9 +82,9 @@ export default function DataTableRow({
                   onDeleteRow();
                   handleCloseMenu();
                 }}
-                sx={{ color: "error.main" }}
+                sx={{ color: 'error.main' }}
               >
-                <Iconify icon={"eva:trash-2-outline"} />
+                <Iconify icon={'eva:trash-2-outline'} />
                 Delete
               </MenuItem>
               <MenuItem
@@ -113,7 +93,7 @@ export default function DataTableRow({
                   handleCloseMenu();
                 }}
               >
-                <Iconify icon={"eva:edit-fill"} />
+                <Iconify icon={'eva:edit-fill'} />
                 Edit
               </MenuItem>
             </>

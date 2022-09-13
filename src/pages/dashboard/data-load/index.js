@@ -1,64 +1,40 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 // next
-import NextLink from "next/link";
-import { useRouter } from "next/router";
+import NextLink from 'next/link';
+import { useRouter } from 'next/router';
 // routes
-import { PATH_DASHBOARD } from "../../../routes/paths";
+import { PATH_DASHBOARD } from '../../../routes/paths';
 // @mui
-import {
-  Box,
-  Button,
-  Container,
-  Card,
-  TablePagination,
-  TableContainer,
-  Table,
-  TableBody,
-} from "@mui/material";
+import { Box, Button, Container, Card, TablePagination, TableContainer, Table, TableBody } from '@mui/material';
 // layouts
-import Layout from "../../../layouts";
+import Layout from '../../../layouts';
 // redux
-import { useDispatch, useSelector } from "../../../redux/store";
-import { deleteData, getDatas } from "../../../redux/slices/data";
+import { useDispatch, useSelector } from '../../../redux/store';
+import { deleteData, getDatas } from '../../../redux/slices/data';
 // hooks
-import useTable, { getComparator, emptyRows } from "../../../hooks/useTable";
+import useTable, { getComparator, emptyRows } from '../../../hooks/useTable';
 // components
-import Title from "../../../components/Title";
-import Page from "../../../components/Page";
+import Title from '../../../components/Title';
+import Page from '../../../components/Page';
 
-import Scrollbar from "../../../components/Scrollbar";
-import {
-  TableHeadCustom,
-  TableSelectedActions,
-  TableSkeleton,
-} from "../../../components/table";
+import Scrollbar from '../../../components/Scrollbar';
+import { TableHeadCustom, TableSelectedActions, TableSkeleton } from '../../../components/table';
 // sections
-import {
-  DataTableRow,
-  DataTableToolbar,
-} from "../../../sections/dashboard/data-load";
-import Iconify from "../../../components/Iconify";
+import { DataTableRow, DataTableToolbar } from '../../../sections/dashboard/data-load';
+import Iconify from '../../../components/Iconify';
 
 DataLoad.getLayout = function getLayout(page) {
   return <Layout>{page}</Layout>;
 };
 
 const TABLE_HEAD = [
-  { id: "checkbox" },
-  { id: "id", label: "No.", align: "left" },
-  { id: "fileName", label: "File Name", align: "left" },
-  { id: "directory", label: "Directory", align: "left" },
-  { id: "fileSize", label: "File Size", align: "left" },
-  { id: "company", label: "Company", align: "left" },
-  { id: "site", label: "Site", align: "left" },
-  { id: "unitNo", label: "Unit No", align: "left" },
-  { id: "equipment", label: "Equipment", align: "left" },
-  { id: "testPeriod", label: "Test Period", align: "left" },
-  { id: "tubeSetting", label: "Tube Setting", align: "left" },
-  { id: "speed", label: "Speed", align: "left" },
-  { id: "detector", label: "Detector", align: "left" },
-  { id: "probe", label: "Probe", align: "left" },
-  { id: "blank" },
+  { id: 'checkbox' },
+  { id: 'id', label: 'No.', align: 'left' },
+  { id: 'fileName', label: 'File Name', align: 'left' },
+  { id: 'directory', label: 'Directory', align: 'left' },
+  { id: 'fileSize', label: 'File Size', align: 'left' },
+  { id: 'testPeriod', label: 'Test Period', align: 'left' },
+  { id: 'blank' },
 ];
 
 export default function DataLoad() {
@@ -80,7 +56,7 @@ export default function DataLoad() {
     onChangePage,
     onChangeRowsPerPage,
   } = useTable({
-    defaultOrderBy: "createdAt",
+    defaultOrderBy: 'createdAt',
   });
 
   const dispatch = useDispatch();
@@ -89,7 +65,7 @@ export default function DataLoad() {
   // console.log(products);
   const { datas, isLoading } = useSelector((state) => state.data);
   const [tableData, setTableData] = useState([]);
-  const [filterName, setFilterName] = useState("");
+  const [filterName, setFilterName] = useState('');
   const { push } = useRouter();
   const handleFilterName = (filterName) => {
     setFilterName(filterName);
@@ -130,10 +106,7 @@ export default function DataLoad() {
           desc="업로드된 데이터를 확인하세요"
           action={
             <NextLink href={PATH_DASHBOARD.dataLoad.new} passHref>
-              <Button
-                variant="contained"
-                startIcon={<Iconify icon="eva:plus-fill" />}
-              >
+              <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />}>
                 UPLOAD
               </Button>
             </NextLink>
@@ -141,15 +114,12 @@ export default function DataLoad() {
         />
 
         <Card>
-          <DataTableToolbar
-            filterName={filterName}
-            onFilterName={handleFilterName}
-          />
+          <DataTableToolbar filterName={filterName} onFilterName={handleFilterName} />
           <Scrollbar>
             <TableContainer>
               {/* <TableSelectedActions /> */}
 
-              <Table size={"medium"}>
+              <Table size={'medium'}>
                 <TableHeadCustom headLabel={TABLE_HEAD} />
                 <TableBody>
                   {(isLoading ? tableData : dataFiltered)
@@ -197,10 +167,7 @@ function applySortFilter({ tableData, comparator, filterName }) {
   tableData = stabilizedThis.map((el) => el[0]);
 
   if (filterName) {
-    tableData = tableData.filter(
-      (item) =>
-        item.fileName.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
-    );
+    tableData = tableData.filter((item) => item.fileName.toLowerCase().indexOf(filterName.toLowerCase()) !== -1);
   }
 
   return tableData;

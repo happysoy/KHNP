@@ -8,23 +8,27 @@ import { useDispatch, useSelector } from 'src/redux/store';
 import { getGraphDatas } from 'src/redux/slices/data';
 // hooks
 import useGraphAction from 'src/hooks/useGraphActions';
+import useAxis from 'src/hooks/useAxis';
 
 // ----------------------------------------------------------------------
 //
-StandardLissajous.propTypes = {
+ChannelLissajous.propTypes = {
   title: PropTypes.string,
   subheader: PropTypes.string,
   chartData: PropTypes.array.isRequired,
   // chartLabels: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
-export default function StandardLissajous({ chartLabels, chartData, ...other }) {
-  const [seriesData, setSeriesData] = useState('CH1X');
+export default function ChannelLissajous({ chartLabels, chartData, ...other }) {
+  const [seriesData, setSeriesData] = useState('CH1');
 
   const ref = useRef(null);
+  const range = useAxis();
+  const blank = {};
+
   const { onChangeRange } = useGraphAction();
-  const { graphDatas } = useSelector((state) => state.data);
-  console.log(graphDatas);
+  const { graphDatas, isLoading } = useSelector((state) => state.data);
+
   const dispatch = useDispatch();
   // useEffect(() => {
   //   dispatch(getGraphDatas());
@@ -36,35 +40,49 @@ export default function StandardLissajous({ chartLabels, chartData, ...other }) 
     setSeriesData(event.target.value);
   };
 
-  // useEffect(() => {
-  //   const myDiv = ref.current;
-  //   if (graphDatas.length === 0) {
-  //     return;
-  //   }
-  //   const parseToGraphDatas = JSON.parse(graphDatas);
-  //   const trace1 = {
-  //     x: Object.keys(parseToGraphDatas[seriesData]),
+  useEffect(() => {
+    const myDiv = ref.current;
+    if (graphDatas.length === 0) {
+      return;
+    }
+    const parseToGraphDatas = JSON.parse(graphDatas);
+    const trace1 = {
+      x: Object.values(parseToGraphDatas[`${seriesData}X`]),
 
-  //     y: Object.values(parseToGraphDatas[seriesData]),
-  //   };
-  //   const data = [trace1];
-  //   const layout = {
-  //     title: `defect location of ${seriesData}`,
-  //     width: 1200,
-  //     height: 300,
-  //     yaxis: {
-  //       fixedrange: true,
-  //     },
-  //   };
-  //   const config = {
-  //     displayModeBar: false, // hides the bar.
-  //   };
-  //   Plotly.newPlot(myDiv, data, layout, config);
-  //   // { showSendToCloud: true }
-  //   myDiv.on('plotly_relayout', function (eventdata) {
-  //     onChangeRange(eventdata);
-  //   });
-  // }, [graphDatas, seriesData]);
+      y: Object.values(parseToGraphDatas[`${seriesData}Y`]),
+    };
+    let data = [trace1];
+    const layout = {
+      // title: `${seriesData}`,
+      width: 500,
+      height: 300,
+      yaxis: {
+        fixedrange: true,
+      },
+    };
+    const config = {
+      displayModeBar: false, // hides the bar.
+    };
+    if (isNaN(range[0]) || range[0] === undefined) {
+      data = [blank];
+      Plotly.newPlot(myDiv, data, layout, config);
+      return;
+    }
+
+    Plotly.newPlot(myDiv, data, layout, config);
+    // { showSendToCloud: true }
+    let startValue = Object(parseToGraphDatas[`${seriesData}X`][range[0]]);
+    let endValue = Object(parseToGraphDatas[`${seriesData}X`][range[1]]);
+
+    let stringifyXvalue = JSON.stringify(startValue);
+    let stringifyYvalue = JSON.stringify(endValue);
+
+    let update = {
+      'xaxis.range': [stringifyXvalue, stringifyYvalue],
+    };
+
+    Plotly.relayout(myDiv, update);
+  }, [range, graphDatas, seriesData]);
 
   return (
     <Card {...other}>

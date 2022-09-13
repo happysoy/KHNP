@@ -15,6 +15,7 @@ import Title from '../../components/Title';
 import PlotlyComponent from '../../sections/dashboard/manual-evaluation/PlotlyComponent';
 import DataSelectForm from '../../sections/dashboard/manual-evaluation/DataSelectForm';
 import StandardLissajous from 'src/sections/dashboard/manual-evaluation/StandardLissajous';
+import ChannelLissajous from 'src/sections/dashboard/manual-evaluation/ChannelLissajous';
 
 ManualEvaluation.getLayout = function getLayout(page) {
   return <Layout>{page}</Layout>;
@@ -28,9 +29,6 @@ export default function ManualEvaluation() {
         <DataSelectForm />
         <StandardLissajous
           title="Analyze"
-          subheader="2022.03.02 - 20.22.08.23 "
-          // subheader="(+4%)  than last week"
-          chartLabels={['HRT', 'Error Rates']}
           chartData={[
             {
               year: 'CH1X',
@@ -55,20 +53,41 @@ export default function ManualEvaluation() {
               year: 'CH3Y',
             },
           ]}
-          sx={{ justifyContent: 'center', display: 'flex' }}
+          sx={{ mt: 4, justifyContent: 'center', display: 'flex' }}
         />
         <Grid container spacing={3}>
-          {/* <Grid item xs={12} sm={12} md={12} sx={{ justifyContent: 'center', display: 'flex' }}>
-            <LongGraph />
-          </Grid> */}
-          <Grid item md={12} sx={{ justifyContent: 'center', display: 'flex' }}>
-            {/* <SmallGraph1 />
-            <SmallGraph3 /> */}
+          <Grid item md={6} sx={{ justifyContent: 'center', display: 'flex' }}>
+            <ChannelLissajous
+              chartData={[
+                {
+                  year: 'CH1',
+                },
+                { year: 'CH2' },
+                { year: 'CH3' },
+                { year: 'CH4' },
+                { year: 'CH5' },
+                { year: 'CH6' },
+                { year: 'CH7' },
+                { year: 'CH8' },
+              ]}
+            />
           </Grid>
-          {/* <Grid item md={12} sx={{ mt: '-80px', justifyContent: 'center', display: 'flex' }}>
-            <SmallGraph5 />
-            <SmallGraph7 />
-          </Grid> */}
+          <Grid item md={6} sx={{ justifyContent: 'center', display: 'flex' }}>
+            <ChannelLissajous
+              chartData={[
+                {
+                  year: 'CH1',
+                },
+                { year: 'CH2' },
+                { year: 'CH3' },
+                { year: 'CH4' },
+                { year: 'CH5' },
+                { year: 'CH6' },
+                { year: 'CH7' },
+                { year: 'CH8' },
+              ]}
+            />
+          </Grid>
         </Grid>
       </Container>
     </Page>

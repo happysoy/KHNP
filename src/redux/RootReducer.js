@@ -3,7 +3,7 @@ import { persistReducer } from 'redux-persist';
 import createWebStorage from 'redux-persist/lib/storage/createWebStorage';
 // slices
 import dataReducer from './slices/data';
-
+import testInformationReducer from './slices/test-information';
 // ----------------------------------------------------------------------
 
 const createNoopStorage = () => ({
@@ -36,6 +36,7 @@ const dataPersistConfig = {
 
 const rootReducer = combineReducers({
   data: persistReducer(dataPersistConfig, dataReducer),
+  testInformation: testInformationReducer,
 });
 
 export { rootPersistConfig, rootReducer };

@@ -24,7 +24,7 @@ export default function StandardLissajous({ chartLabels, chartData, ...other }) 
   const ref = useRef(null);
   const { onChangeRange } = useGraphAction();
   const { graphDatas } = useSelector((state) => state.data);
-  console.log(graphDatas);
+  // console.log(graphDatas);
   const dispatch = useDispatch();
   // useEffect(() => {
   //   dispatch(getGraphDatas());
@@ -36,35 +36,35 @@ export default function StandardLissajous({ chartLabels, chartData, ...other }) 
     setSeriesData(event.target.value);
   };
 
-  // useEffect(() => {
-  //   const myDiv = ref.current;
-  //   if (graphDatas.length === 0) {
-  //     return;
-  //   }
-  //   const parseToGraphDatas = JSON.parse(graphDatas);
-  //   const trace1 = {
-  //     x: Object.keys(parseToGraphDatas[seriesData]),
+  useEffect(() => {
+    const myDiv = ref.current;
+    if (graphDatas.length === 0) {
+      return;
+    }
+    const parseToGraphDatas = JSON.parse(graphDatas);
+    const trace1 = {
+      x: Object.keys(parseToGraphDatas[seriesData]),
 
-  //     y: Object.values(parseToGraphDatas[seriesData]),
-  //   };
-  //   const data = [trace1];
-  //   const layout = {
-  //     title: `defect location of ${seriesData}`,
-  //     width: 1200,
-  //     height: 300,
-  //     yaxis: {
-  //       fixedrange: true,
-  //     },
-  //   };
-  //   const config = {
-  //     displayModeBar: false, // hides the bar.
-  //   };
-  //   Plotly.newPlot(myDiv, data, layout, config);
-  //   // { showSendToCloud: true }
-  //   myDiv.on('plotly_relayout', function (eventdata) {
-  //     onChangeRange(eventdata);
-  //   });
-  // }, [graphDatas, seriesData]);
+      y: Object.values(parseToGraphDatas[seriesData]),
+    };
+    const data = [trace1];
+    const layout = {
+      title: `defect location of ${seriesData}`,
+      width: 1200,
+      height: 300,
+      yaxis: {
+        fixedrange: true,
+      },
+    };
+    const config = {
+      displayModeBar: false, // hides the bar.
+    };
+    Plotly.newPlot(myDiv, data, layout, config);
+    // { showSendToCloud: true }
+    myDiv.on('plotly_relayout', function (eventdata) {
+      onChangeRange(eventdata);
+    });
+  }, [graphDatas, seriesData]);
 
   return (
     <Card {...other}>

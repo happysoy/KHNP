@@ -1,3 +1,6 @@
+import { useEffect, useMemo, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { useDispatch, useSelector } from '../../redux/store';
 // @mui
 import { Container, Grid } from '@mui/material';
 // layouts
@@ -16,12 +19,22 @@ import PlotlyComponent from '../../sections/dashboard/manual-evaluation/PlotlyCo
 import DataSelectForm from '../../sections/dashboard/manual-evaluation/DataSelectForm';
 import StandardLissajous from 'src/sections/dashboard/manual-evaluation/StandardLissajous';
 import ChannelLissajous from 'src/sections/dashboard/manual-evaluation/ChannelLissajous';
+// redux
+import { getDatas } from '../../redux/slices/data';
 
 ManualEvaluation.getLayout = function getLayout(page) {
   return <Layout>{page}</Layout>;
 };
 
 export default function ManualEvaluation() {
+  const dispatch = useDispatch();
+
+  const { graphDatas, isLoading } = useSelector((state) => state.data);
+
+  useEffect(() => {
+    dispatch(getDatas());
+  }, [dispatch]);
+
   return (
     <Page title="수동평가">
       <Container maxWidth="xl">

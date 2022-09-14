@@ -33,6 +33,7 @@ export default function DataSelectForm() {
   const onSubmit = async (data) => {
     try {
       dispatch(postGraphDatas(data));
+      await new Promise((resolve) => setTimeout(resolve, 15000));
     } catch (error) {
       console.error(error);
     }

@@ -39,7 +39,7 @@ const slice = createSlice({
       state.datas = action.payload;
     },
     postGraphDatasSuccess(state, action) {
-      state.isLoading = false;
+      state.isLoading = true;
       state.graphDatas = action.payload;
     },
     getGraphDatasSuccess(state, action) {

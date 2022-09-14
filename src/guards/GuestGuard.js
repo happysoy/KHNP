@@ -1,12 +1,12 @@
 // next
-import { useRouter } from "next/router";
-import { useEffect } from "react";
-import useAuth from "../hooks/useAuth";
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
+import useAuth from '../hooks/useAuth';
 
 // routes
-import { PATH_DASHBOARD } from "../routes/paths";
+import { PATH_DASHBOARD } from '../routes/paths';
 // components
-// import LoadingScreen from ""
+import LoadingScreen from 'src/components/LoadingScreen';
 
 export default function GuestGuard({ children }) {
   const { push } = useRouter();
@@ -19,9 +19,9 @@ export default function GuestGuard({ children }) {
     }
   }, [isAuthenticated]);
 
-  // if(isInitialized===isAuthenticated){
-  //   return <LoadingScreen/>;
-  // }
+  if (isInitialized === isAuthenticated) {
+    return <LoadingScreen />;
+  }
 
   return <>{children}</>;
 }

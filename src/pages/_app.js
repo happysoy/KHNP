@@ -23,6 +23,7 @@ import { Provider as ReduxProvider } from 'react-redux';
 import { store } from '../redux/store';
 // components
 import MotionLazyContainer from '../components/animate/MotionLazyContainer';
+import ProgressBar from '../components/ProgressBar';
 
 export default function MyApp(props) {
   const { Component, pageProps } = props;
@@ -40,7 +41,10 @@ export default function MyApp(props) {
               <AxisStateProvider>
                 <MotionLazyContainer>
                   <ThemeProvider>
-                    <NotistackProvider>{getLayout(<Component {...pageProps} />)}</NotistackProvider>
+                    <NotistackProvider>
+                      {getLayout(<Component {...pageProps} />)}
+                      <ProgressBar />
+                    </NotistackProvider>
                   </ThemeProvider>
                 </MotionLazyContainer>
               </AxisStateProvider>

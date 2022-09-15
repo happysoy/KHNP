@@ -1,3 +1,4 @@
+import '../sections/dashboard/auto-evaluation/add-delete-table/row-column/style.css';
 // lightbox
 import 'react-image-lightbox/style.css';
 // lazy image
@@ -9,6 +10,7 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 // scroll bar
 import 'simplebar/src/simplebar.css';
+
 // theme
 import ThemeProvider from '../theme';
 // context

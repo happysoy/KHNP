@@ -24,7 +24,8 @@ export default function StandardLissajous({ chartLabels, chartData, ...other }) 
   const ref = useRef(null);
   const { onChangeRange } = useGraphAction();
   const { graphDatas } = useSelector((state) => state.data);
-  // console.log(graphDatas);
+
+  console.log(graphDatas);
   const dispatch = useDispatch();
   // useEffect(() => {
   //   dispatch(getGraphDatas());

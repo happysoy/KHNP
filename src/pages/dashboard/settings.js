@@ -1,11 +1,11 @@
 // @mui
-import { Container } from "@mui/material";
+import { Container } from '@mui/material';
 // layouts
-import Layout from "../../layouts";
+import Layout from '../../layouts';
 // components
-import Page from "../../components/Page";
-import useAuth from "../../hooks/useAuth";
-import Title from "../../components/Title";
+import Page from '../../components/Page';
+import useAuth from '../../hooks/useAuth';
+import Title from '../../components/Title';
 
 Settings.getLayout = function getLayout(page) {
   return <Layout>{page}</Layout>;

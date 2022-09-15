@@ -4,6 +4,7 @@ import createWebStorage from 'redux-persist/lib/storage/createWebStorage';
 // slices
 import dataReducer from './slices/data';
 import testInformationReducer from './slices/test-information';
+import responseTableReducer from './slices/response-table';
 // ----------------------------------------------------------------------
 
 const createNoopStorage = () => ({
@@ -37,6 +38,7 @@ const dataPersistConfig = {
 const rootReducer = combineReducers({
   data: persistReducer(dataPersistConfig, dataReducer),
   testInformation: testInformationReducer,
+  responseTable: responseTableReducer,
 });
 
 export { rootPersistConfig, rootReducer };

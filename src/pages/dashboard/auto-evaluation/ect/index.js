@@ -8,6 +8,8 @@ import Page from '../../../../components/Page';
 // sections
 import UserForm from 'src/sections/dashboard/auto-evaluation/UserForm';
 import EquipmentForm from 'src/sections/dashboard/auto-evaluation/EquipmentForm';
+import SignalAcquisitionForm from 'src/sections/dashboard/auto-evaluation/SignalAcquisitionForm';
+import TestInstrumentForm from 'src/sections/dashboard/auto-evaluation/TestInstrumentForm';
 
 ECT.getLayout = function getLayout(page) {
   return <Layout>{page}</Layout>;
@@ -24,6 +26,12 @@ export default function ECT() {
           </Grid>
           <Grid item sm={3} sx={{ display: 'flex', justifyContent: 'center' }}>
             <EquipmentForm />
+          </Grid>
+          <Grid item sm={3} sx={{ display: 'flex', justifyContent: 'center' }}>
+            <SignalAcquisitionForm />
+          </Grid>
+          <Grid item sm={3} sx={{ display: 'flex', justifyContent: 'center' }}>
+            <TestInstrumentForm />
           </Grid>
         </Grid>
       </Container>

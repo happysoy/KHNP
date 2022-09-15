@@ -10,6 +10,8 @@ const initialState = {
   events: [],
   isOpenModalUser: false,
   isOpenModalEquipment: false,
+  isOpenModalSignalAcquisition: false,
+  isOpenModalTestInstrument: false,
 };
 
 const slice = createSlice({
@@ -30,12 +32,23 @@ const slice = createSlice({
     openModalEquipment(state) {
       state.isOpenModalEquipment = true;
     },
-
+    openModalSignalAcquisition(state) {
+      state.isOpenModalSignalAcquisition = true;
+    },
+    openModalTestInstrument(state) {
+      state.isOpenModalTestInstrument = true;
+    },
     closeModalUser(state) {
       state.isOpenModalUser = false;
     },
     closeModalEquipment(state) {
       state.isOpenModalEquipment = false;
+    },
+    closeModalSignalAcquisition(state) {
+      state.isOpenModalSignalAcquisition = false;
+    },
+    closeModalTestInstrument(state) {
+      state.isOpenModalTestInstrument = false;
     },
   },
 });
@@ -43,4 +56,13 @@ const slice = createSlice({
 export default slice.reducer;
 
 // actions
-export const { openModalUser, openModalEquipment, closeModalUser, closeModalEquipment } = slice.actions;
+export const {
+  openModalUser,
+  openModalEquipment,
+  openModalSignalAcquisition,
+  openModalTestInstrument,
+  closeModalUser,
+  closeModalEquipment,
+  closeModalSignalAcquisition,
+  closeModalTestInstrument,
+} = slice.actions;

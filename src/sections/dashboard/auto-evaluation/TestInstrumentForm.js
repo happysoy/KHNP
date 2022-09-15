@@ -7,7 +7,7 @@ import { Stack, Button, DialogTitle } from '@mui/material';
 import { useEffect, useState } from 'react';
 // redux
 import { useDispatch, useSelector } from '../../../redux/store';
-import { openModalEquipment, closeModalEquipment } from '../../../redux/slices/test-information';
+import { openModalTestInstrument, closeModalTestInstrument } from '../../../redux/slices/test-information';
 // components
 import { DialogAnimate } from '../../../components/animate';
 import { FormProvider, RHFTextField } from '../../../components/hook-form';
@@ -20,9 +20,9 @@ const getInitialValues = () => {
   return user_init;
 };
 
-export default function EquipmentForm({ name, title }) {
+export default function TestInstrumentForm({ name, title }) {
   const dispatch = useDispatch();
-  const { isOpenModalEquipment } = useSelector((state) => state.testInformation);
+  const { isOpenModalTestInstrument } = useSelector((state) => state.testInformation);
   const [form, setForm] = useState(null);
 
   const Schema = Yup.object().shape({
@@ -55,20 +55,20 @@ export default function EquipmentForm({ name, title }) {
   };
 
   const handleAddInfo = () => {
-    dispatch(openModalEquipment());
+    dispatch(openModalTestInstrument());
   };
   const handleCloseModal = () => {
-    dispatch(closeModalEquipment());
+    dispatch(closeModalTestInstrument());
   };
 
   return (
     <>
       <Button variant="outlined" onClick={handleAddInfo} sx={{ height: '150px', width: '150px', borderRadius: '50%' }}>
-        Equipment
+        Test Instrument
       </Button>
 
-      <DialogAnimate open={isOpenModalEquipment} onClose={handleCloseModal}>
-        <DialogTitle>Equipment Information</DialogTitle>
+      <DialogAnimate open={isOpenModalTestInstrument} onClose={handleCloseModal}>
+        <DialogTitle>Test Instrument Information</DialogTitle>
 
         <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
           <Stack spacing={3} sx={{ p: 3 }}>

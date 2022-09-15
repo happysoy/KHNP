@@ -46,6 +46,7 @@
     "prettier": "^2.7.1",
     "react": "18.2.0",
     "react-apexcharts": "^1.4.0",
+    "react-beautiful-dnd": "^13.1.1",
     "react-dom": "18.2.0",
     "react-dropzone": "^14.2.2",
     "react-hook-form": "^7.34.2",

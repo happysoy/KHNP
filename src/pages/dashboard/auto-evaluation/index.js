@@ -5,8 +5,9 @@ import Layout from '../../../layouts';
 // components
 import Title from '../../../components/Title';
 import Page from '../../../components/Page';
-
-import PageTransition from 'src/sections/dashboard/auto-evaluation/PageTransition';
+// sections
+import ResponseTable from '../../../sections/dashboard/auto-evaluation/response-table/ResponseTable';
+import PageTransition from '../../../sections/dashboard/auto-evaluation/PageTransition';
 
 AutoEvaluation.getLayout = function getLayout(page) {
   return <Layout>{page}</Layout>;
@@ -23,6 +24,9 @@ export default function AutoEvaluation() {
           </Grid>
           <Grid item xs={6} sm={6} sx={{ display: 'flex', justifyContent: 'center' }}>
             <PageTransition href="#" name="IRIS" desc="(준비중)" imgPath="/IRIS.png" imgDesc="IRIS사진" />
+          </Grid>
+          <Grid item xs={6} sm={6} sx={{ display: 'flex', justifyContent: 'center' }}>
+            <ResponseTable />
           </Grid>
         </Grid>
       </Container>

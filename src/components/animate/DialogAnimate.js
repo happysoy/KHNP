@@ -20,8 +20,8 @@ export default function DialogAnimate({ open = false, variants, onClose, childre
     <AnimatePresence>
       {open && (
         <Dialog
-          fullWidth
-          maxWidth="xs"
+          // fullWidth
+          maxWidth="xl"
           open={open}
           onClose={onClose}
           PaperComponent={(props) => (

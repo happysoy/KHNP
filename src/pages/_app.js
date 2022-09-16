@@ -1,4 +1,4 @@
-import '../sections/dashboard/auto-evaluation/add-delete-table/row-column/style.css';
+import '../sections/dashboard/auto-evaluation/add-delete-table/style.css';
 // lightbox
 import 'react-image-lightbox/style.css';
 // lazy image

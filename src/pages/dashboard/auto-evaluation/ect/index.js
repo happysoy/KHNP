@@ -7,8 +7,8 @@ import Title from '../../../../components/Title';
 import Page from '../../../../components/Page';
 // sections
 import UserForm from 'src/sections/dashboard/auto-evaluation/UserForm';
+import SignalAcquisitionForm from 'src/sections/dashboard/auto-evaluation/SignalAcquisition';
 import EquipmentForm from 'src/sections/dashboard/auto-evaluation/EquipmentForm';
-import SignalAcquisitionForm from 'src/sections/dashboard/auto-evaluation/SignalAcquisitionForm';
 import TestInstrumentForm from 'src/sections/dashboard/auto-evaluation/TestInstrumentForm';
 
 ECT.getLayout = function getLayout(page) {

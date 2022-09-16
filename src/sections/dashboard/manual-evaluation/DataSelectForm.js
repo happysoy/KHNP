@@ -57,7 +57,7 @@ export default function DataSelectForm() {
               {datas.map((item, index) => (
                 <MenuItem
                   key={index}
-                  value={item.fileURL}
+                  value={item.fileName}
                   sx={{
                     mx: 1,
                     my: 0.5,
@@ -66,7 +66,7 @@ export default function DataSelectForm() {
                     textTransform: 'capitalize',
                   }}
                 >
-                  {item.fileURL.split('/')[3].split('.')[0]}
+                  {item.fileName}
                 </MenuItem>
               ))}
             </RHFSelect>

@@ -5,17 +5,9 @@ import { useDispatch, useSelector } from '../../redux/store';
 import { Container, Grid } from '@mui/material';
 // layouts
 import Layout from '../../layouts';
-// sectiosn
-import LongGraph from '../../sections/dashboard/manual-evaluation/LongGraph';
-import SmallGraph1 from '../../sections/dashboard/manual-evaluation/SmallGraph1';
-import SmallGraph3 from '../../sections/dashboard/manual-evaluation/SmallGraph3';
-import SmallGraph5 from '../../sections/dashboard/manual-evaluation/SmallGraph5';
-import SmallGraph7 from '../../sections/dashboard/manual-evaluation/SmallGraph7';
 // components
 import Page from '../../components/Page';
-import useAuth from '../../hooks/useAuth';
 import Title from '../../components/Title';
-import PlotlyComponent from '../../sections/dashboard/manual-evaluation/PlotlyComponent';
 import DataSelectForm from '../../sections/dashboard/manual-evaluation/DataSelectForm';
 import StandardLissajous from 'src/sections/dashboard/manual-evaluation/StandardLissajous';
 import ChannelLissajous from 'src/sections/dashboard/manual-evaluation/ChannelLissajous';

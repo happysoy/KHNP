@@ -41,13 +41,9 @@ export default function DataNewEditForm({ isEdit, currentData }) {
   const { push } = useRouter();
   const { enqueueSnackbar } = useSnackbar();
 
-  const NewDataSchema = Yup.object().shape({
-    fileName: Yup.string().required('필수 입력 항목입니다'),
-  });
   const defaultValues = useMemo(
     () => ({
       id: currentData?.id || '',
-      fileName: currentData?.fileName || '',
       // images: currentData?.images[0].preview || [],
       files: currentData?.files.name || [],
     }),
@@ -55,7 +51,6 @@ export default function DataNewEditForm({ isEdit, currentData }) {
   );
 
   const methods = useForm({
-    resolver: yupResolver(NewDataSchema),
     defaultValues,
   });
 
@@ -73,14 +68,13 @@ export default function DataNewEditForm({ isEdit, currentData }) {
   const onSubmit = async (data) => {
     try {
       if (!isEdit) {
-        const { files, fileName } = data;
+        const { files } = data;
         files.map((file) => {
           let filterData = {
             name: file.name,
             lastModifiedDate: file.lastModifiedDate,
             size: file.size,
             webkitRelativePath: file.webkitRelativePath,
-            fileName: fileName,
           };
 
           dispatch(insertData(filterData));
@@ -142,8 +136,6 @@ export default function DataNewEditForm({ isEdit, currentData }) {
         <Grid item xs={12} md={8}>
           <Card sx={{ p: 3 }}>
             <Stack spacing={3}>
-              <RHFTextField name="fileName" label="File Name" />
-
               <LabelStyle>Dat File</LabelStyle>
               <RHFUploadDatFile
                 name="files"

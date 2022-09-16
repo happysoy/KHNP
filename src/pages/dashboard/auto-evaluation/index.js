@@ -6,7 +6,6 @@ import Layout from '../../../layouts';
 import Title from '../../../components/Title';
 import Page from '../../../components/Page';
 // sections
-import AddDeleteTable from '../../../sections/dashboard/auto-evaluation/add-delete-table/row-column/AddDeleteTable';
 import PageTransition from '../../../sections/dashboard/auto-evaluation/PageTransition';
 // redux
 import { useDispatch, useSelector } from 'src/redux/store';
@@ -29,9 +28,6 @@ export default function AutoEvaluation() {
           </Grid>
           <Grid item xs={6} sm={6} sx={{ display: 'flex', justifyContent: 'center' }}>
             <PageTransition href="#" name="IRIS" desc="(준비중)" imgPath="/IRIS.png" imgDesc="IRIS사진" />
-          </Grid>
-          <Grid item xs={6} sm={6}>
-            <AddDeleteTable />
           </Grid>
         </Grid>
       </Container>

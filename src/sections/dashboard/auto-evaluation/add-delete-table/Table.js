@@ -1,12 +1,9 @@
 import React, { useMemo } from 'react';
 import clsx from 'clsx';
-import { useTable, useBlockLayout, useResizeColumns, useSortBy } from 'react-table';
+import { useTable, useFlexLayout, useResizeColumns, useSortBy } from 'react-table';
 import Cell from './Cell';
 import Header from './Header';
-import { ActionTypes } from './utils';
-import { FixedSizeList } from 'react-window';
-import scrollbarWidth from './scrollbarWidth';
-import PlusIcon from '../../../../../../public/img/Plus';
+import PlusIcon from '../../../../../public/img/Plus';
 
 const defaultColumn = {
   minWidth: 50,
@@ -41,7 +38,7 @@ export default function Table({ columns, data, dispatch: dataDispatch, skipReset
     []
   );
 
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow, totalColumnsWidth } = useTable(
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable(
     {
       columns,
       data,
@@ -52,26 +49,9 @@ export default function Table({ columns, data, dispatch: dataDispatch, skipReset
       autoResetRowState: !skipReset,
       sortTypes,
     },
-    useBlockLayout,
+    useFlexLayout,
     useResizeColumns,
     useSortBy
-  );
-
-  const RenderRow = React.useCallback(
-    ({ index, style }) => {
-      const row = rows[index];
-      prepareRow(row);
-      return (
-        <div {...row.getRowProps({ style })} className="tr">
-          {row.cells.map((cell, index) => (
-            <div {...cell.getCellProps()} key={index} className="td">
-              {cell.render('Cell')}
-            </div>
-          ))}
-        </div>
-      );
-    },
-    [prepareRow, rows]
   );
 
   function isTableResizing() {
@@ -97,19 +77,23 @@ export default function Table({ columns, data, dispatch: dataDispatch, skipReset
           ))}
         </div>
         <div {...getTableBodyProps()}>
-          <FixedSizeList
-            height={window.innerHeight - 100}
-            itemCount={rows.length}
-            itemSize={40}
-            width={totalColumnsWidth + scrollbarWidth}
-          >
-            {RenderRow}
-          </FixedSizeList>
-          <div className="tr add-row" onClick={() => dataDispatch({ type: ActionTypes.ADD_ROW })}>
-            <span className="svg-icon svg-gray icon-margin">
+          {rows.map((row, i) => {
+            prepareRow(row);
+            return (
+              <div {...row.getRowProps()} key={i} className="tr">
+                {row.cells.map((cell, index) => (
+                  <div {...cell.getCellProps()} key={index} className="td">
+                    {cell.render('Cell')}
+                  </div>
+                ))}
+              </div>
+            );
+          })}
+          <div className="tr add-row" onClick={() => dataDispatch({ type: 'add_row' })}>
+            <span className="svg-icon svg-gray" style={{ marginRight: 4 }}>
               <PlusIcon />
             </span>
-            New
+            행 추가
           </div>
         </div>
       </div>

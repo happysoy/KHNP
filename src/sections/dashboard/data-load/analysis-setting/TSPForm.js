@@ -15,10 +15,14 @@ import { FormProvider, RHFTextField } from '../../../../components/hook-form';
 import Iconify from '../../../../components/Iconify';
 import useAuth from 'src/hooks/useAuth';
 
-export default function TSPForm({ tableData, onChangeTableData }) {
+export default function TSPForm({ tableData, savedDatas, onChangeTableData }) {
   const { user } = useAuth();
   const { isOpenModalTSP, toggleTSP } = useSelector((state) => state.analysisSetting);
+  const [clear, setClear] = useState(false);
   const dispatch = useDispatch();
+  console.log(tableData);
+  // console.log(savedDatas[0]?.tspThreshold);
+  // console.log(savedDatas[0]?.tspWidth);
   const defaultValues = useMemo(
     () => ({
       threshold: tableData?.tspThreshold || '',
@@ -57,6 +61,7 @@ export default function TSPForm({ tableData, onChangeTableData }) {
         tspQuantity: data.quantity,
       });
       handleCloseModal();
+      setClear(false);
       reset();
     } catch (error) {
       console.error(error);
@@ -71,15 +76,35 @@ export default function TSPForm({ tableData, onChangeTableData }) {
   };
 
   useEffect(() => {
-    if (tableData) {
-      reset(defaultValues);
+    if (tableData.userName !== '') {
+      reset({
+        threshold: tableData?.tspThreshold,
+        width: tableData?.tspWidth,
+        quantity: tableData?.tspQuantity,
+      });
     }
-  }, [tableData]);
+    if (tableData.userName === '' && savedDatas) {
+      reset({
+        threshold: savedDatas[0]?.tspThreshold,
+        width: savedDatas[0]?.tspWidth,
+        quantity: savedDatas[0]?.tspQuantity,
+      });
+    }
+  }, [isOpenModalTSP]);
 
+  useEffect(() => {
+    if (clear) {
+      reset({
+        threshold: '',
+        width: '',
+        quantity: '',
+      });
+    }
+  }, [clear]);
   return (
     <>
       <Button
-        variant={toggleTSP ? 'contained' : 'outlined'}
+        variant={savedDatas || toggleTSP ? 'contained' : 'outlined'}
         onClick={() => {
           handleAddInfo();
         }}
@@ -98,7 +123,11 @@ export default function TSPForm({ tableData, onChangeTableData }) {
           </Stack>
 
           <DialogActions>
-            <Button startIcon={<Iconify icon={'eva:plus-fill'} width={20} height={20} />} variant="outlined">
+            <Button
+              startIcon={<Iconify icon={'eva:plus-fill'} width={20} height={20} />}
+              variant="outlined"
+              onClick={() => setClear(!clear)}
+            >
               NEW
             </Button>
             <LoadingButton type="submit" variant="contained" loading={isSubmitting}>

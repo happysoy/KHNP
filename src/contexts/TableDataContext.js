@@ -11,6 +11,10 @@ function TableDataProvider({ children }) {
     defectThreshold: '',
     defectWidth: '',
     defectOption: '',
+    calcurve20: '',
+    calcurve40: '',
+    calcurve60: '',
+    calcurve80: '',
   });
   const [equipmentObjectData, setEquipmentObjectData] = useState([]);
   const [equipmentTubeData, setEquipmentTubeData] = useState([]);

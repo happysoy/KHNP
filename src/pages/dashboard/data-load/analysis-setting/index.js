@@ -1,5 +1,8 @@
+import NextLink from 'next/link';
+
 // @mui
-import { Container, Grid, Stack } from '@mui/material';
+import { Container, Grid, Stack, Button } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
 // layouts
 import Layout from '../../../../layouts';
 // components
@@ -9,10 +12,13 @@ import Page from '../../../../components/Page';
 import PageTransition from '../../../../sections/dashboard/auto-evaluation/PageTransition';
 // redux
 import { useDispatch, useSelector } from 'src/redux/store';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import TSPForm from 'src/sections/dashboard/data-load/analysis-setting/TSPForm';
 import DEFECTForm from 'src/sections/dashboard/data-load/analysis-setting/DEFECTForm';
+import CalCurveForm from 'src/sections/dashboard/data-load/analysis-setting/CALCURVEForm';
 import useTableAction from 'src/hooks/useTableAction';
+import { getData, insertData } from 'src/redux/slices/analysis-setting';
+import useAuth from 'src/hooks/useAuth';
 
 AnalysisSetting.getLayout = function getLayout(page) {
   return <Layout>{page}</Layout>;
@@ -20,18 +26,65 @@ AnalysisSetting.getLayout = function getLayout(page) {
 
 export default function AnalysisSetting() {
   const dispatch = useDispatch();
+  const { user } = useAuth();
+  const { savedDatas, toggleTSP, toggleDEFECT, toggleCALCURVE } = useSelector((state) => state.analysisSetting);
   const { tableData, onChangeTableData } = useTableAction();
-  console.log(tableData);
+  const [loading, setLoading] = useState(false);
+  const [complete, setComplete] = useState(false);
+  useEffect(() => {
+    const obj = {
+      userName: user?.displayName,
+    };
+    dispatch(getData(obj));
+  }, [dispatch]);
+  const onSubmit = async () => {
+    try {
+      setLoading(true);
+      dispatch(insertData(tableData));
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      setLoading(false);
+      setComplete(true);
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return (
     <Page title="데이터로드">
       <Container maxWidth="lg">
         <Title heading="Analysis Setting" desc="자동평가에 대한 설명" />
         <Grid container spacing={5}>
           <Grid item sm={4} sx={{ display: 'flex', justifyContent: 'center' }}>
-            <TSPForm tableData={tableData} onChangeTableData={onChangeTableData} />
+            <TSPForm tableData={tableData} savedDatas={savedDatas} onChangeTableData={onChangeTableData} />
           </Grid>
           <Grid item sm={4} sx={{ display: 'flex', justifyContent: 'center' }}>
             <DEFECTForm tableData={tableData} onChangeTableData={onChangeTableData} />
+          </Grid>
+          <Grid item sm={4} sx={{ display: 'flex', justifyContent: 'center' }}>
+            <CalCurveForm tableData={tableData} onChangeTableData={onChangeTableData} />
+          </Grid>
+          <Grid item sm={12} sx={{ mt: 20, display: 'flex', justifyContent: 'flex-end', alignItems: 'flex-end' }}>
+            <Stack direction="row" spacing={3}>
+              <LoadingButton
+                loading={loading}
+                fullWidth
+                disabled={!toggleTSP || !toggleDEFECT || !toggleCALCURVE}
+                variant={complete ? 'contained' : 'outlined'}
+                size="large"
+                onClick={onSubmit}
+              >
+                {savedDatas ? 'CHANGE' : 'SAVE'}
+              </LoadingButton>
+              <NextLink href="/dashboard/data-load/" passHref>
+                <Button
+                  fullWidth
+                  disabled={!toggleTSP || !toggleDEFECT || !toggleCALCURVE}
+                  variant="outlined"
+                  size="large"
+                >
+                  COMPLETE
+                </Button>
+              </NextLink>
+            </Stack>
           </Grid>
         </Grid>
       </Container>

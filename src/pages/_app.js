@@ -1,3 +1,4 @@
+import '../sections/dashboard/auto-evaluation/add-delete-table/style.css';
 // lightbox
 import 'react-image-lightbox/style.css';
 // lazy image
@@ -9,20 +10,24 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 // scroll bar
 import 'simplebar/src/simplebar.css';
+
 // theme
 import ThemeProvider from '../theme';
 // context
+import { TableDataProvider } from '../contexts/TableDataContext';
 import { CollapseDrawerProvider } from '../contexts/CollapseDrawerContext';
 import NotistackProvider from '../components/NotistackProvider';
 import { AuthProvider } from '../contexts/AwsCognitoContext';
 import { AxisStateProvider } from '../contexts/AxisStateContext';
 
 import Head from 'next/head';
+import { PersistGate } from 'redux-persist/lib/integration/react';
 // redux
 import { Provider as ReduxProvider } from 'react-redux';
-import { store } from '../redux/store';
+import { persistor, store } from '../redux/store';
 // components
 import MotionLazyContainer from '../components/animate/MotionLazyContainer';
+import ProgressBar from '../components/ProgressBar';
 
 export default function MyApp(props) {
   const { Component, pageProps } = props;
@@ -35,17 +40,24 @@ export default function MyApp(props) {
 
       <AuthProvider>
         <ReduxProvider store={store}>
-          <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <CollapseDrawerProvider>
-              <AxisStateProvider>
-                <MotionLazyContainer>
-                  <ThemeProvider>
-                    <NotistackProvider>{getLayout(<Component {...pageProps} />)}</NotistackProvider>
-                  </ThemeProvider>
-                </MotionLazyContainer>
-              </AxisStateProvider>
-            </CollapseDrawerProvider>
-          </LocalizationProvider>
+          <PersistGate loading={null} persistor={persistor}>
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <CollapseDrawerProvider>
+                <TableDataProvider>
+                  <AxisStateProvider>
+                    <MotionLazyContainer>
+                      <ThemeProvider>
+                        <NotistackProvider>
+                          {getLayout(<Component {...pageProps} />)}
+                          <ProgressBar />
+                        </NotistackProvider>
+                      </ThemeProvider>
+                    </MotionLazyContainer>
+                  </AxisStateProvider>
+                </TableDataProvider>
+              </CollapseDrawerProvider>
+            </LocalizationProvider>
+          </PersistGate>
         </ReduxProvider>
       </AuthProvider>
     </>

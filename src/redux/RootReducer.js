@@ -2,8 +2,10 @@ import { combineReducers } from 'redux';
 import { persistReducer } from 'redux-persist';
 import createWebStorage from 'redux-persist/lib/storage/createWebStorage';
 // slices
+import responseTableReducer from './slices/response-table';
 import dataReducer from './slices/data';
-
+import testInformationReducer from './slices/test-information';
+import analysisSettingReducer from './slices/analysis-setting';
 // ----------------------------------------------------------------------
 
 const createNoopStorage = () => ({
@@ -36,6 +38,9 @@ const dataPersistConfig = {
 
 const rootReducer = combineReducers({
   data: persistReducer(dataPersistConfig, dataReducer),
+  testInformation: testInformationReducer,
+  tableDatas: persistReducer(dataPersistConfig, responseTableReducer),
+  analysisSetting: persistReducer(dataPersistConfig, analysisSettingReducer),
 });
 
 export { rootPersistConfig, rootReducer };

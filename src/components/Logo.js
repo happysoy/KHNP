@@ -1,10 +1,10 @@
-import PropTypes from "prop-types";
-import { forwardRef } from "react";
+import PropTypes from 'prop-types';
+import { forwardRef } from 'react';
 // next
-import NextLink from "next/link";
+import NextLink from 'next/link';
 // @mui
-import { useTheme } from "@mui/material/styles";
-import { Box } from "@mui/material";
+import { useTheme } from '@mui/material/styles';
+import { Box } from '@mui/material';
 
 // ----------------------------------------------------------------------
 
@@ -25,7 +25,7 @@ const Logo = forwardRef(({ disabledLink = false, isCollapse, sx }, ref) => {
       sx={{
         width: 27,
         height: 32,
-        cursor: "pointer",
+        cursor: 'pointer',
         ...sx,
       }}
     />
@@ -39,7 +39,7 @@ const Logo = forwardRef(({ disabledLink = false, isCollapse, sx }, ref) => {
         sx={{
           width: 27,
           height: 32,
-          cursor: "pointer",
+          cursor: 'pointer',
           ...sx,
         }}
       />
@@ -49,9 +49,9 @@ const Logo = forwardRef(({ disabledLink = false, isCollapse, sx }, ref) => {
         src="/textLogo.png"
         sx={{
           ml: 1,
-          width: "40%",
+          width: '40%',
           height: 32,
-          cursor: "pointer",
+          cursor: 'pointer',
           ...sx,
         }}
       />

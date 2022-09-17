@@ -2,9 +2,9 @@ let request = require('request');
 
 export default async (req, res) => {
   try {
+    console.log(req.body);
     const fileURL = req.body.fileURL;
-    const fileName = fileURL.split('/')[3].split('.')[0];
-    console.log('fileName', fileName, 'fileURL', fileURL);
+    const fileName = fileURL.split('/')[4].split('.')[0];
 
     const PostData = (callback) => {
       const options = {

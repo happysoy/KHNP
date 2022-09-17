@@ -2,6 +2,6 @@
   "compilerOptions": {
     "baseUrl": "."
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "public/img"],
   "exclude": ["node_modules"]
 }

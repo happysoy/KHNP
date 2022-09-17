@@ -5,7 +5,18 @@ import { useRouter } from 'next/router';
 // routes
 import { PATH_DASHBOARD } from '../../../routes/paths';
 // @mui
-import { Box, Button, Container, Card, TablePagination, TableContainer, Table, TableBody } from '@mui/material';
+import {
+  Box,
+  Button,
+  Container,
+  Card,
+  TablePagination,
+  TableContainer,
+  Table,
+  TableBody,
+  Stack,
+  Grid,
+} from '@mui/material';
 // layouts
 import Layout from '../../../layouts';
 // redux
@@ -106,7 +117,7 @@ export default function DataLoad() {
           desc="업로드된 데이터를 확인하세요"
           action={
             <NextLink href={PATH_DASHBOARD.dataLoad.new} passHref>
-              <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />}>
+              <Button variant="outlined" startIcon={<Iconify icon="eva:plus-fill" />}>
                 UPLOAD
               </Button>
             </NextLink>
@@ -150,6 +161,18 @@ export default function DataLoad() {
             />
           </Box>
         </Card>
+        <Grid item sm={12} sx={{ mt: 5, display: 'flex', justifyContent: 'flex-end', alignItems: 'flex-end' }}>
+          <Stack direction="row" spacing={3}>
+            <NextLink href="/dashboard/data-load/analysis-setting" passHref>
+              <Button size="large" variant="contained">
+                Analysis Setting
+              </Button>
+            </NextLink>
+            <Button size="large" variant="contained">
+              Evaluation
+            </Button>
+          </Stack>
+        </Grid>
       </Container>
     </Page>
   );

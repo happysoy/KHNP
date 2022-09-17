@@ -33,11 +33,11 @@ export default function DataSelectForm() {
   const onSubmit = async (data) => {
     try {
       dispatch(postGraphDatas(data));
+      await new Promise((resolve) => setTimeout(resolve, 15000));
     } catch (error) {
       console.error(error);
     }
   };
-
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Grid container spacing={3}>
@@ -65,7 +65,7 @@ export default function DataSelectForm() {
                     textTransform: 'capitalize',
                   }}
                 >
-                  {item.fileURL.split('/')[3].split('.')[0]}
+                  {item.fileURL.split('/')[4].split('.')[0]}
                 </MenuItem>
               ))}
             </RHFSelect>

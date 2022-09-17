@@ -41,27 +41,9 @@ export default function DataNewEditForm({ isEdit, currentData }) {
   const { push } = useRouter();
   const { enqueueSnackbar } = useSnackbar();
 
-  const NewDataSchema = Yup.object().shape({
-    fileName: Yup.string().required('필수 입력 항목입니다'),
-    company: Yup.string().required('필수 입력 항목입니다'),
-    site: Yup.string().required('필수 입력 항목입니다'),
-    tubeSetting: Yup.string().required('필수 입력 항목입니다'),
-    unitNo: Yup.number().required('필수 입력 항목입니다'),
-  });
   const defaultValues = useMemo(
     () => ({
       id: currentData?.id || '',
-      fileName: currentData?.fileName || '',
-      company: currentData?.company || 'a',
-      site: currentData?.site || 'b',
-      tubeSetting: currentData?.tubeSetting || 'c',
-      createDate: currentData?.createDate || new Date(),
-      dueDate: currentData?.dueDate || new Date(),
-      unitNo: currentData?.unitNo || [UNIT_OPTIONS[0]],
-      equipment: currentData?.equipment || [EQUIPMENT_OPTIONS[0]],
-      speed: currentData?.speed || [SPEED_OPTIONS[0]],
-      detector: currentData?.detector || [DETECTOR_OPTIONS[0]],
-      probe: currentData?.probe || [PROBE_OPTIONS[0]],
       // images: currentData?.images[0].preview || [],
       files: currentData?.files.name || [],
     }),
@@ -69,7 +51,6 @@ export default function DataNewEditForm({ isEdit, currentData }) {
   );
 
   const methods = useForm({
-    resolver: yupResolver(NewDataSchema),
     defaultValues,
   });
 
@@ -87,14 +68,13 @@ export default function DataNewEditForm({ isEdit, currentData }) {
   const onSubmit = async (data) => {
     try {
       if (!isEdit) {
-        const { files, fileName } = data;
+        const { files } = data;
         files.map((file) => {
           let filterData = {
             name: file.name,
             lastModifiedDate: file.lastModifiedDate,
             size: file.size,
             webkitRelativePath: file.webkitRelativePath,
-            fileName: fileName,
           };
 
           dispatch(insertData(filterData));
@@ -156,13 +136,6 @@ export default function DataNewEditForm({ isEdit, currentData }) {
         <Grid item xs={12} md={8}>
           <Card sx={{ p: 3 }}>
             <Stack spacing={3}>
-              <RHFTextField name="fileName" label="File Name" />
-              <DataEditStatusDate />
-              <Stack direction="row" spacing={3} mt={2}>
-                <RHFTextField name="company" label="Company" />
-                <RHFTextField name="site" label="Site" />
-                <RHFTextField name="tubeSetting" label="Tube setting" />
-              </Stack>
               <LabelStyle>Dat File</LabelStyle>
               <RHFUploadDatFile
                 name="files"
@@ -178,144 +151,6 @@ export default function DataNewEditForm({ isEdit, currentData }) {
         </Grid>
         <Grid item xs={12} md={4}>
           <Stack direction="column" spacing={5}>
-            <Card sx={{ p: 3 }}>
-              <Stack direction="column" spacing={5} mt={2}>
-                <RHFSelect
-                  fullWidth
-                  name="unitNo"
-                  label="Unit No.(#)"
-                  InputLabelProps={{ shrink: true }}
-                  SelectProps={{
-                    native: false,
-                    sx: { textTransform: 'capitalize' },
-                  }}
-                >
-                  {UNIT_OPTIONS.map((option) => (
-                    <MenuItem
-                      key={option}
-                      value={option}
-                      sx={{
-                        mx: 1,
-                        my: 0.5,
-                        borderRadius: 0.75,
-                        typography: 'body2',
-                        textTransform: 'capitalize',
-                      }}
-                    >
-                      {option}
-                    </MenuItem>
-                  ))}
-                </RHFSelect>
-
-                <RHFSelect
-                  fullWidth
-                  name="equipment"
-                  label="Equipment"
-                  InputLabelProps={{ shrink: true }}
-                  SelectProps={{
-                    native: false,
-                    sx: { textTransform: 'capitalize' },
-                  }}
-                >
-                  {EQUIPMENT_OPTIONS.map((option) => (
-                    <MenuItem
-                      key={option}
-                      value={option}
-                      sx={{
-                        mx: 1,
-                        my: 0.5,
-                        borderRadius: 0.75,
-                        typography: 'body2',
-                        textTransform: 'capitalize',
-                      }}
-                    >
-                      {option}
-                    </MenuItem>
-                  ))}
-                </RHFSelect>
-
-                <RHFSelect
-                  fullWidth
-                  name="speed"
-                  label="Speed"
-                  InputLabelProps={{ shrink: true }}
-                  SelectProps={{
-                    native: false,
-                    sx: { textTransform: 'capitalize' },
-                  }}
-                >
-                  {SPEED_OPTIONS.map((option) => (
-                    <MenuItem
-                      key={option}
-                      value={option}
-                      sx={{
-                        mx: 1,
-                        my: 0.5,
-                        borderRadius: 0.75,
-                        typography: 'body2',
-                        textTransform: 'capitalize',
-                      }}
-                    >
-                      {option}
-                    </MenuItem>
-                  ))}
-                </RHFSelect>
-
-                <RHFSelect
-                  fullWidth
-                  name="detector"
-                  label="Detector"
-                  InputLabelProps={{ shrink: true }}
-                  SelectProps={{
-                    native: false,
-                    sx: { textTransform: 'capitalize' },
-                  }}
-                >
-                  {DETECTOR_OPTIONS.map((option) => (
-                    <MenuItem
-                      key={option}
-                      value={option}
-                      sx={{
-                        mx: 1,
-                        my: 0.5,
-                        borderRadius: 0.75,
-                        typography: 'body2',
-                        textTransform: 'capitalize',
-                      }}
-                    >
-                      {option}
-                    </MenuItem>
-                  ))}
-                </RHFSelect>
-
-                <RHFSelect
-                  fullWidth
-                  name="probe"
-                  label="Probe"
-                  InputLabelProps={{ shrink: true }}
-                  SelectProps={{
-                    native: false,
-                    sx: { textTransform: 'capitalize' },
-                  }}
-                >
-                  {PROBE_OPTIONS.map((option) => (
-                    <MenuItem
-                      key={option}
-                      value={option}
-                      sx={{
-                        mx: 1,
-                        my: 0.5,
-                        borderRadius: 0.75,
-                        typography: 'body2',
-                        textTransform: 'capitalize',
-                      }}
-                    >
-                      {option}
-                    </MenuItem>
-                  ))}
-                </RHFSelect>
-              </Stack>
-            </Card>
             <LoadingButton type="submit" variant="contained" size="large" loading={isSubmitting}>
               {!isEdit ? '저장하기' : '변경하기'}
             </LoadingButton>

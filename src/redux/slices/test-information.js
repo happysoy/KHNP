@@ -9,9 +9,14 @@ const initialState = {
   error: null,
   events: [],
   isOpenModalUser: false,
+  toggleUser: false,
+
   isOpenModalEquipment: false,
+  toggleEquipment: false,
   isOpenModalSignalAcquisition: false,
+  toggleSignalAcquisition: false,
   isOpenModalTestInstrument: false,
+  toggleTestInstrument: false,
 };
 
 const slice = createSlice({
@@ -40,15 +45,19 @@ const slice = createSlice({
     },
     closeModalUser(state) {
       state.isOpenModalUser = false;
+      state.toggleUser = true;
     },
     closeModalEquipment(state) {
       state.isOpenModalEquipment = false;
+      state.toggleEquipment = true;
     },
     closeModalSignalAcquisition(state) {
       state.isOpenModalSignalAcquisition = false;
+      state.toggleSignalAcquisition = true;
     },
     closeModalTestInstrument(state) {
       state.isOpenModalTestInstrument = false;
+      state.toggleTestInstrument = true;
     },
   },
 });
@@ -57,6 +66,10 @@ export default slice.reducer;
 
 // actions
 export const {
+  toggleUser,
+  toggleEquipment,
+  toggleSignalAcquisition,
+  toggleTestInstrument,
   openModalUser,
   openModalEquipment,
   openModalSignalAcquisition,

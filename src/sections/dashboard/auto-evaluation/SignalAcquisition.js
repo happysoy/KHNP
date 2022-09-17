@@ -2,13 +2,16 @@ import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 // @mui
-import { Stack, Button, DialogTitle } from '@mui/material';
+import { styled } from '@mui/material/styles';
+
+import { LoadingButton } from '@mui/lab';
+import { Stack, Button, Typography, DialogActions, DialogTitle } from '@mui/material';
 // redux
 import { useEffect, useState } from 'react';
 // redux
 import { useDispatch, useSelector } from '../../../redux/store';
 import { openModalSignalAcquisition, closeModalSignalAcquisition } from '../../../redux/slices/test-information';
-
+import Iconify from '../../../components/Iconify';
 // components
 import { DialogAnimate } from '../../../components/animate';
 import { FormProvider, RHFTextField } from '../../../components/hook-form';
@@ -22,15 +25,19 @@ const getInitialValues = () => {
   };
   return user_init;
 };
+const TitleStyle = styled(Typography)(({ theme }) => ({
+  ...theme.typography.subtitle1,
+  color: theme.palette.text.secondary,
+}));
 
 export default function SignalAcquisitionForm({ name, title }) {
   const dispatch = useDispatch();
-  const { isOpenModalSignalAcquisition } = useSelector((state) => state.testInformation);
+  const { isOpenModalSignalAcquisition, toggleSignalAcquisition } = useSelector((state) => state.testInformation);
   const [form, setForm] = useState(null);
 
   const Schema = Yup.object().shape({
-    site: Yup.string().max(5).required('Site is required'),
-    unit: Yup.string().max(5).required('Unit is required'),
+    probeType: Yup.string().max(5).required('Probe Type is required'),
+    probeVelocity: Yup.string().max(5).required('Probe Velocity is required'),
   });
 
   const methods = useForm({
@@ -66,19 +73,42 @@ export default function SignalAcquisitionForm({ name, title }) {
 
   return (
     <>
-      <Button variant="outlined" onClick={handleAddInfo} sx={{ height: '150px', width: '150px', borderRadius: '50%' }}>
+      <Button
+        variant={toggleSignalAcquisition ? 'contained' : 'outlined'}
+        onClick={handleAddInfo}
+        sx={{ height: '150px', width: '150px', borderRadius: '50%' }}
+      >
         Signal Acquisition
       </Button>
 
       <DialogAnimate open={isOpenModalSignalAcquisition} onClose={handleCloseModal}>
-        <DialogTitle> Signal Acquisition Information</DialogTitle>
+        <DialogTitle>Signal Acquisition Information</DialogTitle>
 
         <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
           <Stack spacing={3} sx={{ p: 3 }}>
-            <RHFTextField name="site" label="Site" />
-            <RHFTextField name="unit" label="Unit" />
+            <Stack direction="row" spacing={3} sx={{ p: 3 }}>
+              <RHFTextField name="probeType" label="Probe Type" />
+              <RHFTextField name="probeVelocity" label="Probe Velocity" />
+            </Stack>
+            <TitleStyle>Test Frequency</TitleStyle>
+            <AddDeleteTable type="signalAcquisition" />
           </Stack>
-          <AddDeleteTable type="signalAcquisition" />
+
+          <DialogActions>
+            <Button startIcon={<Iconify icon={'eva:plus-fill'} width={20} height={20} />} variant="outlined">
+              NEW
+            </Button>
+            <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
+              SAVE
+            </LoadingButton>
+            <Button
+              endIcon={<Iconify icon={'bi:x'} width={20} height={20} />}
+              variant="outlined"
+              onClick={handleCloseModal}
+            >
+              COMPELETE
+            </Button>
+          </DialogActions>
         </FormProvider>
       </DialogAnimate>
     </>

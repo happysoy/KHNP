@@ -2,17 +2,24 @@ import faker from 'faker';
 import { useEffect } from 'react';
 import { getTableHeader } from 'src/redux/slices/response-table';
 import { useDispatch, useSelector } from 'src/redux/store';
-import { testInstrument, signalAcquisition, equipmentObject, equipmentTube, randomColor } from './utils';
+import { signalAcquisition, equipmentObject, equipmentTube, testInstrument, randomColor } from './utils';
 
 export default function makeData(type) {
-  console.log('Qlflf', type);
   if (type === 'equipmentObject') {
     const { columns, data } = equipmentObject();
     return { columns, data };
+  } else if (type === 'testInstrument') {
+    const { columns, data } = testInstrument();
+    return { columns, data };
   } else if (type === 'equipmentTube') {
-    const { columns, data } = equipmentObject();
+    const { columns, data } = equipmentTube();
+    return { columns, data };
+  } else if (type === 'signalAcquisition') {
+    const { columns, data } = signalAcquisition();
     return { columns, data };
   }
+  console.log('야야', columns);
+
   // const { tableDatas } = useSelector((state) => state.tableDatas);
   // const dispatch = useDispatch();
   // useEffect(() => {

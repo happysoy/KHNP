@@ -16,6 +16,7 @@ import { FormProvider, RHFRadioGroup, RHFTextField } from '../../../components/h
 import Iconify from '../../../components/Iconify';
 //sections
 import AddDeleteTable from './add-delete-table/AddDeleteTable';
+import RHFTable from 'src/components/hook-form/RHFTable';
 
 const TUBETYPE_OPTION = [
   { label: 'Straight', value: 'Straight' },
@@ -24,10 +25,6 @@ const TUBETYPE_OPTION = [
   { label: 'Horizontal', value: 'Horizontal' },
 ];
 
-const TABLE_HEAD = [
-  { id: '구분', label: '구분' },
-  { id: '총 전열관', label: '총 전열관' },
-];
 const TitleStyle = styled(Typography)(({ theme }) => ({
   ...theme.typography.subtitle1,
   color: theme.palette.text.secondary,
@@ -40,8 +37,6 @@ const LabelStyle = styled(Typography)(({ theme }) => ({
 
 const getInitialValues = () => {
   const user_init = {
-    // equipmentName: '',
-    // maker: '',
     tubeType: TUBETYPE_OPTION[0].value,
   };
   return user_init;
@@ -49,16 +44,10 @@ const getInitialValues = () => {
 
 export default function EquipmentForm({ name, title }) {
   const dispatch = useDispatch();
-  const { isOpenModalEquipment } = useSelector((state) => state.testInformation);
+  const { isOpenModalEquipment, toggleEquipment } = useSelector((state) => state.testInformation);
   const [form, setForm] = useState(null);
 
-  const Schema = Yup.object().shape({
-    // equipmentName: Yup.string().max(5).required('Equipment Name is required'),
-    // maker: Yup.string().max(5).required('Maker is required'),
-  });
-
   const methods = useForm({
-    resolver: yupResolver(Schema),
     defaultValues: getInitialValues(),
   });
 
@@ -72,10 +61,7 @@ export default function EquipmentForm({ name, title }) {
 
   const onSubmit = async (data) => {
     try {
-      const newData = {
-        site: data.site,
-        unit: data.unit,
-      };
+      console.log(data);
     } catch (error) {
       console.error(error);
     }
@@ -90,7 +76,11 @@ export default function EquipmentForm({ name, title }) {
 
   return (
     <>
-      <Button variant="outlined" onClick={handleAddInfo} sx={{ height: '150px', width: '150px', borderRadius: '50%' }}>
+      <Button
+        variant={toggleEquipment ? 'contained' : 'outlined'}
+        onClick={handleAddInfo}
+        sx={{ height: '150px', width: '150px', borderRadius: '50%' }}
+      >
         Equipment
       </Button>
 
@@ -107,10 +97,11 @@ export default function EquipmentForm({ name, title }) {
                 <LabelStyle>Tube Type</LabelStyle>
                 <RHFRadioGroup name="tubeType" options={TUBETYPE_OPTION} />
               </div>
-              <AddDeleteTable type="equipmentObject" />
+              <RHFTable name="table" />
             </Stack>
             <Stack spacing={3} sx={{ p: 3 }}>
               <TitleStyle>Tube Test Quantity</TitleStyle>
+              {/* <RHFTable name="table" /> */}
               <AddDeleteTable type="equipmentTube" />
             </Stack>
           </Stack>

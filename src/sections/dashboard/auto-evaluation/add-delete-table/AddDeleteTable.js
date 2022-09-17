@@ -3,6 +3,8 @@ import Table from './Table';
 import makeData from './MakeData';
 import { randomColor, shortId, ActionTypes, DataTypes } from './utils';
 import { grey } from './colors';
+// hooks
+import useTableAction from 'src/hooks/useTableAction';
 
 function reducer(state, action) {
   switch (action.type) {
@@ -142,8 +144,6 @@ function reducer(state, action) {
       };
     case 'add_column_to_left':
       const leftIndex = state.columns.findIndex((column) => column.id === action.columnId);
-      console.log(leftIndex, '야호', state.columns);
-      console.log('ㅋ', action);
       let leftId = shortId();
       return {
         ...state,
@@ -207,17 +207,30 @@ export default function AddDeleteTable({ type }) {
   // useSelector로 state.data 받아오기
 
   const [state, dispatch] = useReducer(reducer, makeData(type));
-  console.log(state.data);
+  const { onChangeTableData, onChangeEquipmentObject, onChangeEquipmentTube } = useTableAction();
+
+  // // switch (state.data[0].ID) {
+  // //   case 'equipmentObject':
+  // //     console.log('object');
+  // //     onChangeTableData(state.data);
+  // //   case 'equipmentTube':
+  // //     console.log('tuve');
+  // // }
 
   useEffect(() => {
     dispatch({ type: 'enable_reset' });
+    if (state.data[0].ID === 'equipmentObject') {
+      onChangeEquipmentObject(state.data);
+    } else if (state.data[0].ID === 'equipmentTube') {
+      onChangeEquipmentTube(state.data);
+    }
   }, [state.data, state.columns]);
 
   return (
     <div
       style={{
-        width: '45vw',
-        height: '40vh',
+        width: '47vw',
+        height: '35vh',
         overflowX: 'hidden',
       }}
     >

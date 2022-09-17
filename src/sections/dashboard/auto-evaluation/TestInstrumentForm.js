@@ -2,7 +2,8 @@ import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 // @mui
-import { Stack, Button, DialogTitle } from '@mui/material';
+import { Stack, Button, DialogActions, DialogTitle } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
 // redux
 import { useEffect, useState } from 'react';
 // redux
@@ -11,6 +12,9 @@ import { openModalTestInstrument, closeModalTestInstrument } from '../../../redu
 // components
 import { DialogAnimate } from '../../../components/animate';
 import { FormProvider, RHFTextField } from '../../../components/hook-form';
+// sections
+import AddDeleteTable from './add-delete-table/AddDeleteTable';
+import Iconify from '../../../components/Iconify';
 
 const getInitialValues = () => {
   const user_init = {
@@ -22,7 +26,7 @@ const getInitialValues = () => {
 
 export default function TestInstrumentForm({ name, title }) {
   const dispatch = useDispatch();
-  const { isOpenModalTestInstrument } = useSelector((state) => state.testInformation);
+  const { isOpenModalTestInstrument, toggleTestInstrument } = useSelector((state) => state.testInformation);
   const [form, setForm] = useState(null);
 
   const Schema = Yup.object().shape({
@@ -63,7 +67,11 @@ export default function TestInstrumentForm({ name, title }) {
 
   return (
     <>
-      <Button variant="outlined" onClick={handleAddInfo} sx={{ height: '150px', width: '150px', borderRadius: '50%' }}>
+      <Button
+        variant={toggleTestInstrument ? 'contained' : 'outlined'}
+        onClick={handleAddInfo}
+        sx={{ height: '150px', width: '150px', borderRadius: '50%' }}
+      >
         Test Instrument
       </Button>
 
@@ -71,10 +79,23 @@ export default function TestInstrumentForm({ name, title }) {
         <DialogTitle>Test Instrument Information</DialogTitle>
 
         <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-          <Stack spacing={3} sx={{ p: 3 }}>
-            <RHFTextField name="site" label="Site" />
-            <RHFTextField name="unit" label="Unit" />
-          </Stack>
+          <AddDeleteTable type="testInstrument" />
+
+          <DialogActions>
+            <Button startIcon={<Iconify icon={'eva:plus-fill'} width={20} height={20} />} variant="outlined">
+              NEW
+            </Button>
+            <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
+              SAVE
+            </LoadingButton>
+            <Button
+              endIcon={<Iconify icon={'bi:x'} width={20} height={20} />}
+              variant="outlined"
+              onClick={handleCloseModal}
+            >
+              COMPELETE
+            </Button>
+          </DialogActions>
         </FormProvider>
       </DialogAnimate>
     </>

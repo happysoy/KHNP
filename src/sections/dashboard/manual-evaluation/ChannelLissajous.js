@@ -46,14 +46,8 @@ export default function ChannelLissajous({ chartLabels, chartData, ...other }) {
       return;
     }
     const parseToGraphDatas = JSON.parse(graphDatas);
-    const trace1 = {
-      x: Object.values(parseToGraphDatas[`${seriesData}X`]),
 
-      y: Object.values(parseToGraphDatas[`${seriesData}Y`]),
-    };
-    let data = [trace1];
     const layout = {
-      // title: `${seriesData}`,
       width: 500,
       height: 300,
       yaxis: {
@@ -69,19 +63,19 @@ export default function ChannelLissajous({ chartLabels, chartData, ...other }) {
       return;
     }
 
-    Plotly.newPlot(myDiv, data, layout, config);
-    // { showSendToCloud: true }
-    let startValue = Object(parseToGraphDatas[`${seriesData}X`][range[0]]);
-    let endValue = Object(parseToGraphDatas[`${seriesData}X`][range[1]]);
+    let newXValues = [];
+    let newYValues = [];
+    for (let i = range[0]; i < range[1]; i++) {
+      newXValues.push(parseToGraphDatas[`${seriesData}X`][i]);
+      newYValues.push(parseToGraphDatas[`${seriesData}Y`][i]);
+    }
 
-    let stringifyXvalue = JSON.stringify(startValue);
-    let stringifyYvalue = JSON.stringify(endValue);
-
-    let update = {
-      'xaxis.range': [stringifyXvalue, stringifyYvalue],
+    let trace = {
+      x: newXValues,
+      y: newYValues,
     };
-
-    Plotly.relayout(myDiv, update);
+    let data = [trace];
+    Plotly.newPlot(myDiv, data, layout, config);
   }, [range, graphDatas, seriesData]);
 
   return (

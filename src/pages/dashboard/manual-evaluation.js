@@ -32,35 +32,64 @@ export default function ManualEvaluation() {
       <Container maxWidth="xl">
         <Title heading="Analysis Result Verification" desc="수동평가에 대한 설명" />
         <DataSelectForm />
-        <StandardLissajous
-          title="Analyze"
-          chartData={[
-            {
-              year: 'CH1X',
-              // data: [
-              //   { name: 'HRT', data: [-0.8, -0.8, -1.05, -1.06, -1.18, -1.4, -2, -2.2] },
-              //   { name: 'Error Rates', data: [0.5, 0.4, 0.65, 0.76, 0.88, 1.5, 1.6, 2.0] },
-              // ],
-            },
-            {
-              year: 'CH1Y',
-            },
-            {
-              year: 'CH2X',
-            },
-            {
-              year: 'CH2Y',
-            },
-            {
-              year: 'CH3X',
-            },
-            {
-              year: 'CH3Y',
-            },
-          ]}
-          sx={{ mt: 4, justifyContent: 'center', display: 'flex' }}
-        />
         <Grid container spacing={3}>
+          <Grid item md={12} sx={{ justifyContent: 'center', display: 'flex' }}>
+            <StandardLissajous
+              title="Analyze"
+              chartData={[
+                {
+                  year: 'CH1X',
+                  // data: [
+                  //   { name: 'HRT', data: [-0.8, -0.8, -1.05, -1.06, -1.18, -1.4, -2, -2.2] },
+                  //   { name: 'Error Rates', data: [0.5, 0.4, 0.65, 0.76, 0.88, 1.5, 1.6, 2.0] },
+                  // ],
+                },
+                {
+                  year: 'CH1Y',
+                },
+                {
+                  year: 'CH2X',
+                },
+                {
+                  year: 'CH2Y',
+                },
+                {
+                  year: 'CH3X',
+                },
+                {
+                  year: 'CH4X',
+                },
+                {
+                  year: 'CH4Y',
+                },
+                {
+                  year: 'CH5X',
+                },
+                {
+                  year: 'CH5Y',
+                },
+                {
+                  year: 'CH6X',
+                },
+                {
+                  year: 'CH6Y',
+                },
+                {
+                  year: 'CH7X',
+                },
+                {
+                  year: 'CH7Y',
+                },
+                {
+                  year: 'CH8X',
+                },
+                {
+                  year: 'CH8Y',
+                },
+              ]}
+              sx={{ mt: 4, justifyContent: 'center', display: 'flex' }}
+            />
+          </Grid>
           <Grid item md={6} sx={{ justifyContent: 'center', display: 'flex' }}>
             <ChannelLissajous
               chartData={[

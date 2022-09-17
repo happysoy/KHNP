@@ -14,6 +14,7 @@ import 'simplebar/src/simplebar.css';
 // theme
 import ThemeProvider from '../theme';
 // context
+import { TableDataProvider } from '../contexts/TableDataContext';
 import { CollapseDrawerProvider } from '../contexts/CollapseDrawerContext';
 import NotistackProvider from '../components/NotistackProvider';
 import { AuthProvider } from '../contexts/AwsCognitoContext';
@@ -42,16 +43,18 @@ export default function MyApp(props) {
           <PersistGate loading={null} persistor={persistor}>
             <LocalizationProvider dateAdapter={AdapterDateFns}>
               <CollapseDrawerProvider>
-                <AxisStateProvider>
-                  <MotionLazyContainer>
-                    <ThemeProvider>
-                      <NotistackProvider>
-                        {getLayout(<Component {...pageProps} />)}
-                        <ProgressBar />
-                      </NotistackProvider>
-                    </ThemeProvider>
-                  </MotionLazyContainer>
-                </AxisStateProvider>
+                <TableDataProvider>
+                  <AxisStateProvider>
+                    <MotionLazyContainer>
+                      <ThemeProvider>
+                        <NotistackProvider>
+                          {getLayout(<Component {...pageProps} />)}
+                          <ProgressBar />
+                        </NotistackProvider>
+                      </ThemeProvider>
+                    </MotionLazyContainer>
+                  </AxisStateProvider>
+                </TableDataProvider>
               </CollapseDrawerProvider>
             </LocalizationProvider>
           </PersistGate>

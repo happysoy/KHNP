@@ -11,7 +11,7 @@ export function signalAcquisition() {
   const count = 2;
   for (let i = 0; i < count; i++) {
     let row = {
-      ID: '',
+      ID: 'signalAcquisition',
       구분: '',
       사용주파수: '',
       보조주파수: '',
@@ -81,7 +81,7 @@ export function equipmentObject() {
 
   for (let i = 0; i < content.length; i++) {
     let row = {
-      ID: '',
+      ID: 'equipmentObject',
       항목: content[i],
       사양: '',
     };
@@ -115,7 +115,7 @@ export function equipmentTube() {
 
   for (let i = 0; i < content.length; i++) {
     let row = {
-      ID: '',
+      ID: 'equipmentTube',
       구분: content[i],
     };
 
@@ -131,7 +131,6 @@ export function equipmentTube() {
       dataType: 'text',
       options: [],
     },
-
     {
       id: 999999,
       width: 20,
@@ -142,18 +141,13 @@ export function equipmentTube() {
   ];
   return { columns, data };
 }
-
 export function testInstrument() {
   let data = [];
   const content = ['신호수집 detector', '탐촉자', '교정시편'];
-
   for (let i = 0; i < content.length; i++) {
     let row = {
-      ID: '',
+      ID: 'testInstrument',
       구분: content[i],
-      사양: '',
-      수량: '',
-      비고: '',
     };
 
     data.push(row);

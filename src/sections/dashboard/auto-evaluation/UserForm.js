@@ -27,8 +27,10 @@ const getInitialValues = () => {
 
 export default function UserForm({ name, title }) {
   const dispatch = useDispatch();
-  const { isOpenModalUser } = useSelector((state) => state.testInformation);
+  const { isOpenModalUser, toggleUser } = useSelector((state) => state.testInformation);
   const [form, setForm] = useState(null);
+  // const isComplete = false;
+  // const [toggle, setToggle] = useState(isComplete);
 
   const Schema = Yup.object().shape({
     site: Yup.string().max(5).required('Site is required'),
@@ -71,7 +73,14 @@ export default function UserForm({ name, title }) {
 
   return (
     <>
-      <Button variant="outlined" onClick={handleAddInfo} sx={{ height: '150px', width: '150px', borderRadius: '50%' }}>
+      <Button
+        variant={toggleUser ? 'contained' : 'outlined'}
+        onClick={() => {
+          handleAddInfo();
+        }}
+        // color={toggle ? 'primary' : 'contained'}
+        sx={{ height: '150px', width: '150px', borderRadius: '50%' }}
+      >
         User
       </Button>
 

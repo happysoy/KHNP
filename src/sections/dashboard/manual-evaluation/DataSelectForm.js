@@ -38,7 +38,6 @@ export default function DataSelectForm() {
       console.error(error);
     }
   };
-
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Grid container spacing={3}>
@@ -57,7 +56,7 @@ export default function DataSelectForm() {
               {datas.map((item, index) => (
                 <MenuItem
                   key={index}
-                  value={item.fileName}
+                  value={item.fileURL}
                   sx={{
                     mx: 1,
                     my: 0.5,
@@ -66,7 +65,7 @@ export default function DataSelectForm() {
                     textTransform: 'capitalize',
                   }}
                 >
-                  {item.fileName}
+                  {item.fileURL.split('/')[4].split('.')[0]}
                 </MenuItem>
               ))}
             </RHFSelect>

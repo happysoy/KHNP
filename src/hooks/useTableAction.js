@@ -2,8 +2,14 @@ import { useContext } from 'react';
 import { TableDataContext } from 'src/contexts/TableDataContext';
 
 export default function useTableAction() {
-  const { equipmentObjectData, onChangeTableData, onChangeEquipmentObject, onChangeEquipmentTube } =
+  const { tableData, onChangeTableData, equipmentObjectData, onChangeEquipmentObject, onChangeEquipmentTube } =
     useContext(TableDataContext);
 
-  return { equipmentObjectData, onChangeTableData, onChangeEquipmentObject, onChangeEquipmentTube };
+  return {
+    tableData,
+    onChangeTableData,
+    equipmentObjectData,
+    onChangeEquipmentObject,
+    onChangeEquipmentTube,
+  };
 }

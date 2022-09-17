@@ -22,6 +22,7 @@ export const PATH_DASHBOARD = {
     new: path(ROOTS_DASHBOARD, '/data-load/data/new'),
     view: (id) => path(ROOTS_DASHBOARD, `/data-load/data/${id}`),
     edit: (id) => path(ROOTS_DASHBOARD, `/data-load/data/${id}/edit`),
+    analysisSetting: path(ROOTS_DASHBOARD, '/data-load/analysis-setting'),
   },
   autoEvaluation: path(ROOTS_DASHBOARD, '/auto-evaluation'),
   ect: path(ROOTS_DASHBOARD, '/auto-evalation/ect'),

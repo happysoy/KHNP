@@ -33,8 +33,8 @@ export default function UserForm({ name, title }) {
   // const [toggle, setToggle] = useState(isComplete);
 
   const Schema = Yup.object().shape({
-    site: Yup.string().max(5).required('Site is required'),
-    unit: Yup.string().max(5).required('Unit is required'),
+    site: Yup.string().required('Site is required'),
+    unit: Yup.string().required('Unit is required'),
   });
 
   const methods = useForm({

@@ -15,7 +15,7 @@ import { FormProvider, RHFTextField } from '../../../../components/hook-form';
 import Iconify from '../../../../components/Iconify';
 import useAuth from 'src/hooks/useAuth';
 
-export default function CalCurveForm({ tableData, onChangeTableData }) {
+export default function CalCurveForm({ tableData, savedDatas, onChangeTableData }) {
   const { user } = useAuth();
   const { isOpenModalCALCURVE, toggleCALCURVE } = useSelector((state) => state.analysisSetting);
   const [clear, setClear] = useState(false);
@@ -48,7 +48,6 @@ export default function CalCurveForm({ tableData, onChangeTableData }) {
     try {
       onChangeTableData({
         ...tableData,
-        userName: user?.displayName,
         calcurve20: data.calcurve20,
         calcurve40: data.calcurve40,
         calcurve60: data.calcurve60,
@@ -70,6 +69,25 @@ export default function CalCurveForm({ tableData, onChangeTableData }) {
   };
 
   useEffect(() => {
+    if (tableData.userName !== '') {
+      reset({
+        calcurve20: tableData?.calcurve20,
+        calcurve40: tableData?.calcurve40,
+        calcurve60: tableData?.calcurve60,
+        calcurve80: tableData?.calcurve80,
+      });
+    }
+    if (tableData.userName === '' && savedDatas) {
+      reset({
+        calcurve20: savedDatas[0]?.calcurve20,
+        calcurve40: savedDatas[0]?.calcurve40,
+        calcurve60: savedDatas[0]?.calcurve60,
+        calcurve80: savedDatas[0]?.calcurve80,
+      });
+    }
+  }, [isOpenModalCALCURVE]);
+
+  useEffect(() => {
     if (clear) {
       reset({
         calcurve20: '',
@@ -77,15 +95,13 @@ export default function CalCurveForm({ tableData, onChangeTableData }) {
         calcurve60: '',
         calcurve80: '',
       });
-    } else if (tableData) {
-      reset(defaultValues);
     }
-  }, [clear, tableData]);
+  }, [clear]);
 
   return (
     <>
       <Button
-        variant={toggleCALCURVE ? 'contained' : 'outlined'}
+        variant={savedDatas.length !== 0 || toggleCALCURVE ? 'contained' : 'outlined'}
         onClick={() => {
           handleAddInfo();
         }}

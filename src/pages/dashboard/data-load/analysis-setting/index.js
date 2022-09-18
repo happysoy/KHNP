@@ -17,7 +17,7 @@ import TSPForm from 'src/sections/dashboard/data-load/analysis-setting/TSPForm';
 import DEFECTForm from 'src/sections/dashboard/data-load/analysis-setting/DEFECTForm';
 import CalCurveForm from 'src/sections/dashboard/data-load/analysis-setting/CALCURVEForm';
 import useTableAction from 'src/hooks/useTableAction';
-import { getData, insertData } from 'src/redux/slices/analysis-setting';
+import { getData, insertData, updateData } from 'src/redux/slices/analysis-setting';
 import useAuth from 'src/hooks/useAuth';
 
 AnalysisSetting.getLayout = function getLayout(page) {
@@ -31,16 +31,31 @@ export default function AnalysisSetting() {
   const { tableData, onChangeTableData } = useTableAction();
   const [loading, setLoading] = useState(false);
   const [complete, setComplete] = useState(false);
+  const [isModify, setIsModify] = useState(false);
   useEffect(() => {
     const obj = {
       userName: user?.displayName,
     };
     dispatch(getData(obj));
   }, [dispatch]);
+
+  useEffect(() => {
+    if (savedDatas.length !== 0) {
+      setIsModify(true);
+    } else {
+      setIsModify(false);
+    }
+  }, [savedDatas]);
+
   const onSubmit = async () => {
     try {
       setLoading(true);
-      dispatch(insertData(tableData));
+      if (isModify) {
+        dispatch(updateData(tableData));
+        // updateData
+      } else {
+        dispatch(insertData(tableData));
+      }
       await new Promise((resolve) => setTimeout(resolve, 1000));
       setLoading(false);
       setComplete(true);
@@ -57,30 +72,25 @@ export default function AnalysisSetting() {
             <TSPForm tableData={tableData} savedDatas={savedDatas} onChangeTableData={onChangeTableData} />
           </Grid>
           <Grid item sm={4} sx={{ display: 'flex', justifyContent: 'center' }}>
-            <DEFECTForm tableData={tableData} onChangeTableData={onChangeTableData} />
+            <DEFECTForm tableData={tableData} savedDatas={savedDatas} onChangeTableData={onChangeTableData} />
           </Grid>
           <Grid item sm={4} sx={{ display: 'flex', justifyContent: 'center' }}>
-            <CalCurveForm tableData={tableData} onChangeTableData={onChangeTableData} />
+            <CalCurveForm tableData={tableData} savedDatas={savedDatas} onChangeTableData={onChangeTableData} />
           </Grid>
           <Grid item sm={12} sx={{ mt: 20, display: 'flex', justifyContent: 'flex-end', alignItems: 'flex-end' }}>
             <Stack direction="row" spacing={3}>
               <LoadingButton
                 loading={loading}
                 fullWidth
-                disabled={!toggleTSP || !toggleDEFECT || !toggleCALCURVE}
+                disabled={isModify ? false : !toggleTSP || !toggleDEFECT || !toggleCALCURVE}
                 variant={complete ? 'contained' : 'outlined'}
                 size="large"
                 onClick={onSubmit}
               >
-                {savedDatas ? 'CHANGE' : 'SAVE'}
+                {savedDatas.length !== 0 ? 'CHANGE' : 'SAVE'}
               </LoadingButton>
               <NextLink href="/dashboard/data-load/" passHref>
-                <Button
-                  fullWidth
-                  disabled={!toggleTSP || !toggleDEFECT || !toggleCALCURVE}
-                  variant="outlined"
-                  size="large"
-                >
+                <Button fullWidth disabled={!complete} variant="outlined" size="large">
                   COMPLETE
                 </Button>
               </NextLink>

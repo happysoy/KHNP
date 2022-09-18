@@ -95,16 +95,19 @@ export function RHFUploadDatFile({ name, ...other }) {
               {showAlert ? (
                 <Alert color="primary">업로드 진행률 : {progress}%</Alert>
               ) : (
-                <Alert color="error">파일 선택 후 업로드 버튼을 눌러주세요</Alert>
+                <Alert color="error">폴더 선택 후 업로드 버튼을 눌러주세요</Alert>
               )}
             </Box>
             <Box sx={{ mt: 2 }}>
+              {/* <label className="btn btn-default btn-file">
+                폴더 추가 */}
               <input
                 type="file"
                 id="filepicker"
                 name="fileList"
                 webkitdirectory="true"
                 multiple
+                sx={{ display: 'none' }}
                 // accept=".jpg"
                 onChange={(event) => {
                   for (const file of event.target.files) {
@@ -121,6 +124,7 @@ export function RHFUploadDatFile({ name, ...other }) {
                   // }
                 }}
               />
+              {/* </label> */}
 
               {/* <input
                 type="file"

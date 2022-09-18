@@ -15,7 +15,7 @@ import { FormProvider, RHFTextField } from '../../../../components/hook-form';
 import Iconify from '../../../../components/Iconify';
 import useAuth from 'src/hooks/useAuth';
 
-export default function DEFECTForm({ tableData, onChangeTableData }) {
+export default function DEFECTForm({ tableData, savedDatas, onChangeTableData }) {
   const { user } = useAuth();
   const { isOpenModalDEFECT, toggleDEFECT } = useSelector((state) => state.analysisSetting);
   const [clear, setClear] = useState(false);
@@ -54,7 +54,6 @@ export default function DEFECTForm({ tableData, onChangeTableData }) {
     try {
       onChangeTableData({
         ...tableData,
-        userName: user?.displayName,
         defectThreshold: data.threshold,
         defectWidth: data.width,
         defectOption: data.option,
@@ -75,21 +74,36 @@ export default function DEFECTForm({ tableData, onChangeTableData }) {
   };
 
   useEffect(() => {
+    if (tableData.userName !== '') {
+      reset({
+        threshold: tableData?.defectThreshold,
+        width: tableData?.defectWidth,
+        option: tableData?.defectOption,
+      });
+    }
+    if (tableData.userName === '' && savedDatas) {
+      reset({
+        threshold: savedDatas[0]?.defectThreshold,
+        width: savedDatas[0]?.defectWidth,
+        option: savedDatas[0]?.defectOption,
+      });
+    }
+  }, [isOpenModalDEFECT]);
+
+  useEffect(() => {
     if (clear) {
       reset({
         threshold: '',
         width: '',
         option: '',
       });
-    } else if (tableData) {
-      reset(defaultValues);
     }
-  }, [clear, tableData]);
+  }, [clear]);
 
   return (
     <>
       <Button
-        variant={toggleDEFECT ? 'contained' : 'outlined'}
+        variant={savedDatas.length !== 0 || toggleDEFECT ? 'contained' : 'outlined'}
         onClick={() => {
           handleAddInfo();
         }}

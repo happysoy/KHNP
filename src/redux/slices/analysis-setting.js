@@ -70,6 +70,16 @@ export function insertData(newData) {
     }
   };
 }
+export function updateData(newData) {
+  return async () => {
+    try {
+      await axios.post('/api/analysis-setting/updateData', newData);
+    } catch (error) {
+      dispatch(slice.actions.hasError(error));
+    }
+  };
+}
+
 export function getData(userName) {
   return async () => {
     try {

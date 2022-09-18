@@ -16,11 +16,9 @@ import Iconify from '../../../../components/Iconify';
 import useAuth from 'src/hooks/useAuth';
 
 export default function TSPForm({ tableData, savedDatas, onChangeTableData }) {
-  const { user } = useAuth();
   const { isOpenModalTSP, toggleTSP } = useSelector((state) => state.analysisSetting);
   const [clear, setClear] = useState(false);
   const dispatch = useDispatch();
-  console.log(tableData);
   // console.log(savedDatas[0]?.tspThreshold);
   // console.log(savedDatas[0]?.tspWidth);
   const defaultValues = useMemo(
@@ -55,7 +53,6 @@ export default function TSPForm({ tableData, savedDatas, onChangeTableData }) {
     try {
       onChangeTableData({
         ...tableData,
-        userName: user?.displayName,
         tspThreshold: data.threshold,
         tspWidth: data.width,
         tspQuantity: data.quantity,
@@ -104,7 +101,7 @@ export default function TSPForm({ tableData, savedDatas, onChangeTableData }) {
   return (
     <>
       <Button
-        variant={savedDatas || toggleTSP ? 'contained' : 'outlined'}
+        variant={savedDatas.length !== 0 || toggleTSP ? 'contained' : 'outlined'}
         onClick={() => {
           handleAddInfo();
         }}

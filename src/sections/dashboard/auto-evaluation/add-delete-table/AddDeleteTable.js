@@ -200,7 +200,7 @@ function reducer(state, action) {
   }
 }
 
-export default function AddDeleteTable({ type }) {
+export default function AddDeleteTable({ type, field }) {
   // state.columns는 존재함. skipReset은 false임
   // 그런데 Makedata 가 api 호출해서 데이터 불러오기전에 여기가 먼저 읽혀버림.
   // 따라서 지금 방식으로는 state.data가 존재하지 않
@@ -221,8 +221,10 @@ export default function AddDeleteTable({ type }) {
     dispatch({ type: 'enable_reset' });
     if (state.data[0].ID === 'equipmentObject') {
       onChangeEquipmentObject(state.data);
+      field.onChange(state.data);
     } else if (state.data[0].ID === 'equipmentTube') {
       onChangeEquipmentTube(state.data);
+      field.onChange(state.data);
     }
   }, [state.data, state.columns]);
 

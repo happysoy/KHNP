@@ -11,8 +11,11 @@ import UserForm from 'src/sections/dashboard/auto-evaluation/UserForm';
 import SignalAcquisitionForm from 'src/sections/dashboard/auto-evaluation/SignalAcquisition';
 import EquipmentForm from 'src/sections/dashboard/auto-evaluation/EquipmentForm';
 import TestInstrumentForm from 'src/sections/dashboard/auto-evaluation/TestInstrumentForm';
+import useTableAction from 'src/hooks/useTableAction';
+
 // redux
 import { useSelector } from '../../../../redux/store';
+import { useEffect } from 'react';
 
 ECT.getLayout = function getLayout(page) {
   return <Layout>{page}</Layout>;
@@ -22,6 +25,12 @@ export default function ECT() {
   const { toggleUser, toggleEquipment, toggleSignalAcquisition, toggleTestInstrument } = useSelector(
     (state) => state.testInformation
   );
+
+  // 여기서 hook 호출하면 무지하게 리랜더링됨.
+  // const { equipmentObjectData } = useTableAction();
+  // useEffect(() => {
+  //   console.log('부르릉', equipmentObjectData);
+  // }, [toggleEquipment]);
   return (
     <Page title="자동평가">
       <Container maxWidth="lg">

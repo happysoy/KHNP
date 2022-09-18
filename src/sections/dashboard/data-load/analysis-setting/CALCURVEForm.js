@@ -8,37 +8,31 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 // redux
 import { useDispatch, useSelector } from 'src/redux/store';
-import { openModalDEFECT, closeModalDEFECT } from '../../../../redux/slices/analysis-setting';
+import { openModalCALCURVE, closeModalCALCURVE } from '../../../../redux/slices/analysis-setting';
 // components
 import { DialogAnimate } from '../../../../components/animate';
 import { FormProvider, RHFTextField } from '../../../../components/hook-form';
 import Iconify from '../../../../components/Iconify';
 import useAuth from 'src/hooks/useAuth';
 
-export default function DEFECTForm({ tableData, savedDatas, onChangeTableData }) {
+export default function CalCurveForm({ tableData, savedDatas, onChangeTableData }) {
   const { user } = useAuth();
-  const { isOpenModalDEFECT, toggleDEFECT } = useSelector((state) => state.analysisSetting);
+  const { isOpenModalCALCURVE, toggleCALCURVE } = useSelector((state) => state.analysisSetting);
   const [clear, setClear] = useState(false);
 
   const dispatch = useDispatch();
 
   const defaultValues = useMemo(
     () => ({
-      threshold: tableData?.defectThreshold || '',
-      width: tableData?.defectWidth || '',
-      option: tableData?.defectOption || '',
+      calcurve20: tableData?.calcurve20 || '',
+      calcurve40: tableData?.calcurve40 || '',
+      calcurve60: tableData?.calcurve60 || '',
+      calcurve80: tableData?.calcurve80 || '',
     }),
     [tableData]
   );
 
-  const Schema = Yup.object().shape({
-    threshold: Yup.string().required('Threshold is required'),
-    width: Yup.string().required('Width is required'),
-    option: Yup.string().required('Option is required'),
-  });
-
   const methods = useForm({
-    resolver: yupResolver(Schema),
     defaultValues,
   });
 
@@ -54,9 +48,10 @@ export default function DEFECTForm({ tableData, savedDatas, onChangeTableData })
     try {
       onChangeTableData({
         ...tableData,
-        defectThreshold: data.threshold,
-        defectWidth: data.width,
-        defectOption: data.option,
+        calcurve20: data.calcurve20,
+        calcurve40: data.calcurve40,
+        calcurve60: data.calcurve60,
+        calcurve80: data.calcurve80,
       });
       handleCloseModal();
       setClear(false);
@@ -67,35 +62,38 @@ export default function DEFECTForm({ tableData, savedDatas, onChangeTableData })
   };
 
   const handleAddInfo = () => {
-    dispatch(openModalDEFECT());
+    dispatch(openModalCALCURVE());
   };
   const handleCloseModal = () => {
-    dispatch(closeModalDEFECT());
+    dispatch(closeModalCALCURVE());
   };
 
   useEffect(() => {
     if (tableData.userName !== '') {
       reset({
-        threshold: tableData?.defectThreshold,
-        width: tableData?.defectWidth,
-        option: tableData?.defectOption,
+        calcurve20: tableData?.calcurve20,
+        calcurve40: tableData?.calcurve40,
+        calcurve60: tableData?.calcurve60,
+        calcurve80: tableData?.calcurve80,
       });
     }
     if (tableData.userName === '' && savedDatas) {
       reset({
-        threshold: savedDatas[0]?.defectThreshold,
-        width: savedDatas[0]?.defectWidth,
-        option: savedDatas[0]?.defectOption,
+        calcurve20: savedDatas[0]?.calcurve20,
+        calcurve40: savedDatas[0]?.calcurve40,
+        calcurve60: savedDatas[0]?.calcurve60,
+        calcurve80: savedDatas[0]?.calcurve80,
       });
     }
-  }, [isOpenModalDEFECT]);
+  }, [isOpenModalCALCURVE]);
 
   useEffect(() => {
     if (clear) {
       reset({
-        threshold: '',
-        width: '',
-        option: '',
+        calcurve20: '',
+        calcurve40: '',
+        calcurve60: '',
+        calcurve80: '',
       });
     }
   }, [clear]);
@@ -103,22 +101,23 @@ export default function DEFECTForm({ tableData, savedDatas, onChangeTableData })
   return (
     <>
       <Button
-        variant={savedDatas.length !== 0 || toggleDEFECT ? 'contained' : 'outlined'}
+        variant={savedDatas.length !== 0 || toggleCALCURVE ? 'contained' : 'outlined'}
         onClick={() => {
           handleAddInfo();
         }}
         sx={{ height: '150px', width: '150px', borderRadius: '50%' }}
       >
-        DEFECT
+        CAL CURVE
       </Button>
 
-      <DialogAnimate open={isOpenModalDEFECT} onClose={handleCloseModal}>
-        <DialogTitle>DEFECT Setting</DialogTitle>
+      <DialogAnimate open={isOpenModalCALCURVE} onClose={handleCloseModal}>
+        <DialogTitle>CAL CURVE Setting</DialogTitle>
         <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
           <Stack spacing={3} sx={{ p: 3 }}>
-            <RHFTextField name="threshold" label="Threshold" />
-            <RHFTextField name="width" label="Width" />
-            <RHFTextField name="option" label="Option" />
+            <RHFTextField name="calcurve20" label="20%" />
+            <RHFTextField name="calcurve40" label="40%" />
+            <RHFTextField name="calcurve60" label="60%" />
+            <RHFTextField name="calcurve80" label="80%" />
           </Stack>
 
           <DialogActions>

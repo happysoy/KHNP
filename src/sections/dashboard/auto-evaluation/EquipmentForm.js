@@ -17,6 +17,7 @@ import Iconify from '../../../components/Iconify';
 //sections
 import AddDeleteTable from './add-delete-table/AddDeleteTable';
 import RHFTable from 'src/components/hook-form/RHFTable';
+import useTableAction from 'src/hooks/useTableAction';
 
 const TUBETYPE_OPTION = [
   { label: 'Straight', value: 'Straight' },
@@ -46,7 +47,7 @@ export default function EquipmentForm({ name, title }) {
   const dispatch = useDispatch();
   const { isOpenModalEquipment, toggleEquipment } = useSelector((state) => state.testInformation);
   const [form, setForm] = useState(null);
-
+  const { onChangeEquipment } = useTableAction();
   const methods = useForm({
     defaultValues: getInitialValues(),
   });
@@ -61,7 +62,7 @@ export default function EquipmentForm({ name, title }) {
 
   const onSubmit = async (data) => {
     try {
-      console.log(data);
+      onChangeEquipment(data);
     } catch (error) {
       console.error(error);
     }

@@ -15,6 +15,7 @@ import { DialogAnimate } from '../../../components/animate';
 import { FormProvider, RHFTextField } from '../../../components/hook-form';
 
 import Iconify from '../../../components/Iconify';
+import useTableAction from 'src/hooks/useTableAction';
 
 const getInitialValues = () => {
   const userInit = {
@@ -29,6 +30,8 @@ export default function UserForm({ name, title }) {
   const dispatch = useDispatch();
   const { isOpenModalUser, toggleUser } = useSelector((state) => state.testInformation);
   const [form, setForm] = useState(null);
+  const { onChangeUser } = useTableAction();
+
   // const isComplete = false;
   // const [toggle, setToggle] = useState(isComplete);
 
@@ -52,11 +55,7 @@ export default function UserForm({ name, title }) {
 
   const onSubmit = async (data) => {
     try {
-      const newData = {
-        site: data.site,
-        unit: data.unit,
-      };
-      console.log(newData);
+      onChangeUser(data);
       handleCloseModal();
       reset();
     } catch (error) {

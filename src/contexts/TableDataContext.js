@@ -22,16 +22,26 @@ function TableDataProvider({ children }) {
     calcurve80: '',
   });
 
-  const [equipmentObjectData, setEquipmentObjectData] = useState([]);
-  const [equipmentTubeData, setEquipmentTubeData] = useState([]);
+  const [userData, setUserData] = useState({});
+  const [equipmentData, setEquipmentData] = useState({});
+  const [signalAcquisitionData, setSignalAcquisitionData] = useState({});
+  const [testInstrumentData, setTestInstrumentData] = useState({});
+
   const onChangeTableData = useCallback((data) => {
     setTableData(data);
   }, []);
-  const onChangeEquipmentObject = useCallback((data) => {
-    setEquipmentObjectData(data);
+  const onChangeUser = useCallback((data) => {
+    setUserData(data);
   }, []);
-  const onChangeEquipmentTube = useCallback((data) => {
-    setEquipmentTubeData(data);
+  const onChangeEquipment = useCallback((data) => {
+    setEquipmentData(data);
+  }, []);
+
+  const onChangeSignalAcquisition = useCallback((data) => {
+    setSignalAcquisitionData(data);
+  }, []);
+  const onChangeTestInstrument = useCallback((data) => {
+    setTestInstrumentData(data);
   }, []);
 
   useEffect(() => {
@@ -57,11 +67,15 @@ function TableDataProvider({ children }) {
     <TableDataContext.Provider
       value={{
         tableData,
+        userData,
+        equipmentData,
+        signalAcquisitionData,
+        testInstrumentData,
+        onChangeUser,
         onChangeTableData,
-        equipmentObjectData,
-        onChangeEquipmentObject,
-        equipmentTubeData,
-        onChangeEquipmentTube,
+        onChangeEquipment,
+        onChangeSignalAcquisition,
+        onChangeTestInstrument,
       }}
     >
       {children}

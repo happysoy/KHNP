@@ -2,43 +2,50 @@ import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 // @mui
-import { Stack, Button, DialogActions, DialogTitle } from '@mui/material';
+import { styled } from '@mui/material/styles';
+
 import { LoadingButton } from '@mui/lab';
+import { Stack, Button, Typography, DialogActions, DialogTitle } from '@mui/material';
 // redux
 import { useEffect, useState } from 'react';
 // redux
 import { useDispatch, useSelector } from '../../../redux/store';
 import { openModalTestInstrument, closeModalTestInstrument } from '../../../redux/slices/test-information';
+import Iconify from '../../../components/Iconify';
 // components
 import { DialogAnimate } from '../../../components/animate';
 import { FormProvider, RHFTextField } from '../../../components/hook-form';
 // sections
 import AddDeleteTable from './add-delete-table/AddDeleteTable';
-import Iconify from '../../../components/Iconify';
+import useTableAction from 'src/hooks/useTableAction';
+import RHFTable from 'src/components/hook-form/RHFTable';
 
 const getInitialValues = () => {
   const user_init = {
-    site: '',
-    unit: '',
+    testInstrument: '',
   };
   return user_init;
 };
+const TitleStyle = styled(Typography)(({ theme }) => ({
+  ...theme.typography.subtitle1,
+  color: theme.palette.text.secondary,
+}));
 
 export default function TestInstrumentForm({ name, title }) {
   const dispatch = useDispatch();
   const { isOpenModalTestInstrument, toggleTestInstrument } = useSelector((state) => state.testInformation);
   const [form, setForm] = useState(null);
+  const { onChangeTestInstrument } = useTableAction();
 
-  const Schema = Yup.object().shape({
-    site: Yup.string().max(5).required('Site is required'),
-    unit: Yup.string().max(5).required('Unit is required'),
-  });
+  // const Schema = Yup.object().shape({
+  //   probeType: Yup.string().max(5).required('Probe Type is required'),
+  //   probeVelocity: Yup.string().max(5).required('Probe Velocity is required'),
+  // });
 
   const methods = useForm({
-    resolver: yupResolver(Schema),
+    // resolver: yupResolver(Schema),
     defaultValues: getInitialValues(),
   });
-
   const {
     reset,
     watch,
@@ -49,10 +56,7 @@ export default function TestInstrumentForm({ name, title }) {
 
   const onSubmit = async (data) => {
     try {
-      const newData = {
-        site: data.site,
-        unit: data.unit,
-      };
+      onChangeTestInstrument(data);
     } catch (error) {
       console.error(error);
     }
@@ -79,13 +83,13 @@ export default function TestInstrumentForm({ name, title }) {
         <DialogTitle>Test Instrument Information</DialogTitle>
 
         <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-          <AddDeleteTable type="testInstrument" />
+          <RHFTable name="testInstrument" />
 
           <DialogActions>
             <Button startIcon={<Iconify icon={'eva:plus-fill'} width={20} height={20} />} variant="outlined">
               NEW
             </Button>
-            <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
+            <LoadingButton type="submit" variant="contained" onClick={handleCloseModal} loading={isSubmitting}>
               SAVE
             </LoadingButton>
             <Button

@@ -17,11 +17,13 @@ import { DialogAnimate } from '../../../components/animate';
 import { FormProvider, RHFTextField } from '../../../components/hook-form';
 // sections
 import AddDeleteTable from './add-delete-table/AddDeleteTable';
+import useTableAction from 'src/hooks/useTableAction';
+import RHFTable from 'src/components/hook-form/RHFTable';
 
 const getInitialValues = () => {
   const user_init = {
-    site: '',
-    unit: '',
+    probeType: '',
+    probeVelocity: '',
   };
   return user_init;
 };
@@ -34,6 +36,7 @@ export default function SignalAcquisitionForm({ name, title }) {
   const dispatch = useDispatch();
   const { isOpenModalSignalAcquisition, toggleSignalAcquisition } = useSelector((state) => state.testInformation);
   const [form, setForm] = useState(null);
+  const { onChangeSignalAcquisition } = useTableAction();
 
   const Schema = Yup.object().shape({
     probeType: Yup.string().max(5).required('Probe Type is required'),
@@ -55,10 +58,7 @@ export default function SignalAcquisitionForm({ name, title }) {
 
   const onSubmit = async (data) => {
     try {
-      const newData = {
-        site: data.site,
-        unit: data.unit,
-      };
+      onChangeSignalAcquisition(data);
     } catch (error) {
       console.error(error);
     }
@@ -91,14 +91,14 @@ export default function SignalAcquisitionForm({ name, title }) {
               <RHFTextField name="probeVelocity" label="Probe Velocity" />
             </Stack>
             <TitleStyle>Test Frequency</TitleStyle>
-            <AddDeleteTable type="signalAcquisition" />
+            <RHFTable name="signalAcquisition" />
           </Stack>
 
           <DialogActions>
             <Button startIcon={<Iconify icon={'eva:plus-fill'} width={20} height={20} />} variant="outlined">
               NEW
             </Button>
-            <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
+            <LoadingButton type="submit" variant="contained" onClick={handleCloseModal} loading={isSubmitting}>
               SAVE
             </LoadingButton>
             <Button

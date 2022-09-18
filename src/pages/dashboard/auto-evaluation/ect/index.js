@@ -1,5 +1,7 @@
 import NextLink from 'next/link';
+
 // @mui
+import { LoadingButton } from '@mui/lab';
 import { Stack, Button, Container, Grid } from '@mui/material';
 // layouts
 import Layout from '../../../../layouts';
@@ -8,14 +10,14 @@ import Title from '../../../../components/Title';
 import Page from '../../../../components/Page';
 // sections
 import UserForm from 'src/sections/dashboard/auto-evaluation/UserForm';
-import SignalAcquisitionForm from 'src/sections/dashboard/auto-evaluation/SignalAcquisition';
+import SignalAcquisitionForm from 'src/sections/dashboard/auto-evaluation/SignalAcquisitionForm';
 import EquipmentForm from 'src/sections/dashboard/auto-evaluation/EquipmentForm';
 import TestInstrumentForm from 'src/sections/dashboard/auto-evaluation/TestInstrumentForm';
 import useTableAction from 'src/hooks/useTableAction';
 
 // redux
 import { useSelector } from '../../../../redux/store';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 ECT.getLayout = function getLayout(page) {
   return <Layout>{page}</Layout>;
@@ -25,12 +27,23 @@ export default function ECT() {
   const { toggleUser, toggleEquipment, toggleSignalAcquisition, toggleTestInstrument } = useSelector(
     (state) => state.testInformation
   );
+  const [loading, setLoading] = useState(false);
+  const [complete, setComplete] = useState(false);
 
-  // 여기서 hook 호출하면 무지하게 리랜더링됨.
-  // const { equipmentObjectData } = useTableAction();
-  // useEffect(() => {
-  //   console.log('부르릉', equipmentObjectData);
-  // }, [toggleEquipment]);
+  const { userData, equipmentData, signalAcquisitionData, testInstrumentData } = useTableAction();
+
+  const onSubmit = async () => {
+    try {
+      setLoading(true);
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
+      setLoading(false);
+      setComplete(true);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <Page title="자동평가">
       <Container maxWidth="lg">
@@ -56,22 +69,21 @@ export default function ECT() {
                   BACK
                 </Button>
               </NextLink>
-              <Button
+              <LoadingButton
+                loading={loading}
                 disabled={!toggleUser || !toggleEquipment || !toggleSignalAcquisition || !toggleTestInstrument}
                 fullWidth
-                variant="outlined"
+                variant={complete ? 'contained' : 'outlined'}
                 size="large"
+                onClick={onSubmit}
               >
                 SAVE
-              </Button>
-              <Button
-                fullWidth
-                disabled={!toggleUser || !toggleEquipment || !toggleSignalAcquisition || !toggleTestInstrument}
-                variant="outlined"
-                size="large"
-              >
-                COMPLETE
-              </Button>
+              </LoadingButton>
+              <NextLink href="/dashboard/auto-evaluation" passHref>
+                <Button fullWidth disabled={!complete} variant="outlined" size="large">
+                  COMPLETE
+                </Button>
+              </NextLink>
             </Stack>
           </Grid>
         </Grid>

@@ -7,7 +7,7 @@ import { dispatch } from '../store';
 const initialState = {
   isLoading: false,
   error: null,
-  events: [],
+  savedDatasECT: [],
   isOpenModalUser: false,
   toggleUser: false,
 
@@ -59,6 +59,10 @@ const slice = createSlice({
       state.isOpenModalTestInstrument = false;
       state.toggleTestInstrument = true;
     },
+    getDataSuccess(state, action) {
+      state.isLoading = false;
+      state.savedDatasECT = action.payload;
+    },
   },
 });
 
@@ -79,3 +83,24 @@ export const {
   closeModalSignalAcquisition,
   closeModalTestInstrument,
 } = slice.actions;
+
+export function insertData(newData) {
+  return async () => {
+    try {
+      await axios.post('/api/auto-evaluation/insertData', newData);
+    } catch (error) {
+      dispatch(slice.actions.hasError(error));
+    }
+  };
+}
+
+export function getData() {
+  return async () => {
+    try {
+      const response = await axios.post('/api/auto-evaluation/getData');
+      dispatch(slice.actions.getDataSuccess(response.data));
+    } catch (error) {
+      dispatch(slice.actions.hasError(error));
+    }
+  };
+}

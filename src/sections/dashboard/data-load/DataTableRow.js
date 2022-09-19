@@ -5,13 +5,14 @@ import { sentenceCase } from 'change-case';
 import { useTheme } from '@mui/material/styles';
 import { TableRow, Checkbox, TableCell, Typography, MenuItem } from '@mui/material';
 // utils
+import { fMegaByte } from '../../../utils/formatNumber';
 import { fDate } from '../../../utils/formatTime';
-import { fCurrency } from '../../../utils/formatNumber';
 // components
 import Label from '../../../components/Label';
 import Image from '../../../components/Image';
 import Iconify from '../../../components/Iconify';
 import { TableMoreMenu } from '../../../components/table';
+
 //
 
 // ----------------------------------------------------------------------
@@ -65,9 +66,9 @@ export default function DataTableRow({
         </Typography>
       </TableCell>
       <TableCell>{directory}</TableCell>
-      <TableCell>{fileSize}</TableCell>
+      <TableCell>{fMegaByte(fileSize)} MB</TableCell>
 
-      <TableCell>{testPeriod}</TableCell>
+      <TableCell>{fDate(testPeriod)}</TableCell>
       {/* <TableCell>{fDate(createdAt)}</TableCell> */}
 
       <TableCell align="right">
@@ -89,7 +90,7 @@ export default function DataTableRow({
               </MenuItem>
               <MenuItem
                 onClick={() => {
-                  onEditRow();
+                  // onEditRow();
                   handleCloseMenu();
                 }}
               >

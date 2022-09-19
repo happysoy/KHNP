@@ -2,6 +2,11 @@ import numeral from 'numeral';
 
 // ----------------------------------------------------------------------
 
+export function fMegaByte(number) {
+  const megabyte = number / 1024 / 1024;
+  return numeral(megabyte).format('0.00');
+}
+
 export function fCurrency(number) {
   return numeral(number).format(Number.isInteger(number) ? '$0,0' : '$0,0.00');
 }

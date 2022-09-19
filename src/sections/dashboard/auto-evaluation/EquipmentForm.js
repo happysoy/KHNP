@@ -17,6 +17,7 @@ import Iconify from '../../../components/Iconify';
 //sections
 import AddDeleteTable from './add-delete-table/AddDeleteTable';
 import RHFTable from 'src/components/hook-form/RHFTable';
+import useTableAction from 'src/hooks/useTableAction';
 
 const TUBETYPE_OPTION = [
   { label: 'Straight', value: 'Straight' },
@@ -46,7 +47,7 @@ export default function EquipmentForm({ name, title }) {
   const dispatch = useDispatch();
   const { isOpenModalEquipment, toggleEquipment } = useSelector((state) => state.testInformation);
   const [form, setForm] = useState(null);
-
+  const { onChangeEquipment } = useTableAction();
   const methods = useForm({
     defaultValues: getInitialValues(),
   });
@@ -61,7 +62,7 @@ export default function EquipmentForm({ name, title }) {
 
   const onSubmit = async (data) => {
     try {
-      console.log(data);
+      onChangeEquipment(data);
     } catch (error) {
       console.error(error);
     }
@@ -97,12 +98,12 @@ export default function EquipmentForm({ name, title }) {
                 <LabelStyle>Tube Type</LabelStyle>
                 <RHFRadioGroup name="tubeType" options={TUBETYPE_OPTION} />
               </div>
-              <RHFTable name="table" />
+              <RHFTable name="equipmentObject" />
             </Stack>
             <Stack spacing={3} sx={{ p: 3 }}>
               <TitleStyle>Tube Test Quantity</TitleStyle>
               {/* <RHFTable name="table" /> */}
-              <AddDeleteTable type="equipmentTube" />
+              <RHFTable name="equipmentTube" />
             </Stack>
           </Stack>
 
@@ -110,7 +111,7 @@ export default function EquipmentForm({ name, title }) {
             <Button startIcon={<Iconify icon={'eva:plus-fill'} width={20} height={20} />} variant="outlined">
               NEW
             </Button>
-            <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
+            <LoadingButton type="submit" variant="contained" onClick={handleCloseModal} loading={isSubmitting}>
               SAVE
             </LoadingButton>
             <Button

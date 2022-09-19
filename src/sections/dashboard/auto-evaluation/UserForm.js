@@ -3,7 +3,9 @@ import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 // @mui
-import { Button, DialogActions, DialogTitle, Stack } from '@mui/material';
+import { alpha, useTheme, styled } from '@mui/material/styles';
+
+import { Typography, Box, Button, Card, DialogActions, DialogTitle, Stack } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // redux
 import { useEffect, useState } from 'react';
@@ -26,11 +28,33 @@ const getInitialValues = () => {
   return userInit;
 };
 
-export default function UserForm({ name, title }) {
+export default function UserForm({ name, title, savedDatasECT, userData }) {
+  const theme = useTheme();
   const dispatch = useDispatch();
   const { isOpenModalUser, toggleUser } = useSelector((state) => state.testInformation);
   const [form, setForm] = useState(null);
   const { onChangeUser } = useTableAction();
+  const [clear, setClear] = useState(false);
+
+  const IconWrapperStyle = styled('div', {
+    shouldForwardProp: (prop) => prop !== 'toggleUser',
+  })(({ toggleUser, theme }) => ({
+    margin: 'auto',
+    display: 'flex',
+    borderRadius: '75%',
+    alignItems: 'center',
+    width: theme.spacing(15),
+    justifyContent: 'center',
+    height: theme.spacing(15),
+    marginBottom: theme.spacing(1),
+    color: theme.palette.primary.main,
+    // backgroundColor: `${alpha(theme.palette.primary.main, 0.08)}`,
+    ...(toggleUser && {
+      color: theme.palette.text.secondary,
+      backgroundColor: theme.palette.text.secondary,
+      // backgroundColor: `${alpha(theme.palette.primary.main, 0.08)}`,
+    }),
+  }));
 
   // const isComplete = false;
   // const [toggle, setToggle] = useState(isComplete);
@@ -70,18 +94,53 @@ export default function UserForm({ name, title }) {
     dispatch(closeModalUser());
   };
 
+  useEffect(() => {
+    if (userData !== null) {
+      reset({
+        company: userData['company'],
+        site: userData['site'],
+        unit: userData['unit'],
+      });
+    }
+  }, [isOpenModalUser]);
+
+  useEffect(() => {
+    if (clear) {
+      reset({
+        company: '',
+        site: '',
+        unit: '',
+      });
+    }
+  }, [clear]);
+
   return (
     <>
       <Button
+        color="primary"
         variant={toggleUser ? 'contained' : 'outlined'}
         onClick={() => {
           handleAddInfo();
         }}
-        // color={toggle ? 'primary' : 'contained'}
+        // color={toggleUser ? 'primary' : 'contained'}
         sx={{ height: '150px', width: '150px', borderRadius: '50%' }}
       >
         User
       </Button>
+      {/* <Box sx={{ my: 5, width: '200px', textAlign: 'center' }}>
+        <Button
+          onClick={() => {
+            handleAddInfo();
+          }}
+        >
+          <IconWrapperStyle toggleUser={toggleUser}>
+            <Iconify icon="bx:user" width={36} height={36} />
+          </IconWrapperStyle>
+        </Button>
+        <Typography variant="subtitle1" gutterBottom>
+          User
+        </Typography>
+      </Box> */}
 
       <DialogAnimate open={isOpenModalUser} onClose={handleCloseModal}>
         <DialogTitle>User Information</DialogTitle>
@@ -94,7 +153,10 @@ export default function UserForm({ name, title }) {
           </Stack>
 
           <DialogActions>
-            <Button startIcon={<Iconify icon={'eva:plus-fill'} width={20} height={20} />} variant="outlined">
+            <Button
+              startIcon={<Iconify icon={'eva:plus-fill'} width={20} height={20} onClick={() => setClear(!clear)} />}
+              variant="outlined"
+            >
               NEW
             </Button>
             <LoadingButton type="submit" variant="contained" loading={isSubmitting}>

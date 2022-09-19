@@ -7,7 +7,7 @@ const TableDataContext = createContext();
 function TableDataProvider({ children }) {
   const { user } = useAuth();
   const { savedDatas } = useSelector((state) => state.analysisSetting);
-
+  const { savedDatasECT } = useSelector((state) => state.testInformation);
   const [tableData, setTableData] = useState({
     userName: '',
     tspThreshold: '',
@@ -62,6 +62,15 @@ function TableDataProvider({ children }) {
   }, [savedDatas, user]);
   // console.log('equipmentObject', equipmentObjectData);
   // console.log('equipmentTube', equipmentTubeData);
+  useEffect(() => {
+    if (savedDatasECT.length === 0) {
+      return;
+    }
+    const parseData = JSON.parse(savedDatasECT[0]?.jdoc);
+    // console.log(parseData.userData);
+    onChangeUser(parseData.userData);
+    // console.log('야호', savedDatasECT[0]?.jdoc['userData']);
+  }, [savedDatasECT]);
 
   return (
     <TableDataContext.Provider

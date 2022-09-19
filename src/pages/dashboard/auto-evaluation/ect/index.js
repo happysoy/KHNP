@@ -14,9 +14,9 @@ import SignalAcquisitionForm from 'src/sections/dashboard/auto-evaluation/Signal
 import EquipmentForm from 'src/sections/dashboard/auto-evaluation/EquipmentForm';
 import TestInstrumentForm from 'src/sections/dashboard/auto-evaluation/TestInstrumentForm';
 import useTableAction from 'src/hooks/useTableAction';
-
+import { getData, insertData } from 'src/redux/slices/test-information';
 // redux
-import { useSelector } from '../../../../redux/store';
+import { useDispatch, useSelector } from '../../../../redux/store';
 import { useEffect, useState } from 'react';
 
 ECT.getLayout = function getLayout(page) {
@@ -24,19 +24,24 @@ ECT.getLayout = function getLayout(page) {
 };
 
 export default function ECT() {
-  const { toggleUser, toggleEquipment, toggleSignalAcquisition, toggleTestInstrument } = useSelector(
+  const { savedDatasECT, toggleUser, toggleEquipment, toggleSignalAcquisition, toggleTestInstrument } = useSelector(
     (state) => state.testInformation
   );
+  const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const [complete, setComplete] = useState(false);
 
   const { userData, equipmentData, signalAcquisitionData, testInstrumentData } = useTableAction();
 
+  useEffect(() => {
+    dispatch(getData());
+  }, [dispatch]);
+
   const onSubmit = async () => {
     try {
       setLoading(true);
       await new Promise((resolve) => setTimeout(resolve, 1000));
-
+      dispatch(insertData({ userData, equipmentData, signalAcquisitionData, testInstrumentData }));
       setLoading(false);
       setComplete(true);
     } catch (error) {
@@ -50,7 +55,7 @@ export default function ECT() {
         <Title heading="Test Information" desc="ECT" />
         <Grid container spacing={5}>
           <Grid item sm={3} sx={{ display: 'flex', justifyContent: 'center' }}>
-            <UserForm />
+            <UserForm savedDatasECT={savedDatasECT} userData={userData} />
           </Grid>
           <Grid item sm={3} sx={{ display: 'flex', justifyContent: 'center' }}>
             <EquipmentForm />
@@ -62,7 +67,7 @@ export default function ECT() {
             <TestInstrumentForm />
           </Grid>
 
-          <Grid item sm={12} sx={{ mt: 20, display: 'flex', justifyContent: 'flex-end', alignItems: 'flex-end' }}>
+          <Grid item sm={12} sx={{ mt: 7, display: 'flex', justifyContent: 'flex-end', alignItems: 'flex-end' }}>
             <Stack direction="row" spacing={3}>
               <NextLink href="/dashboard/auto-evaluation" passHref>
                 <Button fullWidth variant="outlined" size="large">

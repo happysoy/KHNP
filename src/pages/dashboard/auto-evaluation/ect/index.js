@@ -32,7 +32,7 @@ export default function ECT() {
   const [complete, setComplete] = useState(false);
 
   const { userData, equipmentData, signalAcquisitionData, testInstrumentData } = useTableAction();
-
+  // console.log('Temp equipment', equipmentData);
   useEffect(() => {
     dispatch(getData());
   }, [dispatch]);
@@ -48,6 +48,10 @@ export default function ECT() {
       console.error(error);
     }
   };
+  let parseECT;
+  if (savedDatasECT.length !== 0) {
+    parseECT = JSON.parse(savedDatasECT[0]?.jdoc);
+  }
 
   return (
     <Page title="자동평가">
@@ -55,13 +59,13 @@ export default function ECT() {
         <Title heading="Test Information" desc="ECT" />
         <Grid container spacing={5}>
           <Grid item sm={3} sx={{ display: 'flex', justifyContent: 'center' }}>
-            <UserForm savedDatasECT={savedDatasECT} userData={userData} />
+            <UserForm parseECT={parseECT} />
           </Grid>
           <Grid item sm={3} sx={{ display: 'flex', justifyContent: 'center' }}>
-            <EquipmentForm />
+            <EquipmentForm parseECT={parseECT} />
           </Grid>
           <Grid item sm={3} sx={{ display: 'flex', justifyContent: 'center' }}>
-            <SignalAcquisitionForm />
+            <SignalAcquisitionForm parseECT={parseECT} />
           </Grid>
           <Grid item sm={3} sx={{ display: 'flex', justifyContent: 'center' }}>
             <TestInstrumentForm />

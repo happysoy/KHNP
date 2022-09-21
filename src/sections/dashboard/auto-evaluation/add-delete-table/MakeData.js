@@ -1,43 +1,73 @@
 import faker from 'faker';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { getTableHeader } from 'src/redux/slices/response-table';
 import { useDispatch, useSelector } from 'src/redux/store';
-import { signalAcquisition, equipmentObject, equipmentTube, testInstrument, randomColor } from './utils';
+import {
+  signalAcquisitionFormat,
+  equipmentObjectFormat,
+  equipmentTubeFormat,
+  testInstrumentFormat,
+  randomColor,
+} from './utils';
+import useTableAction from 'src/hooks/useTableAction';
 
-export default function makeData(type) {
+export default function makeData(type, savedDatasECT) {
+  // const [isSave, setIsSave] = useState(false);
+  // 임시 저장 데이터
+
+  const { equipmentData, signalAcquisitionData, testInstrumentData } = useTableAction();
+
+  const { equipmentObject, equipmentTube } = equipmentData;
+
+  const { signalAcquisition } = signalAcquisitionData;
+  const { testInstrument } = testInstrumentData;
+
   if (type === 'equipmentObject') {
-    const { columns, data } = equipmentObject();
-    return { columns, data };
-  } else if (type === 'testInstrument') {
-    const { columns, data } = testInstrument();
+    let { columns, data } = equipmentObjectFormat();
+
+    if (equipmentObject !== undefined) {
+      data = equipmentObject;
+    }
+    if (savedDatasECT.length !== 0) {
+      const parseECT = JSON.parse(savedDatasECT[0]?.jdoc);
+      data = parseECT.equipmentData.equipmentObject;
+    }
     return { columns, data };
   } else if (type === 'equipmentTube') {
-    const { columns, data } = equipmentTube();
+    let { columns, data } = equipmentTubeFormat();
+
+    if (savedDatasECT.length !== 0) {
+      const parseECT = JSON.parse(savedDatasECT[0]?.jdoc);
+      data = parseECT.equipmentData.equipmentTube;
+    }
+
+    if (equipmentTube !== undefined) {
+      data = equipmentTube;
+    }
     return { columns, data };
   } else if (type === 'signalAcquisition') {
-    const { columns, data } = signalAcquisition();
+    let { columns, data } = signalAcquisitionFormat();
+    if (savedDatasECT.length !== 0) {
+      const parseECT = JSON.parse(savedDatasECT[0]?.jdoc);
+      data = parseECT.signalAcquisitionData.signalAcquisition;
+    }
+    if (signalAcquisition !== undefined) {
+      data = signalAcquisition;
+    }
+    return { columns, data };
+  } else if (type === 'testInstrument') {
+    let { columns, data } = testInstrumentFormat();
+    if (savedDatasECT.length !== 0) {
+      // db에 저장된 데이터 불러오기
+      const parseECT = JSON.parse(savedDatasECT[0]?.jdoc);
+      data = parseECT.testInstrumentData.testInstrument;
+    }
+    if (testInstrument !== undefined) {
+      // 임시 데이터 저장
+      data = testInstrument;
+    }
     return { columns, data };
   }
-  console.log('야야', columns);
-
-  // const { tableDatas } = useSelector((state) => state.tableDatas);
-  // const dispatch = useDispatch();
-  // useEffect(() => {
-  //   dispatch(getTableHeader());
-  // }, [dispatch]);
-
-  // 렌더링 문젱
-  // if (tableDatas) {
-  //   tableDatas.map((item) => {
-  //     let row = {
-  //       ID: item.ID,
-  //       firstName: item.firstName,
-  //       lastName: item.lastName,
-  //       age: item.age,
-  //       email: item.email,
-  //     };
-  //     data.push(row);
-  //   });
 
   return { columns: columns, data: data, skipReset: false };
 }

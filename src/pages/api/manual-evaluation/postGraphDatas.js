@@ -9,7 +9,7 @@ export default async (req, res) => {
     const PostData = (callback) => {
       const options = {
         method: 'POST',
-        uri: 'http://127.0.0.1:5000/file-datas',
+        uri: 'http://3.39.112.135:5000/file-datas',
         qs: {
           file_name: fileName,
           file_URL: fileURL,

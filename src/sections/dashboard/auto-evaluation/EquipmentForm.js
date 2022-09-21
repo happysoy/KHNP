@@ -18,6 +18,7 @@ import Iconify from '../../../components/Iconify';
 import AddDeleteTable from './add-delete-table/AddDeleteTable';
 import RHFTable from 'src/components/hook-form/RHFTable';
 import useTableAction from 'src/hooks/useTableAction';
+import { equipmentObject } from './add-delete-table/utils';
 
 const TUBETYPE_OPTION = [
   { label: 'Straight', value: 'Straight' },
@@ -43,9 +44,10 @@ const getInitialValues = () => {
   return user_init;
 };
 
-export default function EquipmentForm({ name, title }) {
+export default function EquipmentForm({ parseECT, name, title }) {
   const dispatch = useDispatch();
-  const { isOpenModalEquipment, toggleEquipment } = useSelector((state) => state.testInformation);
+
+  const { savedDatasECT, isOpenModalEquipment, toggleEquipment } = useSelector((state) => state.testInformation);
   const [form, setForm] = useState(null);
   const { onChangeEquipment } = useTableAction();
   const methods = useForm({
@@ -74,6 +76,19 @@ export default function EquipmentForm({ name, title }) {
   const handleCloseModal = () => {
     dispatch(closeModalEquipment());
   };
+  useEffect(() => {
+    if (parseECT) {
+      const { tubeType } = parseECT.equipmentData;
+      let index = -1;
+      TUBETYPE_OPTION.find((item) => {
+        index++;
+        return item.label === tubeType;
+      });
+      reset({
+        tubeType: TUBETYPE_OPTION[index].value,
+      });
+    }
+  }, [isOpenModalEquipment]);
 
   return (
     <>
@@ -98,7 +113,7 @@ export default function EquipmentForm({ name, title }) {
                 <LabelStyle>Tube Type</LabelStyle>
                 <RHFRadioGroup name="tubeType" options={TUBETYPE_OPTION} />
               </div>
-              <RHFTable name="equipmentObject" />
+              <RHFTable name="equipmentObject" talbeData={equipmentObject} />
             </Stack>
             <Stack spacing={3} sx={{ p: 3 }}>
               <TitleStyle>Tube Test Quantity</TitleStyle>

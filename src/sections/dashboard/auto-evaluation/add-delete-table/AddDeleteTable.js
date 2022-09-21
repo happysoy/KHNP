@@ -1,10 +1,9 @@
-import { useEffect, useReducer } from 'react';
+import { useCallback, useEffect, useReducer, useState } from 'react';
 import Table from './Table';
 import makeData from './MakeData';
-import { randomColor, shortId, ActionTypes, DataTypes } from './utils';
+import { randomColor, shortId, ActionTypes, DataTypes, equipmentObject } from './utils';
 import { grey } from './colors';
-// hooks
-import useTableAction from 'src/hooks/useTableAction';
+import { useDispatch, useSelector } from 'src/redux/store';
 
 function reducer(state, action) {
   switch (action.type) {
@@ -201,7 +200,10 @@ function reducer(state, action) {
 }
 
 export default function AddDeleteTable({ type, field }) {
-  const [state, dispatch] = useReducer(reducer, makeData(type));
+  const { savedDatasECT } = useSelector((state) => state.testInformation);
+
+  const [state, dispatch] = useReducer(reducer, makeData(type, savedDatasECT));
+
   useEffect(() => {
     dispatch({ type: 'enable_reset' });
     if (state.data[0].ID === 'equipmentObject') {

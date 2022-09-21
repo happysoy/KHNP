@@ -6,7 +6,7 @@ export function randomColor() {
   return `hsl(${Math.floor(Math.random() * 360)}, 95%, 90%)`;
 }
 
-export function signalAcquisition() {
+export function signalAcquisitionFormat() {
   let data = [];
   const count = 2;
   for (let i = 0; i < count; i++) {
@@ -66,7 +66,7 @@ export function signalAcquisition() {
   return { columns, data };
 }
 
-export function equipmentObject() {
+export function equipmentObjectFormat() {
   let data = [];
   const content = [
     'Equipment Name',
@@ -109,7 +109,7 @@ export function equipmentObject() {
   ];
   return { columns, data };
 }
-export function equipmentTube() {
+export function equipmentTubeFormat() {
   let data = [];
   const content = ['총 전열관', '기존 관막음수', 'No Tube', '검사 수량', '비 고'];
 
@@ -141,7 +141,7 @@ export function equipmentTube() {
   ];
   return { columns, data };
 }
-export function testInstrument() {
+export function testInstrumentFormat() {
   let data = [];
   const content = ['신호수집 detector', '탐촉자', '교정시편'];
   for (let i = 0; i < content.length; i++) {

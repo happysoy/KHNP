@@ -5,7 +5,6 @@ import { useEffect, useRef, useState } from 'react';
 import { Card, CardHeader, Box, TextField } from '@mui/material';
 // redux
 import { useDispatch, useSelector } from 'src/redux/store';
-import { getGraphDatas } from 'src/redux/slices/data';
 // hooks
 import useGraphAction from 'src/hooks/useGraphActions';
 import useAxis from 'src/hooks/useAxis';
@@ -30,11 +29,6 @@ export default function ChannelLissajous({ chartLabels, chartData, ...other }) {
   const { graphDatas, isLoading } = useSelector((state) => state.data);
 
   const dispatch = useDispatch();
-  // useEffect(() => {
-  //   dispatch(getGraphDatas());
-  // }, [dispatch]);
-
-  // console.log(graphDatas);
 
   const handleChangeSeriesData = (event) => {
     setSeriesData(event.target.value);

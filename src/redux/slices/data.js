@@ -42,10 +42,6 @@ const slice = createSlice({
       state.isLoading = true;
       state.graphDatas = action.payload;
     },
-    getGraphDatasSuccess(state, action) {
-      state.isLoading = false;
-      state.graphDatas = action.payload;
-    },
   },
 });
 
@@ -106,17 +102,6 @@ export function postGraphDatas(data) {
     try {
       const response = await axios.post('/api/manual-evaluation/postGraphDatas', data);
       dispatch(slice.actions.postGraphDatasSuccess(response.data));
-    } catch (error) {
-      dispatch(slice.actions.hasError(error));
-    }
-  };
-}
-export function getGraphDatas() {
-  return async () => {
-    dispatch(slice.actions.startLoading());
-    try {
-      const response = await axios.post('/api/manual-evaluation/getGraphDatas');
-      dispatch(slice.actions.getGraphDatasSuccess(response.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
     }

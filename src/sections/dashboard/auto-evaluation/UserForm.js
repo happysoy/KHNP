@@ -28,13 +28,18 @@ const getInitialValues = () => {
   return userInit;
 };
 
-export default function UserForm({ name, title, savedDatasECT, userData }) {
+export default function UserForm({ name, parseECT, title, userData }) {
   const theme = useTheme();
   const dispatch = useDispatch();
-  const { isOpenModalUser, toggleUser } = useSelector((state) => state.testInformation);
+  const { savedDatasECT, isOpenModalUser, toggleUser } = useSelector((state) => state.testInformation);
   const [form, setForm] = useState(null);
   const { onChangeUser } = useTableAction();
   const [clear, setClear] = useState(false);
+
+  // if (savedDatasECT.length === 0) {
+  //   return;
+  // }
+  // const parseECT = JSON.parse(savedDatasECT[0]?.jdoc);
 
   const IconWrapperStyle = styled('div', {
     shouldForwardProp: (prop) => prop !== 'toggleUser',
@@ -95,11 +100,19 @@ export default function UserForm({ name, title, savedDatasECT, userData }) {
   };
 
   useEffect(() => {
-    if (userData !== null) {
+    // if (userData !== null) {
+    //   reset({
+    //     company: userData['company'],
+    //     site: userData['site'],
+    //     unit: userData['unit'],
+    //   });
+    // }
+    if (parseECT) {
+      const { site, unit, company } = parseECT.userData;
       reset({
-        company: userData['company'],
-        site: userData['site'],
-        unit: userData['unit'],
+        company: company,
+        site: site,
+        unit: unit,
       });
     }
   }, [isOpenModalUser]);

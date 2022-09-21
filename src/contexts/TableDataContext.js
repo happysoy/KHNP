@@ -66,9 +66,10 @@ function TableDataProvider({ children }) {
     if (savedDatasECT.length === 0) {
       return;
     }
-    const parseData = JSON.parse(savedDatasECT[0]?.jdoc);
+    // savedDatasECT = SON.parse(savedDatasECT[0]?.jdoc);
+    // const parseData = JSON.parse(savedDatasECT[0]?.jdoc);
     // console.log(parseData.userData);
-    onChangeUser(parseData.userData);
+    // onChangeUser(parseData.userData);
     // console.log('야호', savedDatasECT[0]?.jdoc['userData']);
   }, [savedDatasECT]);
 

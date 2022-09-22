@@ -29,42 +29,42 @@ export default function Header({
   const [typePopperElement, setTypePopperElement] = useState(null);
   const [showType, setShowType] = useState(false);
   const buttons = [
-    {
-      onClick: (e) => {
-        dataDispatch({ type: 'update_column_header', columnId: id, label: header });
-        setSortBy([{ id: id, desc: false }]);
-        setExpanded(false);
-      },
-      icon: <ArrowUpIcon />,
-      label: 'Sort ascending',
-    },
-    {
-      onClick: (e) => {
-        dataDispatch({ type: 'update_column_header', columnId: id, label: header });
-        setSortBy([{ id: id, desc: true }]);
-        setExpanded(false);
-      },
-      icon: <ArrowDownIcon />,
-      label: 'Sort descending',
-    },
-    {
-      onClick: (e) => {
-        dataDispatch({ type: 'update_column_header', columnId: id, label: header });
-        dataDispatch({ type: 'add_column_to_left', columnId: id, focus: false });
-        setExpanded(false);
-      },
-      icon: <ArrowLeftIcon />,
-      label: 'Insert left',
-    },
-    {
-      onClick: (e) => {
-        dataDispatch({ type: 'update_column_header', columnId: id, label: header });
-        dataDispatch({ type: 'add_column_to_right', columnId: id, focus: false });
-        setExpanded(false);
-      },
-      icon: <ArrowRightIcon />,
-      label: 'Insert right',
-    },
+    // {
+    //   onClick: (e) => {
+    //     dataDispatch({ type: 'update_column_header', columnId: id, label: header });
+    //     setSortBy([{ id: id, desc: false }]);
+    //     setExpanded(false);
+    //   },
+    //   icon: <ArrowUpIcon />,
+    //   label: 'Sort ascending',
+    // },
+    // {
+    //   onClick: (e) => {
+    //     dataDispatch({ type: 'update_column_header', columnId: id, label: header });
+    //     setSortBy([{ id: id, desc: true }]);
+    //     setExpanded(false);
+    //   },
+    //   icon: <ArrowDownIcon />,
+    //   label: 'Sort descending',
+    // },
+    // {
+    //   onClick: (e) => {
+    //     dataDispatch({ type: 'update_column_header', columnId: id, label: header });
+    //     dataDispatch({ type: 'add_column_to_left', columnId: id, focus: false });
+    //     setExpanded(false);
+    //   },
+    //   icon: <ArrowLeftIcon />,
+    //   label: 'Insert left',
+    // },
+    // {
+    //   onClick: (e) => {
+    //     dataDispatch({ type: 'update_column_header', columnId: id, label: header });
+    //     dataDispatch({ type: 'add_column_to_right', columnId: id, focus: false });
+    //     setExpanded(false);
+    //   },
+    //   icon: <ArrowRightIcon />,
+    //   label: 'Insert right',
+    // },
     {
       onClick: (e) => {
         dataDispatch({ type: 'update_column_header', columnId: id, label: header });
@@ -89,7 +89,7 @@ export default function Header({
 
   useEffect(() => {
     if (created) {
-      setExpanded(true);
+      setExpanded(false);
     }
   }, [created]);
 
@@ -217,6 +217,7 @@ export default function Header({
       <div
         className="th-content"
         style={{ display: 'flex', justifyContent: 'center' }}
+        // columnId 수정요함
         onClick={(e) => dataDispatch({ type: 'add_column_to_left', columnId: 999999, focus: true })}
       >
         <span className="svg-icon-sm svg-gray">

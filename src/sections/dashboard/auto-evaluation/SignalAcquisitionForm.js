@@ -32,15 +32,15 @@ const TitleStyle = styled(Typography)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-export default function SignalAcquisitionForm({ name, title }) {
+export default function SignalAcquisitionForm({ parseECT, name, title }) {
   const dispatch = useDispatch();
   const { isOpenModalSignalAcquisition, toggleSignalAcquisition } = useSelector((state) => state.testInformation);
   const [form, setForm] = useState(null);
   const { onChangeSignalAcquisition } = useTableAction();
 
   const Schema = Yup.object().shape({
-    probeType: Yup.string().max(5).required('Probe Type is required'),
-    probeVelocity: Yup.string().max(5).required('Probe Velocity is required'),
+    probeType: Yup.string().required('Probe Type is required'),
+    probeVelocity: Yup.string().required('Probe Velocity is required'),
   });
 
   const methods = useForm({
@@ -70,6 +70,16 @@ export default function SignalAcquisitionForm({ name, title }) {
   const handleCloseModal = () => {
     dispatch(closeModalSignalAcquisition());
   };
+
+  useEffect(() => {
+    if (parseECT) {
+      const { probeType, probeVelocity } = parseECT.signalAcquisitionData;
+      reset({
+        probeType: probeType,
+        probeVelocity: probeVelocity,
+      });
+    }
+  }, [isOpenModalSignalAcquisition]);
 
   return (
     <>

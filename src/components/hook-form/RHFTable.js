@@ -1,5 +1,7 @@
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from '../../redux/store';
+
 // form
 import { useFormContext, Controller } from 'react-hook-form';
 // @mui
@@ -10,9 +12,9 @@ import AddDeleteTable from 'src/sections/dashboard/auto-evaluation/add-delete-ta
 import useTableAction from 'src/hooks/useTableAction';
 // ----------------------------------------------------------------------
 
-export default function RHFTable({ name, ...other }) {
+export default function RHFTable({ name, tableData, ...other }) {
   const { control } = useFormContext();
-  const { equipmentObjectData } = useTableAction();
+
   return (
     <Controller
       name={name}
@@ -20,7 +22,7 @@ export default function RHFTable({ name, ...other }) {
       render={({ field, fieldState: { error } }) => {
         return (
           <>
-            <AddDeleteTable type={name} field={field} />
+            <AddDeleteTable type={name} field={field}  />
           </>
         );
       }}

@@ -94,11 +94,21 @@ export function insertData(newData) {
   };
 }
 
-export function getData() {
+export function getData(userName) {
   return async () => {
     try {
-      const response = await axios.post('/api/auto-evaluation/getData');
+      const response = await axios.post('/api/auto-evaluation/getData', userName);
       dispatch(slice.actions.getDataSuccess(response.data));
+    } catch (error) {
+      dispatch(slice.actions.hasError(error));
+    }
+  };
+}
+
+export function deleteData(newData) {
+  return async () => {
+    try {
+      await axios.post('/api/auto-evaluation/deleteData', newData);
     } catch (error) {
       dispatch(slice.actions.hasError(error));
     }

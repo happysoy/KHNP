@@ -60,17 +60,17 @@ function TableDataProvider({ children }) {
       calcurve80: savedDatas[0]?.calcurve80,
     });
   }, [savedDatas, user]);
+
   // console.log('equipmentObject', equipmentObjectData);
   // console.log('equipmentTube', equipmentTubeData);
   useEffect(() => {
-    if (savedDatasECT.length === 0) {
-      return;
+    if (savedDatasECT.length !== 0) {
+      const parseECT = JSON.parse(savedDatasECT[0]?.jdoc);
+      onChangeUser(parseECT.userData);
+      onChangeSignalAcquisition(parseECT.signalAcquisitionData);
+      onChangeTestInstrument(parseECT.testInstrumentData);
     }
-    // savedDatasECT = SON.parse(savedDatasECT[0]?.jdoc);
-    // const parseData = JSON.parse(savedDatasECT[0]?.jdoc);
-    // console.log(parseData.userData);
-    // onChangeUser(parseData.userData);
-    // console.log('야호', savedDatasECT[0]?.jdoc['userData']);
+    // onChangeUser()
   }, [savedDatasECT]);
 
   return (

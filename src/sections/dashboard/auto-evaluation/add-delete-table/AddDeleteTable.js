@@ -209,9 +209,9 @@ export default function AddDeleteTable({ type, field }) {
     if (state.data[0].ID === 'equipmentObject') {
       field.onChange(state.data);
     } else if (state.data[0].ID === 'equipmentTube') {
-      field.onChange(state.data);
+      field.onChange(state);
     } else if (state.data[0].ID === 'signalAcquisition') {
-      field.onChange(state.data);
+      field.onChange(state);
     } else if (state.data[0].ID === 'testInstrument') {
       field.onChange(state.data);
     }

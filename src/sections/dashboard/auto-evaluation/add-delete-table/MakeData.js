@@ -15,8 +15,8 @@ export default function makeData(type, savedDatasECT) {
   // const [isSave, setIsSave] = useState(false);
   // 임시 저장 데이터
 
+  // 수정이 안됨
   const { equipmentData, signalAcquisitionData, testInstrumentData } = useTableAction();
-
   const { equipmentObject, equipmentTube } = equipmentData;
 
   const { signalAcquisition } = signalAcquisitionData;
@@ -25,12 +25,13 @@ export default function makeData(type, savedDatasECT) {
   if (type === 'equipmentObject') {
     let { columns, data } = equipmentObjectFormat();
 
-    if (equipmentObject !== undefined) {
-      data = equipmentObject;
-    }
     if (savedDatasECT.length !== 0) {
       const parseECT = JSON.parse(savedDatasECT[0]?.jdoc);
       data = parseECT.equipmentData.equipmentObject;
+    }
+    console.log('equoipmetn', equipmentObject);
+    if (equipmentObject !== undefined) {
+      data = equipmentObject;
     }
     return { columns, data };
   } else if (type === 'equipmentTube') {
@@ -38,21 +39,26 @@ export default function makeData(type, savedDatasECT) {
 
     if (savedDatasECT.length !== 0) {
       const parseECT = JSON.parse(savedDatasECT[0]?.jdoc);
-      data = parseECT.equipmentData.equipmentTube;
+      data = parseECT.equipmentData.equipmentTube.data;
+      columns = parseECT.equipmentData.equipmentTube.columns;
     }
 
     if (equipmentTube !== undefined) {
-      data = equipmentTube;
+      data = equipmentTube.data;
+      columns = equipmentTube.columns;
     }
     return { columns, data };
   } else if (type === 'signalAcquisition') {
     let { columns, data } = signalAcquisitionFormat();
+    // console.log(signalAcquisition);
     if (savedDatasECT.length !== 0) {
       const parseECT = JSON.parse(savedDatasECT[0]?.jdoc);
-      data = parseECT.signalAcquisitionData.signalAcquisition;
+      data = parseECT.signalAcquisitionData.signalAcquisition.data;
+      columns = parseECT.signalAcquisitionData.signalAcquisition.columns;
     }
     if (signalAcquisition !== undefined) {
-      data = signalAcquisition;
+      data = signalAcquisition.data;
+      columns = signalAcquisition.columns;
     }
     return { columns, data };
   } else if (type === 'testInstrument') {

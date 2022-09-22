@@ -100,19 +100,19 @@ export default function UserForm({ name, parseECT, title, userData }) {
   };
 
   useEffect(() => {
-    // if (userData !== null) {
-    //   reset({
-    //     company: userData['company'],
-    //     site: userData['site'],
-    //     unit: userData['unit'],
-    //   });
-    // }
     if (parseECT) {
       const { site, unit, company } = parseECT.userData;
       reset({
         company: company,
         site: site,
         unit: unit,
+      });
+    }
+    if (Object.keys(userData).length !== 0) {
+      reset({
+        company: userData['company'],
+        site: userData['site'],
+        unit: userData['unit'],
       });
     }
   }, [isOpenModalUser]);

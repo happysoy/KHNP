@@ -14,7 +14,9 @@ import SignalAcquisitionForm from 'src/sections/dashboard/auto-evaluation/Signal
 import EquipmentForm from 'src/sections/dashboard/auto-evaluation/EquipmentForm';
 import TestInstrumentForm from 'src/sections/dashboard/auto-evaluation/TestInstrumentForm';
 import useTableAction from 'src/hooks/useTableAction';
-import { getData, insertData } from 'src/redux/slices/test-information';
+import { getData, insertData, deleteData } from 'src/redux/slices/test-information';
+import useAuth from 'src/hooks/useAuth';
+
 // redux
 import { useDispatch, useSelector } from '../../../../redux/store';
 import { useEffect, useState } from 'react';
@@ -28,20 +30,38 @@ export default function ECT() {
     (state) => state.testInformation
   );
   const dispatch = useDispatch();
+  const { user } = useAuth();
+
   const [loading, setLoading] = useState(false);
   const [complete, setComplete] = useState(false);
-
+  const [isModify, setIsModify] = useState(false);
   const { userData, equipmentData, signalAcquisitionData, testInstrumentData } = useTableAction();
   // console.log('Temp equipment', equipmentData);
+  const obj = {
+    userName: user?.displayName,
+  };
   useEffect(() => {
-    dispatch(getData());
+    dispatch(getData(obj));
   }, [dispatch]);
+
+  useEffect(() => {
+    if (savedDatasECT.length !== 0) {
+      setIsModify(true);
+    } else {
+      setIsModify(false);
+    }
+  }, [savedDatasECT]);
 
   const onSubmit = async () => {
     try {
       setLoading(true);
+
       await new Promise((resolve) => setTimeout(resolve, 1000));
-      dispatch(insertData({ userData, equipmentData, signalAcquisitionData, testInstrumentData }));
+      if (isModify) {
+        dispatch(deleteData({ obj }));
+      }
+      dispatch(insertData({ obj, userData, equipmentData, signalAcquisitionData, testInstrumentData }));
+
       setLoading(false);
       setComplete(true);
     } catch (error) {
@@ -59,7 +79,7 @@ export default function ECT() {
         <Title heading="Test Information" desc="ECT" />
         <Grid container spacing={5}>
           <Grid item sm={3} sx={{ display: 'flex', justifyContent: 'center' }}>
-            <UserForm parseECT={parseECT} />
+            <UserForm userData={userData} parseECT={parseECT} />
           </Grid>
           <Grid item sm={3} sx={{ display: 'flex', justifyContent: 'center' }}>
             <EquipmentForm parseECT={parseECT} />
@@ -86,7 +106,7 @@ export default function ECT() {
                 size="large"
                 onClick={onSubmit}
               >
-                SAVE
+                {isModify ? 'CHANGE' : 'SAVE'}
               </LoadingButton>
               <NextLink href="/dashboard/auto-evaluation" passHref>
                 <Button fullWidth disabled={!complete} variant="outlined" size="large">

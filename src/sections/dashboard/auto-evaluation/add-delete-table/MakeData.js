@@ -16,6 +16,8 @@ export default function makeData(type, savedDatasECT) {
   // 임시 저장 데이터
 
   // 수정이 안됨
+  // console.log('저장', savedDatasECT);
+
   const { equipmentData, signalAcquisitionData, testInstrumentData } = useTableAction();
   const { equipmentObject, equipmentTube } = equipmentData;
 
@@ -26,11 +28,14 @@ export default function makeData(type, savedDatasECT) {
     let { columns, data } = equipmentObjectFormat();
 
     if (savedDatasECT.length !== 0) {
+      // new 버튼을 누르지 않고 &&
+      // 저장된 데이터
       const parseECT = JSON.parse(savedDatasECT[0]?.jdoc);
       data = parseECT.equipmentData.equipmentObject;
     }
-    console.log('equoipmetn', equipmentObject);
     if (equipmentObject !== undefined) {
+      // new 버튼을 누르지 않고 &&
+      // 임시 데이터 저장되는 경우
       data = equipmentObject;
     }
     return { columns, data };

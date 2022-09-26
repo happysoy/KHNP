@@ -93,7 +93,7 @@ export default function EquipmentForm({ parseECT, name, title }) {
   return (
     <>
       <Button
-        variant={toggleEquipment ? 'contained' : 'outlined'}
+        variant={savedDatasECT !== 0 || toggleEquipment ? 'contained' : 'outlined'}
         onClick={handleAddInfo}
         sx={{ height: '150px', width: '150px', borderRadius: '50%' }}
       >

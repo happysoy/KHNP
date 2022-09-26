@@ -120,7 +120,7 @@ export default function UserForm({ name, parseECT, title, userData }) {
   useEffect(() => {
     if (clear) {
       reset({
-        company: '',
+        company: 'KHNP',
         site: '',
         unit: '',
       });
@@ -131,7 +131,7 @@ export default function UserForm({ name, parseECT, title, userData }) {
     <>
       <Button
         color="primary"
-        variant={toggleUser ? 'contained' : 'outlined'}
+        variant={savedDatasECT !== 0 || toggleUser ? 'contained' : 'outlined'}
         onClick={() => {
           handleAddInfo();
         }}
@@ -167,8 +167,9 @@ export default function UserForm({ name, parseECT, title, userData }) {
 
           <DialogActions>
             <Button
-              startIcon={<Iconify icon={'eva:plus-fill'} width={20} height={20} onClick={() => setClear(!clear)} />}
+              startIcon={<Iconify icon={'eva:plus-fill'} width={20} height={20} />}
               variant="outlined"
+              onClick={() => setClear(!clear)}
             >
               NEW
             </Button>

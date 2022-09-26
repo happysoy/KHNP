@@ -33,7 +33,9 @@ const TitleStyle = styled(Typography)(({ theme }) => ({
 
 export default function TestInstrumentForm({ name, title }) {
   const dispatch = useDispatch();
-  const { isOpenModalTestInstrument, toggleTestInstrument } = useSelector((state) => state.testInformation);
+  const { savedDatasECT, isOpenModalTestInstrument, toggleTestInstrument } = useSelector(
+    (state) => state.testInformation
+  );
   const [form, setForm] = useState(null);
   const { onChangeTestInstrument } = useTableAction();
 
@@ -72,7 +74,7 @@ export default function TestInstrumentForm({ name, title }) {
   return (
     <>
       <Button
-        variant={toggleTestInstrument ? 'contained' : 'outlined'}
+        variant={savedDatasECT !== 0 || toggleTestInstrument ? 'contained' : 'outlined'}
         onClick={handleAddInfo}
         sx={{ height: '150px', width: '150px', borderRadius: '50%' }}
       >

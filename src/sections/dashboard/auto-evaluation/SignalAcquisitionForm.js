@@ -34,9 +34,12 @@ const TitleStyle = styled(Typography)(({ theme }) => ({
 
 export default function SignalAcquisitionForm({ parseECT, name, title }) {
   const dispatch = useDispatch();
-  const { isOpenModalSignalAcquisition, toggleSignalAcquisition } = useSelector((state) => state.testInformation);
+  const { savedDatasECT, isOpenModalSignalAcquisition, toggleSignalAcquisition } = useSelector(
+    (state) => state.testInformation
+  );
   const [form, setForm] = useState(null);
   const { onChangeSignalAcquisition } = useTableAction();
+  const [clear, setClear] = useState(false);
 
   const Schema = Yup.object().shape({
     probeType: Yup.string().required('Probe Type is required'),
@@ -81,10 +84,19 @@ export default function SignalAcquisitionForm({ parseECT, name, title }) {
     }
   }, [isOpenModalSignalAcquisition]);
 
+  useEffect(() => {
+    if (clear) {
+      reset({
+        probeType: '',
+        probeVelocity: '',
+      });
+    }
+  }, [clear]);
+
   return (
     <>
       <Button
-        variant={toggleSignalAcquisition ? 'contained' : 'outlined'}
+        variant={savedDatasECT !== 0 || toggleSignalAcquisition ? 'contained' : 'outlined'}
         onClick={handleAddInfo}
         sx={{ height: '150px', width: '150px', borderRadius: '50%' }}
       >
@@ -105,7 +117,11 @@ export default function SignalAcquisitionForm({ parseECT, name, title }) {
           </Stack>
 
           <DialogActions>
-            <Button startIcon={<Iconify icon={'eva:plus-fill'} width={20} height={20} />} variant="outlined">
+            <Button
+              startIcon={<Iconify icon={'eva:plus-fill'} width={20} height={20} />}
+              variant="outlined"
+              onClick={() => setClear(!clear)}
+            >
               NEW
             </Button>
             <LoadingButton type="submit" variant="contained" onClick={handleCloseModal} loading={isSubmitting}>

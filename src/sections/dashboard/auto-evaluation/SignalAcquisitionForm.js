@@ -10,7 +10,11 @@ import { Stack, Button, Typography, DialogActions, DialogTitle } from '@mui/mate
 import { useEffect, useState } from 'react';
 // redux
 import { useDispatch, useSelector } from '../../../redux/store';
-import { openModalSignalAcquisition, closeModalSignalAcquisition } from '../../../redux/slices/test-information';
+import {
+  openModalSignalAcquisition,
+  closeModalSignalAcquisition,
+  resetSignalAcquisition,
+} from '../../../redux/slices/test-information';
 import Iconify from '../../../components/Iconify';
 // components
 import { DialogAnimate } from '../../../components/animate';
@@ -61,6 +65,7 @@ export default function SignalAcquisitionForm({ parseECT, name, title }) {
 
   const onSubmit = async (data) => {
     try {
+      console.log('siganl', data);
       onChangeSignalAcquisition(data);
     } catch (error) {
       console.error(error);
@@ -72,6 +77,9 @@ export default function SignalAcquisitionForm({ parseECT, name, title }) {
   };
   const handleCloseModal = () => {
     dispatch(closeModalSignalAcquisition());
+  };
+  const handleReset = () => {
+    dispatch(resetSignalAcquisition());
   };
 
   useEffect(() => {
@@ -96,7 +104,7 @@ export default function SignalAcquisitionForm({ parseECT, name, title }) {
   return (
     <>
       <Button
-        variant={savedDatasECT !== 0 || toggleSignalAcquisition ? 'contained' : 'outlined'}
+        variant={savedDatasECT.length !== 0 || toggleSignalAcquisition ? 'contained' : 'outlined'}
         onClick={handleAddInfo}
         sx={{ height: '150px', width: '150px', borderRadius: '50%' }}
       >
@@ -120,7 +128,7 @@ export default function SignalAcquisitionForm({ parseECT, name, title }) {
             <Button
               startIcon={<Iconify icon={'eva:plus-fill'} width={20} height={20} />}
               variant="outlined"
-              onClick={() => setClear(!clear)}
+              onClick={handleReset}
             >
               NEW
             </Button>

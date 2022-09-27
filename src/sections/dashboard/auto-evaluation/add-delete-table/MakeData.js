@@ -17,8 +17,11 @@ export default function makeData(type, savedDatasECT) {
 
   // 수정이 안됨
   // console.log('저장', savedDatasECT);
-
+  const { isResetEquipment, isResetSignalAcquisition, isResetTestInstrument } = useSelector(
+    (state) => state.testInformation
+  );
   const { equipmentData, signalAcquisitionData, testInstrumentData } = useTableAction();
+  // console.log('equipment', equipmentData);
   const { equipmentObject, equipmentTube } = equipmentData;
 
   const { signalAcquisition } = signalAcquisitionData;
@@ -27,28 +30,30 @@ export default function makeData(type, savedDatasECT) {
   if (type === 'equipmentObject') {
     let { columns, data } = equipmentObjectFormat();
 
-    if (savedDatasECT.length !== 0) {
+    if (!isResetEquipment && savedDatasECT.length !== 0) {
       // new 버튼을 누르지 않고 &&
       // 저장된 데이터
       const parseECT = JSON.parse(savedDatasECT[0]?.jdoc);
       data = parseECT.equipmentData.equipmentObject;
     }
-    if (equipmentObject !== undefined) {
+
+    if (!isResetEquipment && equipmentObject !== undefined) {
       // new 버튼을 누르지 않고 &&
       // 임시 데이터 저장되는 경우
       data = equipmentObject;
     }
+
     return { columns, data };
   } else if (type === 'equipmentTube') {
     let { columns, data } = equipmentTubeFormat();
 
-    if (savedDatasECT.length !== 0) {
+    if (!isResetEquipment && savedDatasECT.length !== 0) {
       const parseECT = JSON.parse(savedDatasECT[0]?.jdoc);
       data = parseECT.equipmentData.equipmentTube.data;
       columns = parseECT.equipmentData.equipmentTube.columns;
     }
 
-    if (equipmentTube !== undefined) {
+    if (!isResetEquipment && equipmentTube !== undefined) {
       data = equipmentTube.data;
       columns = equipmentTube.columns;
     }
@@ -56,24 +61,24 @@ export default function makeData(type, savedDatasECT) {
   } else if (type === 'signalAcquisition') {
     let { columns, data } = signalAcquisitionFormat();
     // console.log(signalAcquisition);
-    if (savedDatasECT.length !== 0) {
+    if (!isResetSignalAcquisition && savedDatasECT.length !== 0) {
       const parseECT = JSON.parse(savedDatasECT[0]?.jdoc);
       data = parseECT.signalAcquisitionData.signalAcquisition.data;
       columns = parseECT.signalAcquisitionData.signalAcquisition.columns;
     }
-    if (signalAcquisition !== undefined) {
+    if (!isResetSignalAcquisition && signalAcquisition !== undefined) {
       data = signalAcquisition.data;
       columns = signalAcquisition.columns;
     }
     return { columns, data };
   } else if (type === 'testInstrument') {
     let { columns, data } = testInstrumentFormat();
-    if (savedDatasECT.length !== 0) {
+    if (!isResetTestInstrument && savedDatasECT.length !== 0) {
       // db에 저장된 데이터 불러오기
       const parseECT = JSON.parse(savedDatasECT[0]?.jdoc);
       data = parseECT.testInstrumentData.testInstrument;
     }
-    if (testInstrument !== undefined) {
+    if (!isResetTestInstrument && testInstrument !== undefined) {
       // 임시 데이터 저장
       data = testInstrument;
     }

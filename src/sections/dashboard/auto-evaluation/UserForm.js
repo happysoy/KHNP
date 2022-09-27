@@ -131,7 +131,7 @@ export default function UserForm({ name, parseECT, title, userData }) {
     <>
       <Button
         color="primary"
-        variant={savedDatasECT !== 0 || toggleUser ? 'contained' : 'outlined'}
+        variant={savedDatasECT.length !== 0 || toggleUser ? 'contained' : 'outlined'}
         onClick={() => {
           handleAddInfo();
         }}

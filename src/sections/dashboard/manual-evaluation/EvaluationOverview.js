@@ -1,93 +1,193 @@
-import PropTypes from 'prop-types';
-import merge from 'lodash/merge';
-// @mui
+import { useEffect, useRef } from 'react';
+import Chart from 'chart.js/auto';
+import { Doughnut } from 'react-chartjs-2';
+import { Card, CardHeader, Box } from '@mui/material';
 import { useTheme, styled } from '@mui/material/styles';
-import { Card, CardHeader } from '@mui/material';
-// utils
-import { fNumber } from '../../../utils/formatNumber';
-// components
-import ReactApexChart, { BaseOptionChart } from '../../../components/chart';
+import { calcLength } from 'framer-motion';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 
-// ----------------------------------------------------------------------
-
-const CHART_HEIGHT = 372;
+const CHART_HEIGHT = 350;
 const LEGEND_HEIGHT = 72;
 
-const ChartWrapperStyle = styled('div')(({ theme }) => ({
+const WrapperStyle = styled('div')(({ theme }) => ({
   height: CHART_HEIGHT,
-  marginTop: theme.spacing(5),
-  '& .apexcharts-canvas svg': { height: CHART_HEIGHT },
-  '& .apexcharts-canvas svg,.apexcharts-canvas foreignObject': {
-    overflow: 'visible',
-  },
-  '& .apexcharts-legend': {
-    height: LEGEND_HEIGHT,
-    alignContent: 'center',
-    position: 'relative !important',
-    borderTop: `solid 1px ${theme.palette.divider}`,
-    top: `calc(${CHART_HEIGHT - LEGEND_HEIGHT}px) !important`,
-  },
+  marginTop: theme.spacing(10),
+  marginBottom: theme.spacing(10),
 }));
 
-// ----------------------------------------------------------------------
+export default function EvaluationOverview({ title, chartData, ...other }) {
+  const canvasEl = useRef(null);
 
-export default function EvaluationOverview({ title, subheader, chartColors, chartData, ...other }) {
-  const theme = useTheme();
+  const label = chartData.map((i) => i.label);
+  const value = chartData.map((i) => i.value);
+  const content = chartData.map((i) => i.contents);
 
-  const chartLabels = chartData.map((i) => i.label);
+  useEffect(() => {
+    const mydiv = canvasEl.current.getContext('2d');
 
-  const chartSeries = chartData.map((i) => i.value);
-
-  const chartContents = chartData.map((i) => i.contents);
-
-  // for (let i = 0; i < chartContents.length; i++) {
-  //   for (let j = 0; j < chartContents[i].length; j++) {
-  //     console.log(chartContents[i][j].id);
-  //   }
-  // }
-
-  const chartOptions = merge(BaseOptionChart(), {
-    colors: chartColors,
-    labels: chartLabels,
-    stroke: { colors: [theme.palette.background.paper] },
-
-    legend: { floating: true, horizontalAlign: 'center' },
-    dataLabels: { enabled: true, dropShadow: { enabled: false } }, // percent
-    tooltip: {
-      fillSeriesColor: false,
-
-      y: {
-        formatter: (value, chartSeries, index) => {
-          let contents = chartData[chartSeries.dataPointIndex].contents;
-          let list = [];
-          contents.map((i) => list.push('<span>' + i.id + ' : ' + i.count + '</span>'));
-
-          return list;
-          // return contents[index];
+    const data = {
+      labels: label,
+      datasets: [
+        {
+          label: 'My First Dataset',
+          data: value,
+          fill: true,
+          backgroundColor: [
+            'rgba(255, 159, 64, 0.2)',
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(255, 205, 86, 0.2)',
+            'rgba(75, 192, 192, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(153, 102, 255, 0.2)',
+            'rgba(201, 203, 207, 0.2)',
+          ],
+          borderColor: [
+            'rgb(255, 159, 64)',
+            'rgb(255, 99, 132)',
+            'rgb(255, 205, 86)',
+            'rgb(75, 192, 192)',
+            'rgb(54, 162, 235)',
+            'rgb(153, 102, 255)',
+            'rgb(201, 203, 207)',
+          ],
+          // borderWidth: 2,
+          // lineTension: 0.2,
+          // pointRadius: 3,
+          offset: 10,
+          cutout: '45%',
         },
-        // `${chartContents[0][0].id}`,
-        title: {
-          formatter: (seriesName) => `<div> ${seriesName} </div>`,
+      ],
+    };
+
+    const alwaysShowTooltip = {
+      ID: 'alwaysShowTooltip',
+      afterDraw(chart, args, options) {
+        const { ctx } = chart;
+        ctx.save();
+
+        chart.data.datasets.forEach((dataset, i) => {
+          chart.getDatasetMeta(i).data.forEach((datapoint, index) => {
+            const { x, y } = datapoint.tooltipPosition();
+
+            // console.log(chart.data.datasets[i].data[index]);
+            const text = chart.data.labels[index] + ': ' + chart.data.datasets[i].data[index];
+            const textWidth = ctx.measureText(text).width;
+            ctx.fillStyle = 'rgba(0,0,0,0.8)';
+            ctx.fillRect(x - (textWidth + 10) / 2, y - 25, textWidth + 10, 20);
+
+            // triangle
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            ctx.lineTo(x - 5, y - 5);
+            ctx.lineTo(x + 5, y - 5);
+            ctx.fill();
+            ctx.restore();
+
+            // text
+            ctx.font = '12px Arial';
+            ctx.fillStyle = 'white';
+            ctx.fillText(text, x - textWidth / 2, y - 11);
+            ctx.restore();
+          });
+        });
+      },
+    };
+
+    const doughnutLabelsLine = {
+      ID: 'doughnutLablesLine',
+      afterDraw(chart, args, options) {
+        const {
+          ctx,
+          chartArea: { top, bottom, left, right, width, height },
+        } = chart;
+
+        chart.data.datasets.forEach((dataset, i) => {
+          chart.getDatasetMeta(i).data.forEach((datapoint, index) => {
+            const { x, y } = datapoint.tooltipPosition();
+            // ctx.fillStyle = dataset.borderColor[index];
+            // ctx.fill();
+
+            // draw line
+            const halfWidth = width / 2;
+            const halfHeight = height / 2;
+
+            const xLine = x >= halfWidth ? x + 40 : x - 40;
+            const yLine = y >= halfHeight ? y + 50 : y - 50;
+            const extraLine = x >= halfWidth ? 80 : -50;
+
+            // line
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            ctx.lineTo(xLine, yLine);
+            ctx.lineTo(xLine + extraLine, yLine);
+            ctx.strokeStyle = dataset.borderColor[index];
+            ctx.stroke();
+
+            // text
+            const textWidth = ctx.measureText(chart.data.labels[index]).width;
+            ctx.font = 'bold 14px Arial';
+            // const text = chart.data.labels[index] + ': ' + chart.data.datasets[i].data[index];
+            // control the position
+            const textPosition = x >= halfWidth ? 'left' : 'right';
+            const plusFivePx = x >= halfWidth ? 10 : -10;
+            ctx.textAlign = textPosition;
+            ctx.textBaseline = 'middle';
+            ctx.fillStyle = dataset.borderColor[index];
+            ctx.fillText(chart.data.labels[index], xLine + extraLine + plusFivePx, yLine);
+            const contents = content[index];
+            let nextLine = 20;
+            contents.map((i) => {
+              ctx.fillText(`${i.id} : ${i.count}`, xLine + extraLine + plusFivePx, yLine + nextLine);
+              nextLine += 20;
+            });
+          });
+        });
+      },
+    };
+
+    const config = {
+      type: 'doughnut',
+      data: data,
+      options: {
+        layout: {
+          // margin: 100,
+          padding: 70,
+        },
+        maintainAspectRatio: false,
+        responsive: true,
+        plugins: {
+          datalabels: {
+            formatter: (value, context) => {
+              return `${value} %`;
+              // return `${context.chart.data.datasets[0].data[context.dataIndex]} %`;
+            },
+            font: {
+              weight: 'bold',
+              size: 16,
+            },
+            color: '#333333',
+          },
+          tooltip: {
+            enabled: false,
+          },
+          legend: {
+            display: false,
+          },
         },
       },
-    },
-    plotOptions: {
-      pie: { donut: { labels: { show: false } } }, // total
-    },
-    chart: {},
-    noData: {
-      text: 'Loading...',
-    },
-    textAnchor: 'middle',
-  });
+      plugins: [doughnutLabelsLine, ChartDataLabels],
+    };
+
+    const myLineChart = new Chart(mydiv, config);
+
+    return function cleanup() {
+      myLineChart.destroy();
+    };
+  }, []);
 
   return (
-    <Card {...other}>
-      <CardHeader title={title} subheader={subheader} />
-
-      <ChartWrapperStyle dir="ltr">
-        <ReactApexChart type="pie" series={chartSeries} options={chartOptions} height={280} />
-      </ChartWrapperStyle>
-    </Card>
+    <div style={{ position: 'relative', height: '500px', marginTop: '-80px' }}>
+      <canvas id="myChart" ref={canvasEl} />
+    </div>
   );
 }

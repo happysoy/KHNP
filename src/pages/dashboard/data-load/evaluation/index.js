@@ -10,6 +10,7 @@ import Page from '../../../../components/Page';
 // sections
 import EvaluationOverview from '../../../../sections/dashboard/manual-evaluation/EvaluationOverview';
 import EvaluationDetail from 'src/sections/dashboard/manual-evaluation/EvaluationDetail';
+import EvaluationSummary from '../../../../sections/dashboard/manual-evaluation/EvaluationSummary';
 
 Evaluation.getLayout = function getLayout(page) {
   return <Layout>{page}</Layout>;
@@ -75,19 +76,22 @@ export default function Evaluation() {
                   value: 20,
                 },
               ]}
-              chartColors={[
-                theme.palette.primary.main,
-                theme.palette.primary.dark,
-                theme.palette.chart.blue[0],
-                theme.palette.chart.blue[1],
-                theme.palette.chart.violet[0],
-                theme.palette.chart.violet[1],
-                theme.palette.chart.yellow[0],
-              ]}
+              // chartColors={[
+              //   theme.palette.primary.dark,
+              //   theme.palette.error.main,
+              //   theme.palette.chart.blue[0],
+              //   theme.palette.chart.blue[1],
+              //   theme.palette.chart.red[0],
+              //   theme.palette.chart.violet[1],
+              //   theme.palette.success.main,
+              // ]}
             />
           </Grid>
           <Grid item lg={4}>
             <EvaluationDetail />
+          </Grid>
+          <Grid item lg={12}>
+            <EvaluationSummary title="Test Result Summary" />
           </Grid>
         </Grid>
       </Container>

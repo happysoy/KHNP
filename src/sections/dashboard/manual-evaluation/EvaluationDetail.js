@@ -42,7 +42,6 @@ export default function EvaluationDetail({ title, description, ...other }) {
 
   return (
     <Card {...other}>
-      <CardHeader title={title} />
       <Stack direction="row" divider={<Divider orientation="vertical" flexItem />}>
         <Box sx={{ py: 2, width: 1, textAlign: 'center' }}>
           <Typography sx={{ mb: 1, typography: 'body2', color: 'text.secondary' }}>Object</Typography>
@@ -57,7 +56,7 @@ export default function EvaluationDetail({ title, description, ...other }) {
       <Stack direction="row" divider={<Divider orientation="vertical" flexItem />}>
         <Box sx={{ py: 2, width: 1, textAlign: 'center' }}>
           <Typography sx={{ mb: 1, typography: 'body2', color: 'text.secondary' }}>Date</Typography>
-          <Typography sx={{ typography: 'h4' }}>9</Typography>
+          <Typography sx={{ typography: 'h4' }}>2022.09.27</Typography>
         </Box>
         <Box sx={{ py: 2, width: 1, textAlign: 'center' }}>
           <Typography sx={{ mb: 1, typography: 'body2', color: 'text.secondary' }}>검사 수량</Typography>

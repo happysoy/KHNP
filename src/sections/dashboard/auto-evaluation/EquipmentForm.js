@@ -8,7 +8,7 @@ import { styled } from '@mui/material/styles';
 import { LoadingButton } from '@mui/lab';
 // redux
 import { useDispatch, useSelector } from '../../../redux/store';
-import { openModalEquipment, closeModalEquipment } from '../../../redux/slices/test-information';
+import { openModalEquipment, closeModalEquipment, resetEquipment } from '../../../redux/slices/test-information';
 
 // components
 import { DialogAnimate } from '../../../components/animate';
@@ -54,6 +54,8 @@ export default function EquipmentForm({ parseECT, name, title }) {
     defaultValues: getInitialValues(),
   });
 
+  const [clear, setClear] = useState(false);
+
   const {
     reset,
     watch,
@@ -64,6 +66,7 @@ export default function EquipmentForm({ parseECT, name, title }) {
 
   const onSubmit = async (data) => {
     try {
+      console.log('submit', data);
       onChangeEquipment(data);
     } catch (error) {
       console.error(error);
@@ -76,6 +79,10 @@ export default function EquipmentForm({ parseECT, name, title }) {
   const handleCloseModal = () => {
     dispatch(closeModalEquipment());
   };
+  const handleReset = () => {
+    dispatch(resetEquipment());
+  };
+
   useEffect(() => {
     if (parseECT) {
       const { tubeType } = parseECT.equipmentData;
@@ -90,10 +97,15 @@ export default function EquipmentForm({ parseECT, name, title }) {
     }
   }, [isOpenModalEquipment]);
 
+  useEffect(() => {
+    if (clear) {
+    }
+  }, [clear]);
+
   return (
     <>
       <Button
-        variant={toggleEquipment ? 'contained' : 'outlined'}
+        variant={savedDatasECT.length !== 0 || toggleEquipment ? 'contained' : 'outlined'}
         onClick={handleAddInfo}
         sx={{ height: '150px', width: '150px', borderRadius: '50%' }}
       >
@@ -113,17 +125,21 @@ export default function EquipmentForm({ parseECT, name, title }) {
                 <LabelStyle>Tube Type</LabelStyle>
                 <RHFRadioGroup name="tubeType" options={TUBETYPE_OPTION} />
               </div>
-              <RHFTable name="equipmentObject" talbeData={equipmentObject} />
+              <RHFTable name="equipmentObject" />
             </Stack>
             <Stack spacing={3} sx={{ p: 3 }}>
               <TitleStyle>Tube Test Quantity</TitleStyle>
               {/* <RHFTable name="table" /> */}
-              <RHFTable name="equipmentTube" />
+              <RHFTable name="equipmentTube" clear={clear} />
             </Stack>
           </Stack>
 
           <DialogActions>
-            <Button startIcon={<Iconify icon={'eva:plus-fill'} width={20} height={20} />} variant="outlined">
+            <Button
+              startIcon={<Iconify icon={'eva:plus-fill'} width={20} height={20} />}
+              variant="outlined"
+              onClick={handleReset}
+            >
               NEW
             </Button>
             <LoadingButton type="submit" variant="contained" onClick={handleCloseModal} loading={isSubmitting}>

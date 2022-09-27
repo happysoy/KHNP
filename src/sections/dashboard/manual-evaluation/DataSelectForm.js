@@ -7,10 +7,12 @@ import { FormProvider, RHFSelect } from '../../../components/hook-form';
 import { getDatas, postGraphDatas } from '../../../redux/slices/data';
 import { Grid, MenuItem, Stack } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
+import { getData } from 'src/redux/slices/analysis-setting';
+import useAuth from 'src/hooks/useAuth';
 
 export default function DataSelectForm() {
   const dispatch = useDispatch();
-
+  const { user } = useAuth();
   const { datas, isLoading } = useSelector((state) => state.data);
   useEffect(() => {
     dispatch(getDatas());
@@ -30,10 +32,21 @@ export default function DataSelectForm() {
     formState: { isSubmitting },
   } = methods;
 
+  useEffect(() => {
+    const obj = {
+      userName: user?.displayName,
+    };
+    dispatch(getData(obj));
+  }, [dispatch]);
+  const { savedDatas } = useSelector((state) => state.analysisSetting);
   const onSubmit = async (data) => {
     try {
-      dispatch(postGraphDatas(data));
-      await new Promise((resolve) => setTimeout(resolve, 15000));
+      const renew = {
+        data: data,
+        savedDatas: savedDatas[0],
+      };
+      dispatch(postGraphDatas(renew));
+      await new Promise((resolve) => setTimeout(resolve, 10000));
     } catch (error) {
       console.error(error);
     }

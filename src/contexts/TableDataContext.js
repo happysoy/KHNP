@@ -63,15 +63,15 @@ function TableDataProvider({ children }) {
 
   // console.log('equipmentObject', equipmentObjectData);
   // console.log('equipmentTube', equipmentTubeData);
-  useEffect(() => {
-    if (savedDatasECT.length !== 0) {
-      const parseECT = JSON.parse(savedDatasECT[0]?.jdoc);
-      onChangeUser(parseECT.userData);
-      onChangeSignalAcquisition(parseECT.signalAcquisitionData);
-      onChangeTestInstrument(parseECT.testInstrumentData);
-    }
-    // onChangeUser()
-  }, [savedDatasECT]);
+  // useEffect(() => {
+  //   if (savedDatasECT.length !== 0) {
+  //     const parseECT = JSON.parse(savedDatasECT[0]?.jdoc);
+  //     onChangeUser(parseECT.userData);
+  //     onChangeSignalAcquisition(parseECT.signalAcquisitionData);
+  //     onChangeTestInstrument(parseECT.testInstrumentData);
+  //   }
+  //   // onChangeUser()
+  // }, [savedDatasECT]);
 
   return (
     <TableDataContext.Provider

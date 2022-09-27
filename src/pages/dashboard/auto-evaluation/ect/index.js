@@ -100,7 +100,9 @@ export default function ECT() {
               </NextLink>
               <LoadingButton
                 loading={loading}
-                disabled={!toggleUser || !toggleEquipment || !toggleSignalAcquisition || !toggleTestInstrument}
+                disabled={
+                  isModify || !toggleUser || !toggleEquipment || !toggleSignalAcquisition || !toggleTestInstrument
+                }
                 fullWidth
                 variant={complete ? 'contained' : 'outlined'}
                 size="large"

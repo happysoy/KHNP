@@ -10,13 +10,15 @@ const initialState = {
   savedDatasECT: [],
   isOpenModalUser: false,
   toggleUser: false,
-
   isOpenModalEquipment: false,
   toggleEquipment: false,
   isOpenModalSignalAcquisition: false,
   toggleSignalAcquisition: false,
   isOpenModalTestInstrument: false,
   toggleTestInstrument: false,
+  isResetEquipment: false,
+  isResetSignalAcquisition: false,
+  isResetTestInstrument: false,
 };
 
 const slice = createSlice({
@@ -43,20 +45,32 @@ const slice = createSlice({
     openModalTestInstrument(state) {
       state.isOpenModalTestInstrument = true;
     },
+    resetEquipment(state) {
+      state.isResetEquipment = true;
+    },
+    resetSignalAcquisition(state) {
+      state.isResetSignalAcquisition = true;
+    },
+    resetTestInstrument(state) {
+      state.isResetTestInstrument = true;
+    },
     closeModalUser(state) {
       state.isOpenModalUser = false;
       state.toggleUser = true;
     },
     closeModalEquipment(state) {
       state.isOpenModalEquipment = false;
+      state.isResetEquipment = false;
       state.toggleEquipment = true;
     },
     closeModalSignalAcquisition(state) {
       state.isOpenModalSignalAcquisition = false;
+      state.isResetSignalAcquisition = false;
       state.toggleSignalAcquisition = true;
     },
     closeModalTestInstrument(state) {
       state.isOpenModalTestInstrument = false;
+      state.isResetTestInstrument = false;
       state.toggleTestInstrument = true;
     },
     getDataSuccess(state, action) {
@@ -78,6 +92,9 @@ export const {
   openModalEquipment,
   openModalSignalAcquisition,
   openModalTestInstrument,
+  resetEquipment,
+  resetSignalAcquisition,
+  resetTestInstrument,
   closeModalUser,
   closeModalEquipment,
   closeModalSignalAcquisition,

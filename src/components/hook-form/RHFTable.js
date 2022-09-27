@@ -12,7 +12,7 @@ import AddDeleteTable from 'src/sections/dashboard/auto-evaluation/add-delete-ta
 import useTableAction from 'src/hooks/useTableAction';
 // ----------------------------------------------------------------------
 
-export default function RHFTable({ name, tableData, ...other }) {
+export default function RHFTable({ name, ...other }) {
   const { control } = useFormContext();
 
   return (
@@ -22,7 +22,7 @@ export default function RHFTable({ name, tableData, ...other }) {
       render={({ field, fieldState: { error } }) => {
         return (
           <>
-            <AddDeleteTable type={name} field={field}  />
+            <AddDeleteTable type={name} field={field} />
           </>
         );
       }}

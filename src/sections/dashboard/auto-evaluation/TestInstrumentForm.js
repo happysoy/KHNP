@@ -10,7 +10,11 @@ import { Stack, Button, Typography, DialogActions, DialogTitle } from '@mui/mate
 import { useEffect, useState } from 'react';
 // redux
 import { useDispatch, useSelector } from '../../../redux/store';
-import { openModalTestInstrument, closeModalTestInstrument } from '../../../redux/slices/test-information';
+import {
+  openModalTestInstrument,
+  closeModalTestInstrument,
+  resetTestInstrument,
+} from '../../../redux/slices/test-information';
 import Iconify from '../../../components/Iconify';
 // components
 import { DialogAnimate } from '../../../components/animate';
@@ -33,7 +37,9 @@ const TitleStyle = styled(Typography)(({ theme }) => ({
 
 export default function TestInstrumentForm({ name, title }) {
   const dispatch = useDispatch();
-  const { isOpenModalTestInstrument, toggleTestInstrument } = useSelector((state) => state.testInformation);
+  const { savedDatasECT, isOpenModalTestInstrument, toggleTestInstrument } = useSelector(
+    (state) => state.testInformation
+  );
   const [form, setForm] = useState(null);
   const { onChangeTestInstrument } = useTableAction();
 
@@ -69,10 +75,14 @@ export default function TestInstrumentForm({ name, title }) {
     dispatch(closeModalTestInstrument());
   };
 
+  const handleReset = () => {
+    dispatch(resetTestInstrument());
+  };
+
   return (
     <>
       <Button
-        variant={toggleTestInstrument ? 'contained' : 'outlined'}
+        variant={savedDatasECT.length !== 0 || toggleTestInstrument ? 'contained' : 'outlined'}
         onClick={handleAddInfo}
         sx={{ height: '150px', width: '150px', borderRadius: '50%' }}
       >
@@ -86,7 +96,11 @@ export default function TestInstrumentForm({ name, title }) {
           <RHFTable name="testInstrument" />
 
           <DialogActions>
-            <Button startIcon={<Iconify icon={'eva:plus-fill'} width={20} height={20} />} variant="outlined">
+            <Button
+              startIcon={<Iconify icon={'eva:plus-fill'} width={20} height={20} />}
+              variant="outlined"
+              onClick={handleReset}
+            >
               NEW
             </Button>
             <LoadingButton type="submit" variant="contained" onClick={handleCloseModal} loading={isSubmitting}>

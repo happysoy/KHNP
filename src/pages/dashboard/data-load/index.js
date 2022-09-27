@@ -168,9 +168,11 @@ export default function DataLoad() {
                 Analysis Setting
               </Button>
             </NextLink>
-            <Button size="large" variant="contained">
-              Evaluation
-            </Button>
+            <NextLink href="/dashboard/data-load/evaluation" passHref>
+              <Button size="large" variant="contained">
+                Evaluation
+              </Button>
+            </NextLink>
           </Stack>
         </Grid>
       </Container>

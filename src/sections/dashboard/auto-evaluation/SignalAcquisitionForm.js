@@ -10,7 +10,11 @@ import { Stack, Button, Typography, DialogActions, DialogTitle } from '@mui/mate
 import { useEffect, useState } from 'react';
 // redux
 import { useDispatch, useSelector } from '../../../redux/store';
-import { openModalSignalAcquisition, closeModalSignalAcquisition } from '../../../redux/slices/test-information';
+import {
+  openModalSignalAcquisition,
+  closeModalSignalAcquisition,
+  resetSignalAcquisition,
+} from '../../../redux/slices/test-information';
 import Iconify from '../../../components/Iconify';
 // components
 import { DialogAnimate } from '../../../components/animate';
@@ -34,9 +38,12 @@ const TitleStyle = styled(Typography)(({ theme }) => ({
 
 export default function SignalAcquisitionForm({ parseECT, name, title }) {
   const dispatch = useDispatch();
-  const { isOpenModalSignalAcquisition, toggleSignalAcquisition } = useSelector((state) => state.testInformation);
+  const { savedDatasECT, isOpenModalSignalAcquisition, toggleSignalAcquisition } = useSelector(
+    (state) => state.testInformation
+  );
   const [form, setForm] = useState(null);
   const { onChangeSignalAcquisition } = useTableAction();
+  const [clear, setClear] = useState(false);
 
   const Schema = Yup.object().shape({
     probeType: Yup.string().required('Probe Type is required'),
@@ -58,6 +65,7 @@ export default function SignalAcquisitionForm({ parseECT, name, title }) {
 
   const onSubmit = async (data) => {
     try {
+      console.log('siganl', data);
       onChangeSignalAcquisition(data);
     } catch (error) {
       console.error(error);
@@ -70,6 +78,9 @@ export default function SignalAcquisitionForm({ parseECT, name, title }) {
   const handleCloseModal = () => {
     dispatch(closeModalSignalAcquisition());
   };
+  const handleReset = () => {
+    dispatch(resetSignalAcquisition());
+  };
 
   useEffect(() => {
     if (parseECT) {
@@ -81,10 +92,19 @@ export default function SignalAcquisitionForm({ parseECT, name, title }) {
     }
   }, [isOpenModalSignalAcquisition]);
 
+  useEffect(() => {
+    if (clear) {
+      reset({
+        probeType: '',
+        probeVelocity: '',
+      });
+    }
+  }, [clear]);
+
   return (
     <>
       <Button
-        variant={toggleSignalAcquisition ? 'contained' : 'outlined'}
+        variant={savedDatasECT.length !== 0 || toggleSignalAcquisition ? 'contained' : 'outlined'}
         onClick={handleAddInfo}
         sx={{ height: '150px', width: '150px', borderRadius: '50%' }}
       >
@@ -105,7 +125,11 @@ export default function SignalAcquisitionForm({ parseECT, name, title }) {
           </Stack>
 
           <DialogActions>
-            <Button startIcon={<Iconify icon={'eva:plus-fill'} width={20} height={20} />} variant="outlined">
+            <Button
+              startIcon={<Iconify icon={'eva:plus-fill'} width={20} height={20} />}
+              variant="outlined"
+              onClick={handleReset}
+            >
               NEW
             </Button>
             <LoadingButton type="submit" variant="contained" onClick={handleCloseModal} loading={isSubmitting}>

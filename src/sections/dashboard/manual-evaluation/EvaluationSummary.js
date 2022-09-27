@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import merge from 'lodash/merge';
 // @mui
+import { makeStyles } from '@mui/styles';
 import { useTheme, styled } from '@mui/material/styles';
 import {
   Box,
@@ -46,14 +47,41 @@ const columns = [
   },
 ];
 const sample = [
-  { name: 'apple', detail: ['a', 'b', 'c', 'd'] },
-  { name: 'banana', detail: ['a', 'b'] },
+  {
+    name: '지시분포',
+    detail: [
+      { name: 'Plugged Tube', num: [0, 1, 2, 3, 4, 5] },
+      { name: 'No Tube', num: [0, 1, 2, 3, 4, 5] },
+      { name: 'To Plg', num: [0, 1, 2, 3, 4, 5] },
+      { name: 'DFI', num: [0, 1, 2, 3, 4, 5] },
+      { name: 'Plugged Tube', num: [0, 1, 2, 3, 4, 5] },
+      { name: 'Plugged Tube', num: [0, 1, 2, 3, 4, 5] },
+      { name: 'Plugged Tube', num: [0, 1, 2, 3, 4, 5] },
+    ],
+  },
 ];
 
 // ----------------------------------------------------------------------
 
 export default function EvaluationSummary({ title, description, ...other }) {
   const theme = useTheme();
+
+  const useStyles = makeStyles({
+    tableCell: {
+      borderLeft: `1px solid ${theme.palette.divider}`,
+      borderBottom: `1px solid ${theme.palette.divider}`,
+      textAlign: 'center',
+      // '&:first-of-type': {
+      //   borderLeft: 'none',
+      // },
+    },
+    tableRowPrimary: {
+      borderTop: `5px double ${theme.palette.divider}`,
+      textAlign: 'center',
+    },
+  });
+
+  const classes = useStyles();
 
   return (
     <Card {...other}>
@@ -62,9 +90,40 @@ export default function EvaluationSummary({ title, description, ...other }) {
         <Table sx={{ minWidth: 700 }}>
           <TableHead>
             <TableRow>
-              <TableCell colSpan={2}>Fruit</TableCell>
-              <TableCell colSpan={3}>Buyers</TableCell>
+              <TableCell className={classes.tableCell} rowSpan={2} colSpan={2}>
+                Box No.
+              </TableCell>
+              <TableCell className={classes.tableCell} colSpan={2}>
+                1
+              </TableCell>
+              <TableCell className={classes.tableCell} colSpan={2}>
+                2
+              </TableCell>
+              <TableCell className={classes.tableCell} colSpan={2}>
+                3
+              </TableCell>
             </TableRow>
+            <TableRow className={classes.tableRow}>
+              <TableCell className={classes.tableCell} colSpan={1}>
+                1
+              </TableCell>
+              <TableCell className={classes.tableCell} colSpan={1}>
+                2
+              </TableCell>
+              <TableCell className={classes.tableCell} colSpan={1}>
+                1
+              </TableCell>
+              <TableCell className={classes.tableCell} colSpan={1}>
+                2
+              </TableCell>
+              <TableCell className={classes.tableCell} colSpan={1}>
+                1
+              </TableCell>
+              <TableCell className={classes.tableCell} colSpan={1}>
+                2
+              </TableCell>
+            </TableRow>
+
             {/* <TableRow>
               {columns.map((column) => (
                 <TableCell key={column.id} align={column.align} style={{ top: 57, minWidth: column.minWidth }}>
@@ -74,18 +133,50 @@ export default function EvaluationSummary({ title, description, ...other }) {
             </TableRow> */}
           </TableHead>
           <TableBody>
+            <TableRow>
+              <TableCell className={classes.tableCell} colSpan={2}>
+                검사수량
+              </TableCell>
+              <TableCell className={classes.tableCell}>0</TableCell>
+              <TableCell className={classes.tableCell}>0</TableCell>
+              <TableCell className={classes.tableCell}>0</TableCell>
+              <TableCell className={classes.tableCell}>0</TableCell>
+              <TableCell className={classes.tableCell}>0</TableCell>
+              <TableCell className={classes.tableCell}>0</TableCell>
+            </TableRow>
             {sample.map((item, index) => (
               <>
                 <TableRow key={item.name}>
-                  <TableCell rowSpan={item.detail.length + 1}>{item.name}</TableCell>
+                  <TableCell className={classes.tableCell} rowSpan={item.detail.length + 1}>
+                    {item.name}
+                  </TableCell>
                 </TableRow>
                 {item.detail.map((detail, index) => (
-                  <TableRow key={index}>
-                    <TableCell>{detail}</TableCell>
+                  <TableRow>
+                    <TableCell className={classes.tableCell}>{detail.name}</TableCell>
+                    {detail.num.map((item) => (
+                      <TableCell className={classes.tableCell}>{item}</TableCell>
+                    ))}
                   </TableRow>
                 ))}
+                {/* {item.detail.map((detail, index) => (
+                  <TableRow key={index}>
+                    <TableCell className={classes.tableCell}>{detail}</TableCell>
+                  </TableRow>
+                ))} */}
               </>
             ))}
+            <TableRow className={classes.tableRowPrimary}>
+              <TableCell className={classes.tableCell} colSpan={2}>
+                합계
+              </TableCell>
+              <TableCell className={classes.tableCell}>0</TableCell>
+              <TableCell className={classes.tableCell}>0</TableCell>
+              <TableCell className={classes.tableCell}>0</TableCell>
+              <TableCell className={classes.tableCell}>0</TableCell>
+              <TableCell className={classes.tableCell}>0</TableCell>
+              <TableCell className={classes.tableCell}>0</TableCell>
+            </TableRow>
           </TableBody>
         </Table>
       </Paper>

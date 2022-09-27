@@ -186,7 +186,7 @@ export default function EvaluationOverview({ title, chartData, ...other }) {
   }, []);
 
   return (
-    <div style={{ position: 'relative', height: '500px', marginTop: '-80px' }}>
+    <div style={{ position: 'relative', height: '500px', marginTop: '-50px', marginBottom: '50px' }}>
       <canvas id="myChart" ref={canvasEl} />
     </div>
   );

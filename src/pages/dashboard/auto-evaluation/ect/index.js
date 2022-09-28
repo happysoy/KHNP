@@ -29,6 +29,7 @@ export default function ECT() {
   const { savedDatasECT, toggleUser, toggleEquipment, toggleSignalAcquisition, toggleTestInstrument } = useSelector(
     (state) => state.testInformation
   );
+
   const dispatch = useDispatch();
   const { user } = useAuth();
 
@@ -40,9 +41,9 @@ export default function ECT() {
   const obj = {
     userName: user?.displayName,
   };
-  useEffect(() => {
-    dispatch(getData(obj));
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(getData(obj));
+  // }, [dispatch]);
 
   useEffect(() => {
     if (savedDatasECT.length !== 0) {
@@ -56,10 +57,10 @@ export default function ECT() {
     try {
       setLoading(true);
 
-      await new Promise((resolve) => setTimeout(resolve, 1000));
       if (isModify) {
         dispatch(deleteData({ obj }));
       }
+      await new Promise((resolve) => setTimeout(resolve, 1000));
       dispatch(insertData({ obj, userData, equipmentData, signalAcquisitionData, testInstrumentData }));
 
       setLoading(false);
@@ -101,7 +102,9 @@ export default function ECT() {
               <LoadingButton
                 loading={loading}
                 disabled={
-                  isModify || !toggleUser || !toggleEquipment || !toggleSignalAcquisition || !toggleTestInstrument
+                  isModify
+                    ? false
+                    : !toggleUser || !toggleEquipment || !toggleSignalAcquisition || !toggleTestInstrument
                 }
                 fullWidth
                 variant={complete ? 'contained' : 'outlined'}

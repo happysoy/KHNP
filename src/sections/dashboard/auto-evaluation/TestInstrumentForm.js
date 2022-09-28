@@ -62,6 +62,7 @@ export default function TestInstrumentForm({ name, title }) {
 
   const onSubmit = async (data) => {
     try {
+      console.log('submit', data);
       onChangeTestInstrument(data);
     } catch (error) {
       console.error(error);

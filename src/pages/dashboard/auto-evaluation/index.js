@@ -10,6 +10,8 @@ import PageTransition from '../../../sections/dashboard/auto-evaluation/PageTran
 // redux
 import { useDispatch, useSelector } from 'src/redux/store';
 import { useEffect } from 'react';
+import { getData } from 'src/redux/slices/test-information';
+import useAuth from 'src/hooks/useAuth';
 
 AutoEvaluation.getLayout = function getLayout(page) {
   return <Layout>{page}</Layout>;
@@ -17,6 +19,14 @@ AutoEvaluation.getLayout = function getLayout(page) {
 
 export default function AutoEvaluation() {
   const dispatch = useDispatch();
+  const { user } = useAuth();
+  // ECT getData
+  const obj = {
+    userName: user?.displayName,
+  };
+  useEffect(() => {
+    dispatch(getData(obj));
+  }, [dispatch]);
 
   return (
     <Page title="자동평가">

@@ -24,13 +24,6 @@ import AddDeleteTable from './add-delete-table/AddDeleteTable';
 import useTableAction from 'src/hooks/useTableAction';
 import RHFTable from 'src/components/hook-form/RHFTable';
 
-const getInitialValues = () => {
-  const user_init = {
-    probeType: '',
-    probeVelocity: '',
-  };
-  return user_init;
-};
 const TitleStyle = styled(Typography)(({ theme }) => ({
   ...theme.typography.subtitle1,
   color: theme.palette.text.secondary,
@@ -38,9 +31,8 @@ const TitleStyle = styled(Typography)(({ theme }) => ({
 
 export default function SignalAcquisitionForm({ parseECT, name, title }) {
   const dispatch = useDispatch();
-  const { savedDatasECT, isOpenModalSignalAcquisition, toggleSignalAcquisition } = useSelector(
-    (state) => state.testInformation
-  );
+  const { isResetSignalAcquisition, savedDatasECT, isOpenModalSignalAcquisition, toggleSignalAcquisition } =
+    useSelector((state) => state.testInformation);
   const [form, setForm] = useState(null);
   const { onChangeSignalAcquisition } = useTableAction();
   const [clear, setClear] = useState(false);
@@ -49,6 +41,23 @@ export default function SignalAcquisitionForm({ parseECT, name, title }) {
     probeType: Yup.string().required('Probe Type is required'),
     probeVelocity: Yup.string().required('Probe Velocity is required'),
   });
+
+  const getInitialValues = (clear) => {
+    if (clear || isResetSignalAcquisition || !parseECT) {
+      const user_init = {
+        probeType: '',
+        probeVelocity: '',
+      };
+      return user_init;
+    } else {
+      const { probeType, probeVelocity } = parseECT.signalAcquisitionData;
+      const user_init = {
+        probeType: probeType,
+        probeVelocity: probeVelocity,
+      };
+      return user_init;
+    }
+  };
 
   const methods = useForm({
     resolver: yupResolver(Schema),
@@ -65,7 +74,6 @@ export default function SignalAcquisitionForm({ parseECT, name, title }) {
 
   const onSubmit = async (data) => {
     try {
-      console.log('siganl', data);
       onChangeSignalAcquisition(data);
     } catch (error) {
       console.error(error);
@@ -78,28 +86,10 @@ export default function SignalAcquisitionForm({ parseECT, name, title }) {
   const handleCloseModal = () => {
     dispatch(closeModalSignalAcquisition());
   };
-  const handleReset = () => {
+  const handleReset = async () => {
     dispatch(resetSignalAcquisition());
+    reset(getInitialValues(true));
   };
-
-  useEffect(() => {
-    if (parseECT) {
-      const { probeType, probeVelocity } = parseECT.signalAcquisitionData;
-      reset({
-        probeType: probeType,
-        probeVelocity: probeVelocity,
-      });
-    }
-  }, [isOpenModalSignalAcquisition]);
-
-  useEffect(() => {
-    if (clear) {
-      reset({
-        probeType: '',
-        probeVelocity: '',
-      });
-    }
-  }, [clear]);
 
   return (
     <>

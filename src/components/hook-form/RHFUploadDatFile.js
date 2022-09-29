@@ -58,7 +58,7 @@ export function RHFUploadDatFile({ name, ...other }) {
   const prepareFile = (file) => {
     const fileExt = file.name.split('.').pop();
     if (fileExt !== 'dat') {
-      alert('dat 파일만 업로드 할 수 있습니다');
+      alert('dat 이외의 확장자를 제외하고 업로드 합니다');
       return;
     }
     // console.log(file);

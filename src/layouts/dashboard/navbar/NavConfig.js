@@ -37,7 +37,7 @@ const navConfig = [
   },
   {
     title: `수동 평가`,
-    path: PATH_DASHBOARD.manualEvaluation,
+    path: PATH_DASHBOARD.manualEvaluation.root,
     icon: ICONS.manualEvaluation,
   },
   {

@@ -45,7 +45,7 @@ export default function StandardLissajous({ chartLabels, chartData, ...other }) 
     const data = [trace1];
     const layout = {
       title: `defect location of ${seriesData}`,
-      width: 1200,
+      width: 1100,
       height: 300,
       yaxis: {
         fixedrange: true,

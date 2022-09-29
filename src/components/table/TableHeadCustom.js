@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
 // @mui
 import { Box, Checkbox, TableRow, TableCell, TableHead, TableSortLabel } from '@mui/material';
+import { useTheme, styled } from '@mui/material/styles';
+import { makeStyles } from '@mui/styles';
 
 // ----------------------------------------------------------------------
 
@@ -39,11 +41,32 @@ export default function TableHeadCustom({
   onSelectAllRows,
   sx,
 }) {
+  const theme = useTheme();
+
+  const useStyles = makeStyles({
+    tableCell: {
+      '&:last-of-type': {
+        paddingRight: theme.spacing(3),
+        borderTopRightRadius: theme.shape.borderRadius,
+        borderBottomRightRadius: theme.shape.borderRadius,
+        boxShadow: `inset -8px 0 0 ${theme.palette.background.paper}`,
+      },
+      '&:first-of-type': {
+        paddingLeft: theme.spacing(3),
+        borderTopLeftRadius: theme.shape.borderRadius,
+        borderBottomLeftRadius: theme.shape.borderRadius,
+        boxShadow: `inset 8px 0 0 ${theme.palette.background.paper}`,
+      },
+    },
+  });
+
+  const classes = useStyles();
+
   return (
     <TableHead sx={sx}>
       <TableRow>
         {onSelectAllRows && (
-          <TableCell padding="checkbox">
+          <TableCell className={classes.tableCell} padding="checkbox">
             <Checkbox
               indeterminate={numSelected > 0 && numSelected < rowCount}
               checked={rowCount > 0 && numSelected === rowCount}
@@ -54,6 +77,7 @@ export default function TableHeadCustom({
 
         {headLabel.map((headCell) => (
           <TableCell
+            className={classes.tableCell}
             key={headCell.id}
             align={headCell.align || 'left'}
             sortDirection={orderBy === headCell.id ? order : false}
@@ -61,7 +85,7 @@ export default function TableHeadCustom({
           >
             {onSort ? (
               <TableSortLabel
-                hideSortIcon
+                // hideSortIcon
                 active={orderBy === headCell.id}
                 direction={orderBy === headCell.id ? order : 'asc'}
                 onClick={() => onSort(headCell.id)}

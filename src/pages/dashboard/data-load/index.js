@@ -16,6 +16,8 @@ import {
   TableBody,
   Stack,
   Grid,
+  Tooltip,
+  IconButton,
 } from '@mui/material';
 // layouts
 import Layout from '../../../layouts';
@@ -29,17 +31,24 @@ import Title from '../../../components/Title';
 import Page from '../../../components/Page';
 
 import Scrollbar from '../../../components/Scrollbar';
-import { TableHeadCustom, TableSelectedActions, TableSkeleton } from '../../../components/table';
+import {
+  TableEmptyRows,
+  TableNoData,
+  TableHeadCustom,
+  TableSelectedActions,
+  TableSkeleton,
+} from '../../../components/table';
 // sections
 import { DataTableRow, DataTableToolbar } from '../../../sections/dashboard/data-load';
 import Iconify from '../../../components/Iconify';
+import useAuth from 'src/hooks/useAuth';
+import { getData } from 'src/redux/slices/test-information';
 
 DataLoad.getLayout = function getLayout(page) {
   return <Layout>{page}</Layout>;
 };
 
 const TABLE_HEAD = [
-  { id: 'checkbox' },
   { id: 'id', label: 'No.', align: 'left' },
   { id: 'fileName', label: 'File Name', align: 'left' },
   { id: 'directory', label: 'Directory', align: 'left' },
@@ -75,12 +84,25 @@ export default function DataLoad() {
   // const { products, isLoading } = useSelector((state) => state.product);
   // console.log(products);
   const { datas, isLoading } = useSelector((state) => state.data);
+
+  const { user } = useAuth();
+  // ECT getData
+  const obj = {
+    userName: user?.displayName,
+  };
+  useEffect(() => {
+    dispatch(getData(obj));
+  }, [dispatch]);
+
   const [tableData, setTableData] = useState([]);
   const [filterName, setFilterName] = useState('');
   const { push } = useRouter();
+
   const handleFilterName = (filterName) => {
     setFilterName(filterName);
   };
+
+  const isNotFound = !tableData.length && !!filterName;
 
   useEffect(() => {
     dispatch(getDatas());
@@ -105,10 +127,16 @@ export default function DataLoad() {
     setTableData(deleteRow);
     dispatch(deleteData(row));
   };
-  const handleEditRow = (row) => {
-    const id = row.id;
-    push(PATH_DASHBOARD.dataLoad.edit(id));
+
+  const handleDeleteRows = (selected) => {
+    const deleteRows = tableData.filter((row) => selected.includes(row.id));
+    setSelected([]);
+    const savedRows = tableData.filter((row) => !selected.includes(row.id));
+    setTableData(savedRows);
+
+    deleteRows.map((row) => dispatch(deleteData(row)));
   };
+  console.log(tableData);
   return (
     <Page title="데이터로드">
       <Container maxWidth="xl">
@@ -128,10 +156,38 @@ export default function DataLoad() {
           <DataTableToolbar filterName={filterName} onFilterName={handleFilterName} />
           <Scrollbar>
             <TableContainer>
-              {/* <TableSelectedActions /> */}
+              {selected.length > 0 && (
+                <TableSelectedActions
+                  numSelected={selected.length}
+                  rowCount={tableData.length}
+                  onSelectAllRows={(checked) =>
+                    onSelectAllRows(
+                      checked,
+                      tableData.map((row) => row.id)
+                    )
+                  }
+                  actions={
+                    <Tooltip title="Delete">
+                      <IconButton color="primary" onClick={() => handleDeleteRows(selected)}>
+                        <Iconify icon={'eva:trash-2-outline'} />
+                      </IconButton>
+                    </Tooltip>
+                  }
+                />
+              )}
 
               <Table size={'medium'}>
-                <TableHeadCustom headLabel={TABLE_HEAD} />
+                <TableHeadCustom
+                  headLabel={TABLE_HEAD}
+                  rowCount={tableData.length}
+                  numSelected={selected.length}
+                  onSelectAllRows={(checked) =>
+                    onSelectAllRows(
+                      checked,
+                      tableData.map((row) => row.id)
+                    )
+                  }
+                />
                 <TableBody>
                   {(isLoading ? tableData : dataFiltered)
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
@@ -139,12 +195,14 @@ export default function DataLoad() {
                       <DataTableRow
                         key={row.id}
                         row={row}
-                        // selected={selected.includes(row.id)}
-                        // onSelectRow={() => onSelectRow(row.id)}
+                        selected={selected.includes(row.id)}
+                        onSelectRow={() => onSelectRow(row.id)}
                         onDeleteRow={() => handleDeleteRow(row)}
-                        onEditRow={() => handleEditRow(row)}
                       />
                     ))}
+                  <TableEmptyRows height="72" emptyRows={emptyRows(page, rowsPerPage, tableData.length)} />
+
+                  <TableNoData isNotFound={isNotFound} />
                 </TableBody>
               </Table>
             </TableContainer>

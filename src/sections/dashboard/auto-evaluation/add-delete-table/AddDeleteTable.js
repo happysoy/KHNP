@@ -207,6 +207,7 @@ export default function AddDeleteTable({ type, field }) {
   useEffect(() => {
     dispatch({ type: 'enable_reset' });
     if (state.data[0].ID === 'equipmentObject') {
+      // console.log(state.data);
       field.onChange(state.data);
     } else if (state.data[0].ID === 'equipmentTube') {
       field.onChange(state);

@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { sentenceCase } from 'change-case';
 // @mui
-import { useTheme } from '@mui/material/styles';
 import { TableRow, Checkbox, TableCell, Typography, MenuItem } from '@mui/material';
 // utils
 import { fMegaByte } from '../../../utils/formatNumber';
@@ -12,6 +11,8 @@ import Label from '../../../components/Label';
 import Image from '../../../components/Image';
 import Iconify from '../../../components/Iconify';
 import { TableMoreMenu } from '../../../components/table';
+import { useTheme } from '@mui/material/styles';
+import { makeStyles } from '@mui/styles';
 
 //
 
@@ -25,13 +26,7 @@ DataTableRow.propTypes = {
   onDeleteRow: PropTypes.func,
 };
 
-export default function DataTableRow({
-  row,
-  selected,
-  onEditRow,
-  // onSelectRow,
-  onDeleteRow,
-}) {
+export default function DataTableRow({ row, selected, onEditRow, onSelectRow, onDeleteRow }) {
   // const theme = useTheme();
 
   const {
@@ -53,13 +48,26 @@ export default function DataTableRow({
     setOpenMenuActions(null);
   };
 
+  const theme = useTheme();
+  const useStyles = makeStyles({
+    tableCell: {
+      '&:last-of-type': {
+        paddingRight: theme.spacing(3),
+      },
+      '&:first-of-type': {
+        paddingLeft: theme.spacing(3),
+      },
+    },
+  });
+
+  const classes = useStyles();
+
   return (
     <TableRow hover selected={selected}>
-      <TableCell padding="checkbox">
-        <Checkbox checked={selected} />
-        {/* onClick={onSelectRow} */}
+      <TableCell className={classes.tableCell} padding="checkbox">
+        <Checkbox checked={selected} onClick={onSelectRow} />
       </TableCell>
-      <TableCell>{id}</TableCell>
+      <TableCell className={classes.tableCell}>{id}</TableCell>
       <TableCell sx={{ alignItems: 'center' }}>
         <Typography variant="subtitle2" noWrap>
           {fileName}
@@ -71,7 +79,7 @@ export default function DataTableRow({
       <TableCell>{fDate(testPeriod)}</TableCell>
       {/* <TableCell>{fDate(createdAt)}</TableCell> */}
 
-      <TableCell align="right">
+      <TableCell className={classes.tableCell} align="right">
         <TableMoreMenu
           open={openMenu}
           onOpen={handleOpenMenu}
@@ -87,15 +95,6 @@ export default function DataTableRow({
               >
                 <Iconify icon={'eva:trash-2-outline'} />
                 Delete
-              </MenuItem>
-              <MenuItem
-                onClick={() => {
-                  // onEditRow();
-                  handleCloseMenu();
-                }}
-              >
-                <Iconify icon={'eva:edit-fill'} />
-                Edit
               </MenuItem>
             </>
           }

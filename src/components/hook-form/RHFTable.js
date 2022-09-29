@@ -22,7 +22,7 @@ export default function RHFTable({ name, ...other }) {
       render={({ field, fieldState: { error } }) => {
         return (
           <>
-            <AddDeleteTable type={name} field={field} />
+            <AddDeleteTable id={name} type={name} field={field} />
           </>
         );
       }}

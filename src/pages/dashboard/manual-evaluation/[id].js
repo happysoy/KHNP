@@ -1,27 +1,34 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useDispatch, useSelector } from '../../redux/store';
+import { useDispatch, useSelector } from '../../../redux/store';
 // @mui
-import { Container, Grid } from '@mui/material';
-// layouts
-import Layout from '../../layouts';
-// components
-import Page from '../../components/Page';
-import Title from '../../components/Title';
-import DataSelectForm from '../../sections/dashboard/manual-evaluation/DataSelectForm';
-import StandardLissajous from 'src/sections/dashboard/manual-evaluation/StandardLissajous';
-import ChannelLissajous from 'src/sections/dashboard/manual-evaluation/ChannelLissajous';
-// redux
-import { getDatas } from '../../redux/slices/data';
+import ErrorDataTableRow from 'src/sections/dashboard/manual-evaluation/ErrorDataTableRow';
 
-ManualEvaluation.getLayout = function getLayout(page) {
+import { Card, Container, Grid, TableBody, Table, TableContainer } from '@mui/material';
+// layouts
+import Layout from '../../../layouts';
+// components
+import Page from '../../../components/Page';
+import Title from '../../../components/Title';
+import DataSelectForm from '../../../sections/dashboard/manual-evaluation/graph/DataSelectForm';
+import StandardLissajous from 'src/sections/dashboard/manual-evaluation/graph/StandardLissajous';
+import ChannelLissajous from 'src/sections/dashboard/manual-evaluation/graph/ChannelLissajous';
+// redux
+import { getDatas } from '../../../redux/slices/data';
+import Scrollbar from 'src/components/Scrollbar';
+import { TableHeadCustom } from 'src/components/table';
+import { FormProvider } from 'src/components/hook-form';
+import { LoadingButton } from '@mui/lab';
+import useTable from 'src/hooks/useTable';
+import { PATH_DASHBOARD } from 'src/routes/paths';
+import { useRouter } from 'next/router';
+
+ManualEvaluationDetails.getLayout = function getLayout(page) {
   return <Layout>{page}</Layout>;
 };
 
-export default function ManualEvaluation() {
+export default function ManualEvaluationDetails() {
   const dispatch = useDispatch();
-
-  const { graphDatas, isLoading } = useSelector((state) => state.data);
 
   useEffect(() => {
     dispatch(getDatas());
@@ -31,7 +38,9 @@ export default function ManualEvaluation() {
     <Page title="수동평가">
       <Container maxWidth="xl">
         <Title heading="Analysis Result Verification" desc="수동평가에 대한 설명" />
+
         <DataSelectForm />
+
         <Grid container spacing={3}>
           <Grid item md={12} sx={{ justifyContent: 'center', display: 'flex' }}>
             <StandardLissajous
@@ -88,6 +97,38 @@ export default function ManualEvaluation() {
                 },
               ]}
               sx={{ mt: 4, justifyContent: 'center', display: 'flex' }}
+            />
+          </Grid>
+          <Grid item md={6} sx={{ justifyContent: 'center', display: 'flex' }}>
+            <ChannelLissajous
+              chartData={[
+                {
+                  year: 'CH1',
+                },
+                { year: 'CH2' },
+                { year: 'CH3' },
+                { year: 'CH4' },
+                { year: 'CH5' },
+                { year: 'CH6' },
+                { year: 'CH7' },
+                { year: 'CH8' },
+              ]}
+            />
+          </Grid>
+          <Grid item md={6} sx={{ justifyContent: 'center', display: 'flex' }}>
+            <ChannelLissajous
+              chartData={[
+                {
+                  year: 'CH1',
+                },
+                { year: 'CH2' },
+                { year: 'CH3' },
+                { year: 'CH4' },
+                { year: 'CH5' },
+                { year: 'CH6' },
+                { year: 'CH7' },
+                { year: 'CH8' },
+              ]}
             />
           </Grid>
           <Grid item md={6} sx={{ justifyContent: 'center', display: 'flex' }}>

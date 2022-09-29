@@ -19,6 +19,7 @@ import {
   Paper,
 } from '@mui/material';
 import { Fragment } from 'react';
+import { useSelector } from 'src/redux/store';
 
 // ----------------------------------------------------------------------
 const columns = [
@@ -46,24 +47,10 @@ const columns = [
     format: (value) => value.toFixed(2),
   },
 ];
-const sample = [
-  {
-    name: '지시분포',
-    detail: [
-      { name: 'Plugged Tube', num: [0, 1, 2, 3, 4, 5] },
-      { name: 'No Tube', num: [0, 1, 2, 3, 4, 5] },
-      { name: 'To Plg', num: [0, 1, 2, 3, 4, 5] },
-      { name: 'DFI', num: [0, 1, 2, 3, 4, 5] },
-      { name: 'Plugged Tube', num: [0, 1, 2, 3, 4, 5] },
-      { name: 'Plugged Tube', num: [0, 1, 2, 3, 4, 5] },
-      { name: 'Plugged Tube', num: [0, 1, 2, 3, 4, 5] },
-    ],
-  },
-];
 
 // ----------------------------------------------------------------------
 
-export default function EvaluationSummary({ title, description, ...other }) {
+export default function EvaluationSummary({ title, parseECT, description, ...other }) {
   const theme = useTheme();
 
   const useStyles = makeStyles({
@@ -83,6 +70,24 @@ export default function EvaluationSummary({ title, description, ...other }) {
 
   const classes = useStyles();
 
+  const {
+    equipmentData: {
+      equipmentTube: { columns, data },
+    },
+  } = parseECT;
+
+  const columnID = Object.keys(data[0])[2];
+
+  const sample = [
+    {
+      name: '지시분포',
+      detail: [
+        { name: 'Plugged Tube', num: data[1][columnID] },
+        { name: 'No Tube', num: data[2][columnID] },
+      ],
+    },
+  ];
+
   return (
     <Card {...other}>
       <CardHeader title={title} sx={{ mb: 5 }} />
@@ -90,37 +95,11 @@ export default function EvaluationSummary({ title, description, ...other }) {
         <Table sx={{ minWidth: 700 }}>
           <TableHead>
             <TableRow>
-              <TableCell className={classes.tableCell} rowSpan={2} colSpan={2}>
+              <TableCell className={classes.tableCell} rowSpan={1} colSpan={2}>
                 Box No.
               </TableCell>
-              <TableCell className={classes.tableCell} colSpan={2}>
-                1
-              </TableCell>
-              <TableCell className={classes.tableCell} colSpan={2}>
-                2
-              </TableCell>
-              <TableCell className={classes.tableCell} colSpan={2}>
-                3
-              </TableCell>
-            </TableRow>
-            <TableRow className={classes.tableRow}>
-              <TableCell className={classes.tableCell} colSpan={1}>
-                1
-              </TableCell>
-              <TableCell className={classes.tableCell} colSpan={1}>
-                2
-              </TableCell>
-              <TableCell className={classes.tableCell} colSpan={1}>
-                1
-              </TableCell>
-              <TableCell className={classes.tableCell} colSpan={1}>
-                2
-              </TableCell>
-              <TableCell className={classes.tableCell} colSpan={1}>
-                1
-              </TableCell>
-              <TableCell className={classes.tableCell} colSpan={1}>
-                2
+              <TableCell className={classes.tableCell} rowSpan={1} colSpan={1}>
+                {columns[1].label}
               </TableCell>
             </TableRow>
 
@@ -137,12 +116,7 @@ export default function EvaluationSummary({ title, description, ...other }) {
               <TableCell className={classes.tableCell} colSpan={2}>
                 검사수량
               </TableCell>
-              <TableCell className={classes.tableCell}>0</TableCell>
-              <TableCell className={classes.tableCell}>0</TableCell>
-              <TableCell className={classes.tableCell}>0</TableCell>
-              <TableCell className={classes.tableCell}>0</TableCell>
-              <TableCell className={classes.tableCell}>0</TableCell>
-              <TableCell className={classes.tableCell}>0</TableCell>
+              <TableCell className={classes.tableCell}>{data[3][columnID]}</TableCell>
             </TableRow>
             {sample.map((item, index) => (
               <>
@@ -154,9 +128,7 @@ export default function EvaluationSummary({ title, description, ...other }) {
                 {item.detail.map((detail, index) => (
                   <TableRow>
                     <TableCell className={classes.tableCell}>{detail.name}</TableCell>
-                    {detail.num.map((item) => (
-                      <TableCell className={classes.tableCell}>{item}</TableCell>
-                    ))}
+                    <TableCell className={classes.tableCell}>{detail.num}</TableCell>
                   </TableRow>
                 ))}
                 {/* {item.detail.map((detail, index) => (
@@ -170,12 +142,7 @@ export default function EvaluationSummary({ title, description, ...other }) {
               <TableCell className={classes.tableCell} colSpan={2}>
                 합계
               </TableCell>
-              <TableCell className={classes.tableCell}>0</TableCell>
-              <TableCell className={classes.tableCell}>0</TableCell>
-              <TableCell className={classes.tableCell}>0</TableCell>
-              <TableCell className={classes.tableCell}>0</TableCell>
-              <TableCell className={classes.tableCell}>0</TableCell>
-              <TableCell className={classes.tableCell}>0</TableCell>
+              <TableCell className={classes.tableCell}>{data[0][columnID]}</TableCell>
             </TableRow>
           </TableBody>
         </Table>

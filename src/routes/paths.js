@@ -27,7 +27,10 @@ export const PATH_DASHBOARD = {
   autoEvaluation: path(ROOTS_DASHBOARD, '/auto-evaluation'),
   ect: path(ROOTS_DASHBOARD, '/auto-evalation/ect'),
   autoResult: path(ROOTS_DASHBOARD, '/auto-result'),
-  manualEvaluation: path(ROOTS_DASHBOARD, '/manual-evaluation'),
+  manualEvaluation: {
+    root: path(ROOTS_DASHBOARD, '/manual-evaluation'),
+    view: (id) => path(ROOTS_DASHBOARD, `/manual-evaluation/${id}`),
+  },
   report: path(ROOTS_DASHBOARD, '/report'),
   settings: path(ROOTS_DASHBOARD, '/settings'),
 };

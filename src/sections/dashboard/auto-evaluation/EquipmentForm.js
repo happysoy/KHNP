@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -37,36 +37,53 @@ const LabelStyle = styled(Typography)(({ theme }) => ({
   marginBottom: theme.spacing(1),
 }));
 
-const getInitialValues = () => {
-  const user_init = {
-    tubeType: TUBETYPE_OPTION[0].value,
-  };
-  return user_init;
-};
-
 export default function EquipmentForm({ parseECT, name, title }) {
   const dispatch = useDispatch();
 
-  const { savedDatasECT, isOpenModalEquipment, toggleEquipment } = useSelector((state) => state.testInformation);
+  const { isResetEquipment, savedDatasECT, isOpenModalEquipment, toggleEquipment } = useSelector(
+    (state) => state.testInformation
+  );
   const [form, setForm] = useState(null);
   const { onChangeEquipment } = useTableAction();
+
+  const getInitialValues = (clear) => {
+    if (clear || !parseECT) {
+      const user_init = {
+        tubeType: TUBETYPE_OPTION[0].value,
+      };
+      return user_init;
+    } else {
+      const { tubeType } = parseECT.equipmentData;
+      let index = -1;
+      TUBETYPE_OPTION.find((item) => {
+        index++;
+        return item.label === tubeType;
+      });
+      const user_init = {
+        tubeType: TUBETYPE_OPTION[index].value,
+      };
+      return user_init;
+    }
+  };
+
   const methods = useForm({
     defaultValues: getInitialValues(),
   });
-
-  const [clear, setClear] = useState(false);
-
   const {
     reset,
     watch,
     control,
+    getFieldState,
     handleSubmit,
-    formState: { isSubmitting },
+    formState: { isSubmitting, touchedFields },
   } = methods;
 
-  const onSubmit = async (data) => {
+  // const fieldState = getFieldState('tubeType');
+  // console.log('fieldState', fieldState);
+  // console.log('touchedFields', touchedFields);
+  const onSubmit = async (data, e) => {
     try {
-      console.log('submit', data);
+      // console.log('target', e.target);
       onChangeEquipment(data);
     } catch (error) {
       console.error(error);
@@ -81,26 +98,8 @@ export default function EquipmentForm({ parseECT, name, title }) {
   };
   const handleReset = () => {
     dispatch(resetEquipment());
+    reset(getInitialValues(true));
   };
-
-  useEffect(() => {
-    if (parseECT) {
-      const { tubeType } = parseECT.equipmentData;
-      let index = -1;
-      TUBETYPE_OPTION.find((item) => {
-        index++;
-        return item.label === tubeType;
-      });
-      reset({
-        tubeType: TUBETYPE_OPTION[index].value,
-      });
-    }
-  }, [isOpenModalEquipment]);
-
-  useEffect(() => {
-    if (clear) {
-    }
-  }, [clear]);
 
   return (
     <>
@@ -130,7 +129,7 @@ export default function EquipmentForm({ parseECT, name, title }) {
             <Stack spacing={3} sx={{ p: 3 }}>
               <TitleStyle>Tube Test Quantity</TitleStyle>
               {/* <RHFTable name="table" /> */}
-              <RHFTable name="equipmentTube" clear={clear} />
+              <RHFTable name="equipmentTube" />
             </Stack>
           </Stack>
 

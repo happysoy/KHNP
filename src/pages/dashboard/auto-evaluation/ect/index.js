@@ -20,6 +20,7 @@ import useAuth from 'src/hooks/useAuth';
 // redux
 import { useDispatch, useSelector } from '../../../../redux/store';
 import { useEffect, useState } from 'react';
+import { useSnackbar } from 'notistack';
 
 ECT.getLayout = function getLayout(page) {
   return <Layout>{page}</Layout>;
@@ -36,7 +37,7 @@ export default function ECT() {
   const [loading, setLoading] = useState(false);
   const [complete, setComplete] = useState(false);
   const [isModify, setIsModify] = useState(false);
-  const { userData, equipmentData, signalAcquisitionData, testInstrumentData } = useTableAction();
+  let { userData, equipmentData, signalAcquisitionData, testInstrumentData } = useTableAction();
   // console.log('Temp equipment', equipmentData);
   const obj = {
     userName: user?.displayName,
@@ -44,7 +45,7 @@ export default function ECT() {
   // useEffect(() => {
   //   dispatch(getData(obj));
   // }, [dispatch]);
-
+  const { enqueueSnackbar } = useSnackbar();
   useEffect(() => {
     if (savedDatasECT.length !== 0) {
       setIsModify(true);
@@ -53,15 +54,41 @@ export default function ECT() {
     }
   }, [savedDatasECT]);
 
+  let parseECT;
+  if (savedDatasECT.length !== 0) {
+    parseECT = JSON.parse(savedDatasECT[0]?.jdoc);
+  }
+
+  const touchedModify = (whichData, content) => {
+    const isTouch = Object.keys(content).length;
+    switch (whichData) {
+      case 'userData':
+        return isTouch ? userData : parseECT.userData;
+      case 'equipmentData':
+        return isTouch ? equipmentData : parseECT.equipmentData;
+      case 'signalAcquisitionData':
+        return isTouch ? signalAcquisitionData : parseECT.signalAcquisitionData;
+      case 'testInstrumentData':
+        return isTouch ? testInstrumentData : parseECT.testInstrumentData;
+    }
+  };
+
   const onSubmit = async () => {
     try {
       setLoading(true);
 
       if (isModify) {
         dispatch(deleteData({ obj }));
+        userData = touchedModify('userData', userData);
+        equipmentData = touchedModify('equipmentData', equipmentData);
+        signalAcquisitionData = touchedModify('signalAcquisitionData', signalAcquisitionData);
+        testInstrumentData = touchedModify('testInstrumentData', testInstrumentData);
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+        dispatch(insertData({ obj, userData, equipmentData, signalAcquisitionData, testInstrumentData }));
+      } else {
+        dispatch(insertData({ obj, userData, equipmentData, signalAcquisitionData, testInstrumentData }));
       }
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      dispatch(insertData({ obj, userData, equipmentData, signalAcquisitionData, testInstrumentData }));
+      enqueueSnackbar('성공적으로 입력되었습니다');
 
       setLoading(false);
       setComplete(true);
@@ -69,10 +96,6 @@ export default function ECT() {
       console.error(error);
     }
   };
-  let parseECT;
-  if (savedDatasECT.length !== 0) {
-    parseECT = JSON.parse(savedDatasECT[0]?.jdoc);
-  }
 
   return (
     <Page title="자동평가">

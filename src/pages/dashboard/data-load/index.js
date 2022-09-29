@@ -127,7 +127,7 @@ export default function DataLoad() {
     setTableData(deleteRow);
     dispatch(deleteData(row));
   };
-
+  const denseHeight = 72;
   const handleDeleteRows = (selected) => {
     const deleteRows = tableData.filter((row) => selected.includes(row.id));
     setSelected([]);
@@ -136,7 +136,6 @@ export default function DataLoad() {
 
     deleteRows.map((row) => dispatch(deleteData(row)));
   };
-  console.log(tableData);
   return (
     <Page title="데이터로드">
       <Container maxWidth="xl">
@@ -200,7 +199,7 @@ export default function DataLoad() {
                         onDeleteRow={() => handleDeleteRow(row)}
                       />
                     ))}
-                  <TableEmptyRows height="72" emptyRows={emptyRows(page, rowsPerPage, tableData.length)} />
+                  <TableEmptyRows height={denseHeight} emptyRows={emptyRows(page, rowsPerPage, tableData.length)} />
 
                   <TableNoData isNotFound={isNotFound} />
                 </TableBody>

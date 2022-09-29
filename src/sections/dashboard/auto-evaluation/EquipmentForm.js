@@ -47,7 +47,7 @@ export default function EquipmentForm({ parseECT, name, title }) {
   const { onChangeEquipment } = useTableAction();
 
   const getInitialValues = (clear) => {
-    if (clear || isResetEquipment || !parseECT) {
+    if (clear || !parseECT) {
       const user_init = {
         tubeType: TUBETYPE_OPTION[0].value,
       };

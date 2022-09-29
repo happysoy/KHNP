@@ -20,7 +20,6 @@ import {
   RHFUploadMultiFile,
   RHFUploadDatFile,
 } from '../../../components/hook-form';
-import DataEditStatusDate from './DataEditStatusDate';
 import { useRouter } from 'next/router';
 // redux
 import { insertData, updateData } from '../../../redux/slices/data';

@@ -43,7 +43,7 @@ export default function SignalAcquisitionForm({ parseECT, name, title }) {
   });
 
   const getInitialValues = (clear) => {
-    if (clear || isResetSignalAcquisition || !parseECT) {
+    if (clear || !parseECT) {
       const user_init = {
         probeType: '',
         probeVelocity: '',

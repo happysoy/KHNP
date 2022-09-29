@@ -79,6 +79,11 @@ export default function AnalysisSetting() {
           </Grid>
           <Grid item sm={12} sx={{ mt: 20, display: 'flex', justifyContent: 'flex-end', alignItems: 'flex-end' }}>
             <Stack direction="row" spacing={3}>
+              <NextLink href="/dashboard/data-load/" passHref>
+                <Button fullWidth variant="outlined" size="large">
+                  Back
+                </Button>
+              </NextLink>
               <LoadingButton
                 loading={loading}
                 fullWidth

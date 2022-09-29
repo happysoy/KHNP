@@ -4,9 +4,9 @@ import merge from 'lodash/merge';
 import { useTheme, styled } from '@mui/material/styles';
 import { Box, Card, CardHeader, Divider, Stack, Typography } from '@mui/material';
 // utils
-import { fNumber } from '../../../utils/formatNumber';
+import { fNumber } from '../../../../utils/formatNumber';
 // components
-import ReactApexChart, { BaseOptionChart } from '../../../components/chart';
+import ReactApexChart, { BaseOptionChart } from '../../../../components/chart';
 
 // ----------------------------------------------------------------------
 

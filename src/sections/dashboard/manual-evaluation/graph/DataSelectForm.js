@@ -1,10 +1,10 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useDispatch, useSelector } from '../../../redux/store';
+import { useDispatch, useSelector } from '../../../../redux/store';
 // components
-import { FormProvider, RHFSelect } from '../../../components/hook-form';
+import { FormProvider, RHFSelect } from '../../../../components/hook-form';
 // redux
-import { getDatas, postGraphDatas } from '../../../redux/slices/data';
+import { getDatas, postGraphDatas } from '../../../../redux/slices/data';
 import { Grid, MenuItem, Stack } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import { getData } from 'src/redux/slices/analysis-setting';

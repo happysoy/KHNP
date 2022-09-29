@@ -8,9 +8,14 @@ import Layout from '../../../../layouts';
 import Title from '../../../../components/Title';
 import Page from '../../../../components/Page';
 // sections
-import EvaluationOverview from '../../../../sections/dashboard/manual-evaluation/EvaluationOverview';
-import EvaluationDetail from 'src/sections/dashboard/manual-evaluation/EvaluationDetail';
-import EvaluationSummary from '../../../../sections/dashboard/manual-evaluation/EvaluationSummary';
+import EvaluationOverview from '../../../../sections/dashboard/data-load/evaluation/EvaluationOverview';
+import EvaluationDetail from 'src/sections/dashboard/data-load/evaluation/EvaluationDetail';
+import EvaluationSummary from '../../../../sections/dashboard/data-load/evaluation/EvaluationSummary';
+import { useDispatch, useSelector } from 'src/redux/store';
+import useAuth from 'src/hooks/useAuth';
+import { useEffect } from 'react';
+import { getData } from 'src/redux/slices/test-information';
+import EvaluationDefectDetail from 'src/sections/dashboard/data-load/evaluation/EvaluationDefectDetail';
 
 Evaluation.getLayout = function getLayout(page) {
   return <Layout>{page}</Layout>;
@@ -18,6 +23,13 @@ Evaluation.getLayout = function getLayout(page) {
 
 export default function Evaluation() {
   const theme = useTheme();
+
+  const { savedDatasECT } = useSelector((state) => state.testInformation);
+  let parseECT;
+  if (savedDatasECT.length !== 0) {
+    parseECT = JSON.parse(savedDatasECT[0]?.jdoc);
+  }
+
   return (
     <Page title="데이터로드">
       <Container maxWidth="lg">
@@ -90,8 +102,11 @@ export default function Evaluation() {
           <Grid item lg={4}>
             <EvaluationDetail />
           </Grid>
-          <Grid item lg={12}>
-            <EvaluationSummary title="Test Result Summary" />
+          <Grid item lg={8}>
+            <EvaluationDefectDetail title="Defect Detail" parseECT={parseECT} />
+          </Grid>
+          <Grid item lg={8}>
+            <EvaluationSummary title="Test Result Summary" parseECT={parseECT} />
           </Grid>
         </Grid>
       </Container>

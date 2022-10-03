@@ -16,6 +16,7 @@ import useAuth from 'src/hooks/useAuth';
 import { useEffect } from 'react';
 import { getData } from 'src/redux/slices/test-information';
 import EvaluationDefectDetail from 'src/sections/dashboard/data-load/evaluation/EvaluationDefectDetail';
+import { getErrorGraphList } from '../../../../redux/slices/data';
 
 Evaluation.getLayout = function getLayout(page) {
   return <Layout>{page}</Layout>;
@@ -23,27 +24,30 @@ Evaluation.getLayout = function getLayout(page) {
 
 export default function Evaluation() {
   const theme = useTheme();
+  const dispatch = useDispatch();
 
-  const { savedDatasECT } = useSelector((state) => state.testInformation);
-  let parseECT;
-  if (savedDatasECT.length !== 0) {
-    parseECT = JSON.parse(savedDatasECT[0]?.jdoc);
-  }
+  useEffect(() => {
+    dispatch(getErrorGraphList());
+  }, [dispatch]);
 
   return (
     <Page title="데이터로드">
       <Container maxWidth="lg">
         <Title heading="자동 평가 결과" desc="자동평가에 대한 설명" />
         <Grid container spacing={3}>
-          <Grid item xs={12} lg={8}>
+          <Grid item xs={8} lg={8}>
             <EvaluationOverview
               title="Overview"
               chartData={[
                 {
                   label: '지시',
                   contents: [
-                    { id: 'IDI', count: 2 },
-                    { id: 'ODI', count: 4 },
+                    { id: 'NDD', count: 2 },
+                    { id: 'ID', count: 4 },
+                    { id: 'ID_volt', count: 4 },
+                    { id: 'DEP', count: 4 },
+                    { id: 'OD', count: 4 },
+                    { id: 'OD_volt', count: 4 },
                   ],
                   value: 10,
                 },
@@ -99,14 +103,14 @@ export default function Evaluation() {
               // ]}
             />
           </Grid>
-          <Grid item lg={4}>
+          <Grid item sm={4} lg={4}>
             <EvaluationDetail />
           </Grid>
-          <Grid item lg={8}>
-            <EvaluationDefectDetail title="Defect Detail" parseECT={parseECT} />
+          <Grid item sm={6} lg={6}>
+            <EvaluationDefectDetail title="Defect Detail" />
           </Grid>
-          <Grid item lg={8}>
-            <EvaluationSummary title="Test Result Summary" parseECT={parseECT} />
+          <Grid item sm={6} lg={6}>
+            <EvaluationSummary title="Test Result Summary" />
           </Grid>
         </Grid>
       </Container>

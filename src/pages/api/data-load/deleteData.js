@@ -1,4 +1,4 @@
-import executeQuery from '../../../common/config/db/db';
+import executeQuery from '../../../common/config/db/db_setting';
 
 export default async (req, res) => {
   try {

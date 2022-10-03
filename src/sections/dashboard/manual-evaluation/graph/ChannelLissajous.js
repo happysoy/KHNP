@@ -27,7 +27,7 @@ export default function ChannelLissajous({ chartLabels, chartData, ...other }) {
 
   const { onChangeRange } = useGraphAction();
   const { graphDatas, isLoading } = useSelector((state) => state.data);
-
+  const [drawLoading, setDrawLoading] = useState(true);
   const dispatch = useDispatch();
 
   const handleChangeSeriesData = (event) => {
@@ -39,7 +39,6 @@ export default function ChannelLissajous({ chartLabels, chartData, ...other }) {
     if (graphDatas.length === 0) {
       return;
     }
-    const parseToGraphDatas = JSON.parse(graphDatas);
 
     const layout = {
       width: 500,
@@ -60,8 +59,8 @@ export default function ChannelLissajous({ chartLabels, chartData, ...other }) {
     let newXValues = [];
     let newYValues = [];
     for (let i = range[0]; i < range[1]; i++) {
-      newXValues.push(parseToGraphDatas[`${seriesData}X`][i]);
-      newYValues.push(parseToGraphDatas[`${seriesData}Y`][i]);
+      newXValues.push(graphDatas[`${seriesData}X`][i]);
+      newYValues.push(graphDatas[`${seriesData}Y`][i]);
     }
 
     let trace = {
@@ -70,47 +69,50 @@ export default function ChannelLissajous({ chartLabels, chartData, ...other }) {
     };
     let data = [trace];
     Plotly.newPlot(myDiv, data, layout, config);
+    setDrawLoading(false);
   }, [range, graphDatas, seriesData]);
 
   return (
-    <Card {...other}>
-      <CardHeader
-        action={
-          <TextField
-            select
-            fullWidth
-            value={seriesData}
-            SelectProps={{ native: true }}
-            onChange={handleChangeSeriesData}
-            sx={{
-              '& fieldset': { border: '0 !important' },
-              '& select': {
-                pl: 1,
-                py: 0.5,
-                pr: '24px !important',
-                typography: 'subtitle2',
-              },
-              '& .MuiOutlinedInput-root': {
-                borderRadius: 0.75,
-                bgcolor: 'background.neutral',
-              },
-              '& .MuiNativeSelect-icon': {
-                top: 4,
-                right: 0,
-                width: 20,
-                height: 20,
-              },
-            }}
-          >
-            {chartData.map((option) => (
-              <option key={option.year} value={option.year}>
-                {option.year}
-              </option>
-            ))}
-          </TextField>
-        }
-      />
-      <div ref={ref} id="myDiv"></div>
-    </Card>
+    <>
+      <Card {...other}>
+        <CardHeader
+          action={
+            <TextField
+              select
+              fullWidth
+              value={seriesData}
+              SelectProps={{ native: true }}
+              onChange={handleChangeSeriesData}
+              sx={{
+                '& fieldset': { border: '0 !important' },
+                '& select': {
+                  pl: 1,
+                  py: 0.5,
+                  pr: '24px !important',
+                  typography: 'subtitle2',
+                },
+                '& .MuiOutlinedInput-root': {
+                  borderRadius: 0.75,
+                  bgcolor: 'background.neutral',
+                },
+                '& .MuiNativeSelect-icon': {
+                  top: 4,
+                  right: 0,
+                  width: 20,
+                  height: 20,
+                },
+              }}
+            >
+              {chartData.map((option) => (
+                <option key={option.year} value={option.year}>
+                  {option.year}
+                </option>
+              ))}
+            </TextField>
+          }
+        />
+        <div ref={ref} id="myDiv"></div>
+      </Card>
+    </>
   );
 }

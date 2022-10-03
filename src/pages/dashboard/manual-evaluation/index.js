@@ -1,4 +1,3 @@
-import * as Yup from 'yup';
 import { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from '../../../redux/store';
@@ -11,18 +10,16 @@ import Layout from '../../../layouts';
 // components
 import Page from '../../../components/Page';
 import Title from '../../../components/Title';
-import DataSelectForm from '../../../sections/dashboard/manual-evaluation/graph/DataSelectForm';
-import StandardLissajous from 'src/sections/dashboard/manual-evaluation/graph/StandardLissajous';
-import ChannelLissajous from 'src/sections/dashboard/manual-evaluation/graph/ChannelLissajous';
 // redux
-import { getDatas } from '../../../redux/slices/data';
+import { getDatas, getErrorGraphList } from '../../../redux/slices/data';
 import Scrollbar from 'src/components/Scrollbar';
-import { TableHeadCustom, TableSelectedActions } from 'src/components/table';
+import { TableHeadManual, TableSelectedActions } from 'src/components/table';
 import { FormProvider } from 'src/components/hook-form';
 import { LoadingButton } from '@mui/lab';
 import useTable, { getComparator } from 'src/hooks/useTable';
 import { PATH_DASHBOARD } from 'src/routes/paths';
 import { useRouter } from 'next/router';
+import { LinkProps } from 'next/link';
 import { useSnackbar } from 'notistack';
 import ManualTableToolbar from 'src/sections/dashboard/manual-evaluation/ManualTableToolbar';
 
@@ -45,51 +42,27 @@ const TABLE_HEAD = [
 export default function ManualEvaluation() {
   const dispatch = useDispatch();
   const { push } = useRouter();
-
   const { enqueueSnackbar } = useSnackbar();
+  const [tableData, setTableData] = useState([]);
+
+  const { errorDatas, isLoading } = useSelector((state) => state.data);
 
   useEffect(() => {
-    dispatch(getDatas());
-  }, [dispatch]);
+    if (errorDatas.length) {
+      setTableData(errorDatas);
+    }
+  }, [errorDatas]);
 
-  const tableData = [
-    {
-      id: 288,
-      fileName: 'SK-04-01-CD-C2-03-002013',
-      textEval: 'DFI',
-      volts: 0.79,
-      deg: 39.6,
-      depth: 39.6,
-      channel: 'D620',
-      location: 'TSP13+0.7m',
-    },
-    {
-      id: 289,
-      fileName: 'SK-04-01-CD-C2-03-002014',
-      textEval: 'DFS',
-      volts: 0.6,
-      deg: 45.3,
-      depth: 45.3,
-      channel: 'D310',
-      location: 'TSP1+0.45m',
-    },
-    {
-      id: 290,
-      fileName: 'SK-04-01-CD-C2-03-002015',
-      textEval: 'IDI',
-      volts: 0.8,
-      deg: 21.8,
-      depth: 21.8,
-      channel: 'Mix1',
-      location: 'TSP11+0.23m',
-    },
-  ];
+  useEffect(() => {
+    dispatch(getErrorGraphList());
+  }, [dispatch]);
 
   const defaultValues = () => {
     const tableObj = {};
     tableData.map((data) => {
-      tableObj[data.fileName] = false;
+      tableObj[data.id] = false;
     });
+
     return tableObj;
   };
 
@@ -136,7 +109,7 @@ export default function ManualEvaluation() {
                   <TableSelectedActions numSelected={selected.length} rowCount={tableData.length} />
                 )} */}
                 <Table size="medium">
-                  <TableHeadCustom
+                  <TableHeadManual
                     order={order}
                     orderBy={orderBy}
                     onSort={onSort}
@@ -145,13 +118,14 @@ export default function ManualEvaluation() {
                     numSelected={selected.length}
                   />
                   <TableBody>
-                    {dataFiltered.map((row, index) => (
+                    {tableData.map((row, index) => (
                       <ErrorDataTableRow
                         key={row.id}
+                        index={index}
                         row={row}
                         selected={selected.includes(row.id)}
                         onSelectRow={() => onSelectRow(row.id)}
-                        onViewRow={() => handleViewRow(row.id)}
+                        onViewRow={() => handleViewRow(row.pns)}
                       />
                     ))}
                   </TableBody>
@@ -183,13 +157,13 @@ function applySortFilter({ tableData, filterName, comparator }) {
 
   tableData = stabilizedThis.map((el) => el[0]);
 
-  if (filterName) {
-    tableData = tableData.filter(
-      (item) =>
-        item.invoiceNumber.toLowerCase().indexOf(filterName.toLowerCase()) !== -1 ||
-        item.invoiceTo.name.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
-    );
-  }
+  // if (filterName) {
+  //   tableData = tableData.filter(
+  //     (item) =>
+  //       item.invoiceNumber.toLowerCase().indexOf(filterName.toLowerCase()) !== -1 ||
+  //       item.invoiceTo.name.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
+  //   );
+  // }
 
   // if (filterStatus !== 'all') {
   //   tableData = tableData.filter((item) => item.status === filterStatus);

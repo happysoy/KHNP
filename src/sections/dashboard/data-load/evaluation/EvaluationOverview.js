@@ -109,9 +109,9 @@ export default function EvaluationOverview({ title, chartData, ...other }) {
 
             // draw line
             const halfWidth = width / 2;
-            const halfHeight = height / 2;
+            const halfHeight = height / 2.5;
 
-            const xLine = x >= halfWidth ? x + 40 : x - 40;
+            const xLine = x >= halfWidth ? x + 50 : x - 50;
             const yLine = y >= halfHeight ? y + 50 : y - 50;
             const extraLine = x >= halfWidth ? 80 : -50;
 

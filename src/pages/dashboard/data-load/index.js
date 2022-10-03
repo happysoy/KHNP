@@ -76,7 +76,7 @@ export default function DataLoad() {
     onChangePage,
     onChangeRowsPerPage,
   } = useTable({
-    defaultOrderBy: 'createdAt',
+    defaultOrderBy: 'id',
   });
 
   const dispatch = useDispatch();
@@ -102,7 +102,7 @@ export default function DataLoad() {
     setFilterName(filterName);
   };
 
-  const isNotFound = !tableData.length && !!filterName;
+  const isNotFound = !tableData.length;
 
   useEffect(() => {
     dispatch(getDatas());
@@ -177,6 +177,9 @@ export default function DataLoad() {
 
               <Table size={'medium'}>
                 <TableHeadCustom
+                  order={order}
+                  orderBy={orderBy}
+                  onSort={onSort}
                   headLabel={TABLE_HEAD}
                   rowCount={tableData.length}
                   numSelected={selected.length}

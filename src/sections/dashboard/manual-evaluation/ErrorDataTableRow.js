@@ -1,11 +1,14 @@
-import { TableRow, Checkbox, TableCell, Typography, MenuItem, Link, Switch } from '@mui/material';
+import { Link, TableRow, Checkbox, TableCell, Typography, MenuItem, Switch } from '@mui/material';
 import { useFormContext } from 'react-hook-form';
 import { RHFSwitch } from 'src/components/hook-form';
 import VerificationMethod from './VerificationMethod';
+import { useTheme } from '@mui/material/styles';
+import { makeStyles, styled } from '@mui/styles';
 // ----------------------------------------------------------------------
 
 export default function ErrorDataTableRow({
   row,
+  index,
   selected,
   onSelectRow,
   onViewRow,
@@ -13,32 +16,53 @@ export default function ErrorDataTableRow({
 }) {
   // const theme = useTheme();
 
-  const { id, fileName, textEval, volts, deg, depth, channel, location } = row;
+  const { id, DEFECT_CODE, DEFECT_LOCATION } = row;
   const { control } = useFormContext();
 
-  return (
-    <TableRow hover selected={selected}>
-      <TableCell sx={{ textAlign: 'center' }}>{id}</TableCell>
-      <TableCell sx={{ alignItems: 'center' }}>
-        <Link
-          noWrap
-          variant="subtitle2"
-          onClick={onViewRow}
-          sx={{ display: 'flex', justifyContent: 'center', color: 'text.disabled', cursor: 'pointer' }}
-        >
-          {fileName}
-        </Link>
-      </TableCell>
-      <TableCell sx={{ textAlign: 'center' }}>{textEval}</TableCell>
-      <TableCell sx={{ textAlign: 'center' }}>{volts}</TableCell>
-      <TableCell sx={{ textAlign: 'center' }}>{deg}</TableCell>
-      <TableCell sx={{ textAlign: 'center' }}>{depth}</TableCell>
-      <TableCell sx={{ textAlign: 'center' }}>{channel}</TableCell>
-      <TableCell sx={{ textAlign: 'center' }}>{location}</TableCell>
+  const theme = useTheme();
 
-      <TableCell padding="checkbox">
-        <RHFSwitch name={fileName} checked={selected} onClick={onSelectRow} />
-      </TableCell>
-    </TableRow>
+  const useStyles = makeStyles({
+    tableCell: {
+      borderBottom: `2px dashed ${theme.palette.divider}`,
+      '&:last-of-type': {
+        borderBottom: 'none',
+      },
+    },
+  });
+
+  // const StyledLink = styled(Link)(({}) => ({
+  //   '&:visited': {
+  //     color: 'blue',
+  //   },
+  // }));
+
+  const classes = useStyles();
+
+  return (
+    <>
+      <TableRow className={classes.tableCell} hover selected={selected}>
+        <TableCell sx={{ textAlign: 'center' }}>{index + 1}</TableCell>
+        <TableCell className={classes.tableLink} sx={{ alignItems: 'center' }}>
+          <Link
+            noWrap
+            variant="subtitle2"
+            onClick={onViewRow}
+            sx={{ color: theme.palette.action.disabled, cursor: 'pointer' }}
+          >
+            {row.pns}
+          </Link>
+        </TableCell>
+        <TableCell>{DEFECT_CODE}</TableCell>
+        <TableCell>?</TableCell>
+        <TableCell>?</TableCell>
+        <TableCell>?</TableCell>
+        <TableCell>?</TableCell>
+        <TableCell>{row.DEFECT_LOCATION}</TableCell>
+
+        <TableCell padding="checkbox" sx={{ textAlign: 'center' }}>
+          <RHFSwitch name={row.id} checked={selected} onClick={onSelectRow} />
+        </TableCell>
+      </TableRow>
+    </>
   );
 }

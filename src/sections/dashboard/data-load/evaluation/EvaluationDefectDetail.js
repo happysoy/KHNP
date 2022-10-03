@@ -18,9 +18,10 @@ import {
   TableRow,
   Paper,
 } from '@mui/material';
-import { Fragment } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector } from 'src/redux/store';
 import Label from 'src/components/Label';
+import Scrollbar from 'src/components/Scrollbar';
 
 // ----------------------------------------------------------------------
 const columns = [
@@ -51,9 +52,9 @@ const columns = [
 
 // ----------------------------------------------------------------------
 
-export default function EvaluationDefectDetail({ title, parseECT, description, ...other }) {
+export default function EvaluationDefectDetail({ title, description, ...other }) {
   const theme = useTheme();
-  const { datas } = useSelector((state) => state.data);
+  // const { datas } = useSelector((state) => state.data);
 
   const useStyles = makeStyles({
     tableCell: {
@@ -69,75 +70,78 @@ export default function EvaluationDefectDetail({ title, parseECT, description, .
       textAlign: 'center',
     },
   });
+  const { errorDatas, isLoading } = useSelector((state) => state.data);
 
   const classes = useStyles();
 
-  const {
-    equipmentData: {
-      equipmentTube: { columns, data },
-    },
-  } = parseECT;
-
-  const columnID = Object.keys(data[0])[2];
-
-  const sample = [{ num: [0, 1, 2] }, { num: [0, 1, 2] }];
+  // const {
+  //   equipmentData: {
+  //     equipmentTube: { columns, data },
+  //   },
+  // } = parseECT;
+  const [tableData, setTableData] = useState([]);
 
   return (
     <Card {...other}>
       <CardHeader title={title} sx={{ mb: 5 }} />
       <Paper sx={{ width: '100%' }}>
-        <Table sx={{ minWidth: 700 }}>
-          <TableHead>
-            <TableRow>
-              <TableCell className={classes.tableCell} rowSpan={2} colSpan={1}>
-                순번
-              </TableCell>
-              <TableCell className={classes.tableCell} rowSpan={1} colSpan={1}>
-                PNS
-              </TableCell>
-              <TableCell className={classes.tableCell} rowSpan={1} colSpan={3}>
-                2차 OH
-              </TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell className={classes.tableCell} rowSpan={1} colSpan={1}>
-                Box-Zone-Row-Col
-              </TableCell>
-              <TableCell className={classes.tableCell} rowSpan={1} colSpan={1}>
-                Volts
-              </TableCell>
-              <TableCell className={classes.tableCell} rowSpan={1} colSpan={1}>
-                Depth
-              </TableCell>
-              <TableCell className={classes.tableCell} rowSpan={1} colSpan={1}>
-                Eval.
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {datas.map((item, index) => (
-              <>
-                <TableRow key={index}>
-                  <TableCell key={index} className={classes.tableCell}>
-                    {index + 1}
+        <Scrollbar>
+          <TableContainer>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell className={classes.tableCell} rowSpan={2} colSpan={1}>
+                    순번
                   </TableCell>
-                  <TableCell key={index} className={classes.tableCell}>
-                    {item.fileName}
+                  <TableCell className={classes.tableCell} rowSpan={1} colSpan={1}>
+                    PNS
                   </TableCell>
-
-                  <TableCell className={classes.tableCell}>0</TableCell>
-                  <TableCell className={classes.tableCell}>0</TableCell>
-
-                  <TableCell className={classes.tableCell}>
-                    <Label variant="ghost" color="error">
-                      DFI
-                    </Label>
+                  <TableCell className={classes.tableCell} rowSpan={1} colSpan={3}>
+                    2차 OH
                   </TableCell>
                 </TableRow>
-              </>
-            ))}
-          </TableBody>
-        </Table>
+                <TableRow>
+                  <TableCell className={classes.tableCell} rowSpan={1} colSpan={1}>
+                    Box-Zone-Row-Col
+                  </TableCell>
+                  <TableCell className={classes.tableCell} rowSpan={1} colSpan={1}>
+                    Volts
+                  </TableCell>
+                  <TableCell className={classes.tableCell} rowSpan={1} colSpan={1}>
+                    Depth
+                  </TableCell>
+                  <TableCell className={classes.tableCell} rowSpan={1} colSpan={1}>
+                    Eval.
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {/* <TableRow>
+                  <TableCell>야호</TableCell>
+                </TableRow> */}
+                {errorDatas.map((item, index) => (
+                  <>
+                    <TableRow key={index}>
+                      <TableCell key={index} className={classes.tableCell}>
+                        {index + 1}
+                      </TableCell>
+                      <TableCell key={index} className={classes.tableCell}>
+                        {item.pns}
+                      </TableCell>
+                      <TableCell className={classes.tableCell}>?</TableCell>
+                      <TableCell className={classes.tableCell}>?</TableCell>
+                      <TableCell className={classes.tableCell}>
+                        <Label variant="ghost" color="error">
+                          {item.DEFECT_CODE}
+                        </Label>
+                      </TableCell>
+                    </TableRow>
+                  </>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Scrollbar>
       </Paper>
     </Card>
   );

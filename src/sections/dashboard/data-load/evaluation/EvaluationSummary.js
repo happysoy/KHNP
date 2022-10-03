@@ -50,8 +50,14 @@ const columns = [
 
 // ----------------------------------------------------------------------
 
-export default function EvaluationSummary({ title, parseECT, description, ...other }) {
+export default function EvaluationSummary({ title, description, ...other }) {
   const theme = useTheme();
+  const { savedDatasECT } = useSelector((state) => state.testInformation);
+
+  let parseECT;
+  if (savedDatasECT.length !== 0) {
+    parseECT = JSON.parse(savedDatasECT[0]?.jdoc);
+  }
 
   const useStyles = makeStyles({
     tableCell: {
@@ -92,7 +98,7 @@ export default function EvaluationSummary({ title, parseECT, description, ...oth
     <Card {...other}>
       <CardHeader title={title} sx={{ mb: 5 }} />
       <Paper sx={{ width: '100%' }}>
-        <Table sx={{ minWidth: 700 }}>
+        <Table>
           <TableHead>
             <TableRow>
               <TableCell className={classes.tableCell} rowSpan={1} colSpan={2}>

@@ -1,26 +1,24 @@
-import { useState } from "react";
+import { useState } from 'react';
 
 // ----------------------------------------------------------------------
 
 export default function useTable(props) {
   const [dense, setDense] = useState(props?.defaultDense || false);
 
-  const [orderBy, setOrderBy] = useState(props?.defaultOrderBy || "name");
+  const [orderBy, setOrderBy] = useState(props?.defaultOrderBy || 'name');
 
-  const [order, setOrder] = useState(props?.defaultOrder || "asc");
+  const [order, setOrder] = useState(props?.defaultOrder || 'asc');
 
   const [page, setPage] = useState(props?.defaultCurrentPage || 0);
 
-  const [rowsPerPage, setRowsPerPage] = useState(
-    props?.defaultRowsPerPage || 5
-  );
+  const [rowsPerPage, setRowsPerPage] = useState(props?.defaultRowsPerPage || 5);
 
   const [selected, setSelected] = useState(props?.defaultSelected || []);
 
   const onSort = (id) => {
-    const isAsc = orderBy === id && order === "asc";
-    if (id !== "") {
-      setOrder(isAsc ? "desc" : "asc");
+    const isAsc = orderBy === id && order === 'asc';
+    if (id !== '') {
+      setOrder(isAsc ? 'desc' : 'asc');
       setOrderBy(id);
     }
   };
@@ -37,10 +35,7 @@ export default function useTable(props) {
     } else if (selectedIndex === selected.length - 1) {
       newSelected = newSelected.concat(selected.slice(0, -1));
     } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1)
-      );
+      newSelected = newSelected.concat(selected.slice(0, selectedIndex), selected.slice(selectedIndex + 1));
     }
     setSelected(newSelected);
   };
@@ -101,7 +96,7 @@ export function descendingComparator(a, b, orderBy) {
 }
 
 export function getComparator(order, orderBy) {
-  return order === "desc"
+  return order === 'asc'
     ? (a, b) => descendingComparator(a, b, orderBy)
     : (a, b) => -descendingComparator(a, b, orderBy);
 }

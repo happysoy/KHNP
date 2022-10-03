@@ -1,10 +1,11 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from '../../../redux/store';
+
 // @mui
 import ErrorDataTableRow from 'src/sections/dashboard/manual-evaluation/ErrorDataTableRow';
 
-import { Card, Container, Grid, TableBody, Table, TableContainer } from '@mui/material';
+import { Card, Container, Grid, Button, TableBody, Table, TableContainer } from '@mui/material';
 // layouts
 import Layout from '../../../layouts';
 // components
@@ -22,6 +23,7 @@ import { LoadingButton } from '@mui/lab';
 import useTable from 'src/hooks/useTable';
 import { PATH_DASHBOARD } from 'src/routes/paths';
 import { useRouter } from 'next/router';
+import { getGraphDatas, startDrawing } from '../../../redux/slices/data';
 
 ManualEvaluationDetails.getLayout = function getLayout(page) {
   return <Layout>{page}</Layout>;
@@ -34,14 +36,30 @@ export default function ManualEvaluationDetails() {
     dispatch(getDatas());
   }, [dispatch]);
 
+  const { savedDatas } = useSelector((state) => state.analysisSetting);
+
+  const { query } = useRouter();
+  const { id } = query;
+
+  useEffect(() => {
+    const renew = {
+      fileName: id,
+      savedDatas: savedDatas[0],
+    };
+    dispatch(getGraphDatas(renew));
+    dispatch(startDrawing());
+  }, [dispatch]);
+
   return (
     <Page title="수동평가">
       <Container maxWidth="xl">
         <Title heading="Analysis Result Verification" desc="수동평가에 대한 설명" />
 
-        <DataSelectForm />
-
         <Grid container spacing={3}>
+          {/* <Grid item md={12}>
+            <DataSelectForm />
+          </Grid> */}
+
           <Grid item md={12} sx={{ justifyContent: 'center', display: 'flex' }}>
             <StandardLissajous
               title="Analyze"

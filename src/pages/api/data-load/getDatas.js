@@ -1,4 +1,4 @@
-import executeQuery from "../../../common/config/db/db";
+import executeQuery from '../../../common/config/db/db_setting';
 
 export default async (req, res) => {
   try {
@@ -9,4 +9,10 @@ export default async (req, res) => {
   } catch (error) {
     console.log(error);
   }
+};
+
+export const config = {
+  api: {
+    responseLimit: false,
+  },
 };

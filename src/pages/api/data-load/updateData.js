@@ -1,31 +1,18 @@
-import executeQuery from "../../../common/config/db/db";
+import executeQuery from '../../../common/config/db/db_setting';
 
 export default async (req, res) => {
   try {
-    const {
-      id,
-      unitNo,
-      company,
-      fileName,
-      site,
-      createDate,
-      dueDate,
-      tubeSetting,
-      equipment,
-      speed,
-      detector,
-      probe,
-    } = req.body;
+    const { id, unitNo, company, fileName, site, createDate, dueDate, tubeSetting, equipment, speed, detector, probe } =
+      req.body;
     const parseId = parseInt(id);
-    const directory = "src/pages";
-    const fileSize = "2M";
-    const createDateSplit = createDate.split("T");
-    const dueDateSplit = dueDate.split("T");
+    const directory = 'src/pages';
+    const fileSize = '2M';
+    const createDateSplit = createDate.split('T');
+    const dueDateSplit = dueDate.split('T');
 
     const testPeriod = `${createDateSplit[0]}/${dueDateSplit[0]}`;
 
-    const images =
-      "https://cdnweb01.wikitree.co.kr/webdata/editor/202203/30/img_20220330160332_5b5ab5c0.webp";
+    const images = 'https://cdnweb01.wikitree.co.kr/webdata/editor/202203/30/img_20220330160332_5b5ab5c0.webp';
 
     const result = await executeQuery({
       query: `UPDATE DATA SET fileName=?, directory=?, fileSize=?, company=?, site=?, unitNo=?, equipment=?, testPeriod=?, tubeSetting=?, speed=?, detector=?, probe=?, images=? WHERE id=?`,

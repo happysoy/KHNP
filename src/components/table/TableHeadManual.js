@@ -20,7 +20,7 @@ const visuallyHidden = {
 
 // ----------------------------------------------------------------------
 
-TableHeadCustom.propTypes = {
+TableHeadManual.propTypes = {
   onSort: PropTypes.func,
   orderBy: PropTypes.string,
   headLabel: PropTypes.array,
@@ -31,7 +31,7 @@ TableHeadCustom.propTypes = {
   sx: PropTypes.object,
 };
 
-export default function TableHeadCustom({
+export default function TableHeadManual({
   order,
   orderBy,
   rowCount = 0,
@@ -49,13 +49,11 @@ export default function TableHeadCustom({
         paddingRight: theme.spacing(3),
         borderTopRightRadius: theme.shape.borderRadius,
         borderBottomRightRadius: theme.shape.borderRadius,
-        boxShadow: `inset -8px 0 0 ${theme.palette.background.paper}`,
       },
       '&:first-of-type': {
         paddingLeft: theme.spacing(3),
         borderTopLeftRadius: theme.shape.borderRadius,
         borderBottomLeftRadius: theme.shape.borderRadius,
-        boxShadow: `inset 8px 0 0 ${theme.palette.background.paper}`,
       },
     },
   });

@@ -6,6 +6,16 @@ export default function Link() {
       defaultProps: {
         underline: 'hover',
       },
+      // styleOverrides: {
+      //   root: {
+      //     '&:hover': {
+      //       color: 'blue',
+      //     },
+      //     // '&:visited': {
+      //     //   color: 'red',
+      //     // },
+      //   },
+      // },
     },
   };
 }

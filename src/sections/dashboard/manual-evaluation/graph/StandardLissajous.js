@@ -51,11 +51,8 @@ export default function StandardLissajous({ chartLabels, chartData, ...other }) 
     const config = {
       displayModeBar: false, // hides the bar.
     };
-    if (!drawLoading) {
-      Plotly.newPlot(myDiv, [{ x: 0, y: 0 }], layout, config);
-    } else {
-      Plotly.newPlot(myDiv, data, layout, config);
-    }
+
+    Plotly.newPlot(myDiv, data, layout, config);
     // { showSendToCloud: true }
     myDiv.on('plotly_relayout', function (eventdata) {
       onChangeRange(eventdata);

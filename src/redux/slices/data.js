@@ -59,17 +59,21 @@ const slice = createSlice({
       state.isLoading = false;
       state.errorDatas = action.payload;
     },
+    clearGraphDatasSuccess(state, action) {
+      state.isLoading = false;
+      state.graphDatas = [];
+    },
   },
 });
 
 export default slice.reducer;
 export const { actions } = slice;
 
-export function getDatas() {
+export function getDatas(data) {
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
-      const response = await axios.get('/api/data-load/getDatas');
+      const response = await axios.post('/api/data-load/getDatas', data);
       dispatch(slice.actions.getDatasSuccess(response.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
@@ -113,6 +117,18 @@ export function deleteData(row) {
   };
 }
 
+export function clearData(userName) {
+  return async () => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const response = await axios.post('/api/data-load/clearData', userName);
+      dispatch(slice.actions.deleteDataSuccess(response.data));
+    } catch (error) {
+      dispatch(slice.actions.hasError(error));
+    }
+  };
+}
+
 // export function postGraphDatas(data) {
 //   return async () => {
 //     dispatch(slice.actions.startLoading());
@@ -136,7 +152,11 @@ export function startDrawing() {
     dispatch(slice.actions.startDrawing());
   };
 }
-
+export function clearGraphDatas() {
+  return async () => {
+    dispatch(slice.actions.clearGraphDatasSuccess());
+  };
+}
 export function getGraphDatas(data) {
   return async () => {
     dispatch(slice.actions.startLoading());
@@ -161,8 +181,10 @@ export function getErrorGraphList() {
         const defectCode = JSON.parse(data.DEFECT_CODE);
         const defectTEIO = JSON.parse(data.TEIO);
         const defectLocation = JSON.parse(data.DEFECT_LOCATION);
+        const defectList = JSON.parse(data.DEFECT_LIST);
         const codeArray = Object.values(defectCode);
         const locationArray = Object.values(defectLocation);
+        const listArray = Object.values(defectList);
         const pns = data.id;
         codeArray.map((item, idx) => {
           const obj = {
@@ -170,7 +192,8 @@ export function getErrorGraphList() {
             pns: pns,
             TEIO: defectTEIO,
             DEFECT_CODE: item,
-            DEFECT_LOCATION: locationArray,
+            DEFECT_LOCATION: locationArray[idx],
+            DEFECT_LIST: listArray[idx],
           };
           refineList.push(obj);
         });

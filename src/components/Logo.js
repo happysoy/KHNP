@@ -103,7 +103,7 @@ const Logo = forwardRef(({ disabledLink = false, isCollapse, sx }, ref) => {
     return <>{isCollapse ? cropLogo : null}</>;
   }
 
-  return <NextLink href="/">{isCollapse ? cropLogo : logo}</NextLink>;
+  return <NextLink href="/dashboard/auto-evaluation/">{isCollapse ? cropLogo : logo}</NextLink>;
 });
 
 export default Logo;

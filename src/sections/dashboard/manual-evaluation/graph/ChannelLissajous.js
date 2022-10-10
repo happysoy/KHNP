@@ -18,8 +18,8 @@ ChannelLissajous.propTypes = {
   // chartLabels: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
-export default function ChannelLissajous({ chartLabels, chartData, ...other }) {
-  const [seriesData, setSeriesData] = useState('CH1');
+export default function ChannelLissajous({ chartLabels, chartData, selectSeries, ...other }) {
+  const [seriesData, setSeriesData] = useState(selectSeries);
 
   const ref = useRef(null);
   const range = useAxis();
@@ -45,6 +45,10 @@ export default function ChannelLissajous({ chartLabels, chartData, ...other }) {
       height: 300,
       yaxis: {
         fixedrange: true,
+        showticklabels: false,
+      },
+      xaxis: {
+        showticklabels: false,
       },
     };
     const config = {
@@ -66,6 +70,7 @@ export default function ChannelLissajous({ chartLabels, chartData, ...other }) {
     let trace = {
       x: newXValues,
       y: newYValues,
+      hoverinfo: 'none',
     };
     let data = [trace];
     Plotly.newPlot(myDiv, data, layout, config);

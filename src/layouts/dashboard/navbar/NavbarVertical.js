@@ -1,27 +1,27 @@
-import PropTypes from "prop-types";
-import { useEffect } from "react";
-import { useRouter } from "next/router";
+import PropTypes from 'prop-types';
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
 // @mui
-import { styled, useTheme } from "@mui/material/styles";
-import { Box, Stack, Drawer } from "@mui/material";
+import { styled, useTheme } from '@mui/material/styles';
+import { Box, Stack, Drawer } from '@mui/material';
 // hooks
-import useResponsive from "../../../hooks/useResponsive";
-import useCollapseDrawer from "../../../hooks/useCollapseDrawer";
+import useResponsive from '../../../hooks/useResponsive';
+import useCollapseDrawer from '../../../hooks/useCollapseDrawer';
 // utils
-import cssStyles from "../../../utils/cssStyles";
+import cssStyles from '../../../utils/cssStyles';
 // config
-import { NAVBAR } from "../../../config";
+import { NAVBAR } from '../../../config';
 // components
-import Logo from "../../../components/Logo";
-import { NavSectionVertical } from "../../../components/nav-section";
+import Logo from '../../../components/Logo';
+import { NavSectionVertical } from '../../../components/nav-section';
 //
-import navConfig from "./NavConfig";
-import CollapseButton from "./CollapseButton";
+import navConfig from './NavConfig';
+import CollapseButton from './CollapseButton';
 
-const RootStyle = styled("div")(({ theme }) => ({
-  [theme.breakpoints.up("lg")]: {
+const RootStyle = styled('div')(({ theme }) => ({
+  [theme.breakpoints.up('lg')]: {
     flexShrink: 0,
-    transition: theme.transitions.create("width", {
+    transition: theme.transitions.create('width', {
       duration: theme.transitions.duration.shorter,
     }),
   },
@@ -37,20 +37,13 @@ NavbarVertical.propTypes = {
 export default function NavbarVertical({ isOpenSidebar, onCloseSidebar }) {
   const theme = useTheme();
   const { pathname } = useRouter();
-  const isDesktop = useResponsive("up", "lg");
+  const isDesktop = useResponsive('up', 'lg');
 
-  const {
-    isCollapse,
-    collapseClick,
-    collapseHover,
-    onToggleCollapse,
-    onHoverEnter,
-    onHoverLeave,
-  } = useCollapseDrawer();
+  const { isCollapse, collapseClick, collapseHover, onToggleCollapse, onHoverEnter, onHoverLeave } =
+    useCollapseDrawer();
 
   useEffect(() => {
     if (isOpenSidebar) {
-      console.log("열려있음");
       onCloseSidebar();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -83,7 +76,7 @@ export default function NavbarVertical({ isOpenSidebar, onCloseSidebar }) {
         }}
       >
         <CollapseButton
-          sx={{ position: "absolute" }}
+          sx={{ position: 'absolute' }}
           onToggleCollapse={onToggleCollapse}
           collapseClick={collapseClick}
         />
@@ -95,12 +88,10 @@ export default function NavbarVertical({ isOpenSidebar, onCloseSidebar }) {
     <RootStyle
       sx={{
         width: {
-          lg: isCollapse
-            ? NAVBAR.DASHBOARD_COLLAPSE_WIDTH
-            : NAVBAR.DASHBOARD_WIDTH,
+          lg: isCollapse ? NAVBAR.DASHBOARD_COLLAPSE_WIDTH : NAVBAR.DASHBOARD_WIDTH,
         },
         ...(collapseClick && {
-          position: "absolute",
+          position: 'absolute',
         }),
       }}
     >
@@ -113,10 +104,10 @@ export default function NavbarVertical({ isOpenSidebar, onCloseSidebar }) {
           PaperProps={{
             sx: {
               width: NAVBAR.DASHBOARD_COLLAPSE_WIDTH,
-              borderRightStyle: "dashed",
-              bgcolor: "background.default",
+              borderRightStyle: 'dashed',
+              bgcolor: 'background.default',
               transition: (theme) =>
-                theme.transitions.create("width", {
+                theme.transitions.create('width', {
                   duration: theme.transitions.duration.standard,
                 }),
               ...(!isCollapse && {

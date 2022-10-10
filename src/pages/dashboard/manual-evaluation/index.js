@@ -11,7 +11,7 @@ import Layout from '../../../layouts';
 import Page from '../../../components/Page';
 import Title from '../../../components/Title';
 // redux
-import { getDatas, getErrorGraphList } from '../../../redux/slices/data';
+import { clearGraphDatas, getDatas, getErrorGraphList, startDrawing } from '../../../redux/slices/data';
 import Scrollbar from 'src/components/Scrollbar';
 import { TableHeadManual, TableSelectedActions } from 'src/components/table';
 import { FormProvider } from 'src/components/hook-form';
@@ -55,6 +55,7 @@ export default function ManualEvaluation() {
 
   useEffect(() => {
     dispatch(getErrorGraphList());
+    dispatch(clearGraphDatas());
   }, [dispatch]);
 
   const defaultValues = () => {
@@ -125,7 +126,7 @@ export default function ManualEvaluation() {
                         row={row}
                         selected={selected.includes(row.id)}
                         onSelectRow={() => onSelectRow(row.id)}
-                        onViewRow={() => handleViewRow(row.pns)}
+                        onViewRow={() => handleViewRow(row.pns + '_' + row.DEFECT_LIST)}
                       />
                     ))}
                   </TableBody>

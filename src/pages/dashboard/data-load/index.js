@@ -19,6 +19,7 @@ import {
   Tooltip,
   IconButton,
 } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
 // layouts
 import Layout from '../../../layouts';
 // redux
@@ -91,6 +92,7 @@ export default function DataLoad() {
     userName: user?.displayName,
   };
   useEffect(() => {
+    // evluation 페이지 미리 업로드
     dispatch(getData(obj));
   }, [dispatch]);
 
@@ -103,9 +105,10 @@ export default function DataLoad() {
   };
 
   const isNotFound = !tableData.length;
-
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
-    dispatch(getDatas());
+    // 업로드된 데이터 리스트
+    dispatch(getDatas(obj));
   }, [dispatch]);
 
   useEffect(() => {
@@ -113,6 +116,17 @@ export default function DataLoad() {
       setTableData(datas);
     }
   }, [datas]);
+
+  const onSubmit = async () => {
+    try {
+      setLoading(true);
+
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const dataFiltered = applySortFilter({
     tableData,
@@ -229,9 +243,9 @@ export default function DataLoad() {
               </Button>
             </NextLink>
             <NextLink href="/dashboard/data-load/evaluation" passHref>
-              <Button size="large" variant="contained">
+              <LoadingButton loading={loading} size="large" variant="contained" onClick={onSubmit}>
                 Evaluation
-              </Button>
+              </LoadingButton>
             </NextLink>
           </Stack>
         </Grid>

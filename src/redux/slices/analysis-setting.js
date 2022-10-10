@@ -52,6 +52,9 @@ const slice = createSlice({
       state.isLoading = false;
       state.savedDatas = action.payload;
     },
+    deleteDatasSuccess(state, action) {
+      state.isLoading = false;
+    },
   },
 });
 
@@ -85,6 +88,17 @@ export function getData(userName) {
     try {
       const response = await axios.post('/api/analysis-setting/getData', userName);
       dispatch(slice.actions.getDatasSuccess(response.data));
+    } catch (error) {
+      dispatch(slice.actions.hasError(error));
+    }
+  };
+}
+
+export function deleteData(userName) {
+  return async () => {
+    try {
+      const response = await axios.post('/api/analysis-setting/deleteData', userName);
+      dispatch(slice.actions.deleteDatasSuccess(response.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
     }

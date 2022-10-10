@@ -23,6 +23,7 @@ import {
 import { useRouter } from 'next/router';
 // redux
 import { insertData, updateData } from '../../../redux/slices/data';
+import useAuth from 'src/hooks/useAuth';
 
 const UNIT_OPTIONS = ['1', '2', '3', '4', '5', '6', '7', '8'];
 const EQUIPMENT_OPTIONS = ['SG', 'Condensor', 'Heater'];
@@ -64,12 +65,15 @@ export default function DataNewEditForm({ isEdit, currentData }) {
 
   const dispatch = useDispatch();
 
+  const { user } = useAuth();
+
   const onSubmit = async (data) => {
     try {
       if (!isEdit) {
         const { files } = data;
         files.map((file) => {
           let filterData = {
+            userName: user?.displayName,
             name: file.name,
             lastModifiedDate: file.lastModifiedDate,
             size: file.size,

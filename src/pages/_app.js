@@ -1,4 +1,5 @@
 import '../sections/dashboard/auto-evaluation/add-delete-table/style.css';
+import '../sections/dashboard/manual-evaluation/graph/style.css';
 // lightbox
 import 'react-image-lightbox/style.css';
 // lazy image

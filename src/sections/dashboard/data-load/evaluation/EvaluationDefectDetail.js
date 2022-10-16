@@ -94,7 +94,7 @@ export default function EvaluationDefectDetail({ title, description, ...other })
                     순번
                   </TableCell>
                   <TableCell className={classes.tableCell} rowSpan={1} colSpan={1}>
-                    PNS
+                    Tube Location
                   </TableCell>
                   <TableCell className={classes.tableCell} rowSpan={1} colSpan={3}>
                     2차 OH
@@ -108,7 +108,13 @@ export default function EvaluationDefectDetail({ title, description, ...other })
                     Volts
                   </TableCell>
                   <TableCell className={classes.tableCell} rowSpan={1} colSpan={1}>
+                    Deg
+                  </TableCell>
+                  <TableCell className={classes.tableCell} rowSpan={1} colSpan={1}>
                     Depth
+                  </TableCell>
+                  <TableCell className={classes.tableCell} rowSpan={1} colSpan={1}>
+                    Location
                   </TableCell>
                   <TableCell className={classes.tableCell} rowSpan={1} colSpan={1}>
                     Eval.

@@ -15,11 +15,12 @@ import DataSelectForm from '../../../sections/dashboard/manual-evaluation/graph/
 import StandardLissajous from 'src/sections/dashboard/manual-evaluation/graph/StandardLissajous';
 import StandardCloneLissajous from 'src/sections/dashboard/manual-evaluation/graph/StandardCloneLissajous';
 import ChannelLissajous from 'src/sections/dashboard/manual-evaluation/graph/ChannelLissajous';
+import LoadingGraph from 'src/components/LoadingGraph';
 // redux
 import { getDatas, getErrorGraphList } from '../../../redux/slices/data';
 
 import { useRouter } from 'next/router';
-import { getGraphDatas, startDrawing } from '../../../redux/slices/data';
+import { getGraphDatas, startDrawing, doneDrawing } from '../../../redux/slices/data';
 
 ManualEvaluationDetails.getLayout = function getLayout(page) {
   return <Layout>{page}</Layout>;
@@ -32,7 +33,7 @@ export default function ManualEvaluationDetails() {
     dispatch(getDatas());
   }, [dispatch]);
 
-  const { errorDatas, isLoading } = useSelector((state) => state.data);
+  const { errorDatas, isLoading, drawLoading } = useSelector((state) => state.data);
 
   // useEffect(() => {
   //   if (errorDatas.length) {
@@ -42,6 +43,7 @@ export default function ManualEvaluationDetails() {
 
   useEffect(() => {
     dispatch(getErrorGraphList());
+    dispatch(startDrawing());
   }, [dispatch]);
 
   const { savedDatas } = useSelector((state) => state.analysisSetting);
@@ -66,7 +68,7 @@ export default function ManualEvaluationDetails() {
     <Page title="수동평가">
       <Container maxWidth="xl">
         <Title heading={pns} desc="수동평가에 대한 설명" />
-
+        {drawLoading && <LoadingGraph />}
         <Grid container spacing={3}>
           {/* <Grid item md={12}>
             <DataSelectForm />

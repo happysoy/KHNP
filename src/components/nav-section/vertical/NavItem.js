@@ -1,12 +1,11 @@
-import { useRouter } from "next/router";
+import { useRouter } from 'next/router';
 // @mui
-import { List, Collapse, Link, Box, Icon } from "@mui/material";
-import { getActive } from "..";
-
-import { ICON } from "../../../config";
+import { List, Collapse, Link, Box, Icon } from '@mui/material';
+import { getActive } from '..';
+import { ICON } from '../../../config';
 //
-import { ListItemStyle, ListItemTextStyle, ListItemIconStyle } from "./style";
-import { Navigate } from "react-router-dom";
+import { ListItemStyle, ListItemTextStyle, ListItemIconStyle } from './style';
+import { Navigate } from 'react-router-dom';
 
 export default function NavItem({ data, isCollapse, ...other }) {
   const { pathname, asPath, push } = useRouter();
@@ -17,19 +16,10 @@ export default function NavItem({ data, isCollapse, ...other }) {
   };
 
   return (
-    <ListItemStyle
-      sx={{ margin: 2 }}
-      active={active}
-      onClick={handleClickItem}
-      {...other}
-    >
+    <ListItemStyle sx={{ margin: 2 }} active={active} onClick={handleClickItem} {...other}>
       {icon && (
         <>
-          <Icon
-            sx={{ display: "flex" }}
-            height={ICON.NAVBAR_ITEM}
-            width={ICON.NAVBAR_ITEM}
-          >
+          <Icon sx={{ display: 'flex' }} height={ICON.NAVBAR_ITEM} width={ICON.NAVBAR_ITEM}>
             {icon}
           </Icon>
 
@@ -40,7 +30,7 @@ export default function NavItem({ data, isCollapse, ...other }) {
             primaryTypographyProps={{
               noWrap: true,
               // variant: "caption",
-              variant: active ? "subtitle2" : "body2",
+              variant: active ? 'subtitle2' : 'body2',
               // textAlign: "center",
             }}
           />

@@ -11,7 +11,7 @@ import Layout from '../../../layouts';
 import Page from '../../../components/Page';
 import Title from '../../../components/Title';
 // redux
-import { clearGraphDatas, getDatas, getErrorGraphList, startDrawing } from '../../../redux/slices/data';
+import { clearGraphDatas, getDatas, getErrorGraphList, startDrawing, doneDrawing } from '../../../redux/slices/data';
 import Scrollbar from 'src/components/Scrollbar';
 import { TableHeadManual, TableSelectedActions } from 'src/components/table';
 import { FormProvider } from 'src/components/hook-form';
@@ -56,6 +56,7 @@ export default function ManualEvaluation() {
   useEffect(() => {
     dispatch(getErrorGraphList());
     dispatch(clearGraphDatas());
+    dispatch(doneDrawing());
   }, [dispatch]);
 
   const defaultValues = () => {

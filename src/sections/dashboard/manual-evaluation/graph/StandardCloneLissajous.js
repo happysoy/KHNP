@@ -49,6 +49,7 @@ export default function StandardCloneLissajous({ chartLabels, selectSeries, defe
       yaxis: {
         fixedrange: true,
         showticklabels: false,
+        range: [range[3] - 1000, range[2] + 1000],
       },
       xaxis: {
         showticklabels: false,
@@ -82,7 +83,7 @@ export default function StandardCloneLissajous({ chartLabels, selectSeries, defe
     Plotly.newPlot(myDiv, data, layout, config);
     let update = {
       'xaxis.range': [range[0], range[1]],
-      'yaxis.range': [range[3] - 1000, range[2] + 1000],
+      // 'yaxis.range': [range[3] - 1000, range[2] + 1000],
     };
 
     if (!isNaN(range[0]) && range[0] !== undefined) {

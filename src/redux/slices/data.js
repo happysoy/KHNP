@@ -6,7 +6,7 @@ import { dispatch } from '../store';
 
 const initialState = {
   isLoading: false,
-  drawLoading: true,
+  drawLoading: false,
   error: null,
   datas: [],
   data: null,

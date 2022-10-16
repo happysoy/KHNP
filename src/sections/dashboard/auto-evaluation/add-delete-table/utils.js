@@ -8,7 +8,7 @@ export function randomColor() {
 
 export function signalAcquisitionFormat() {
   let data = [];
-  const count = 2;
+  const count = 1;
   for (let i = 0; i < count; i++) {
     let row = {
       ID: 'signalAcquisition',
@@ -71,12 +71,13 @@ export function equipmentObjectFormat() {
   const content = [
     'Equipment Name',
     'Maker',
-    'Tube Type',
     'Tube Material',
     'Size of Tube(O.D)',
     'Size of Tube(I.D)',
     'Size of Tube(Thickness)',
     'Length of Tube',
+    'Design Temp(℃)',
+    'Design Press(kgd/m2)',
   ];
 
   for (let i = 0; i < content.length; i++) {

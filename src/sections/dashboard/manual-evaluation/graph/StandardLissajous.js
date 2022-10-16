@@ -85,9 +85,9 @@ export default function StandardLissajous({ chartLabels, selectSeries, defectLis
     });
 
     dispatch(doneDrawing());
-  }, [graphDatas, seriesData]);
+  }, [graphDatas, seriesData, dispatch]);
 
-  console.log('draw', drawLoading);
+  // console.log('draw', drawLoading);
   return (
     <>
       <Card {...other}>

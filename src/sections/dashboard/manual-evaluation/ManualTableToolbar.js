@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { Stack, InputAdornment, TextField, MenuItem } from '@mui/material';
-import { DatePicker } from '@mui/x-date-pickers';
+// import { DatePicker } from '@mui/x-date-pickers';
 // components
 import Iconify from '../../../components/Iconify';
 
@@ -54,7 +54,7 @@ export default function ManualTableToolbar({
         ))}
       </TextField>
 
-      <DatePicker
+      {/* <DatePicker
         label="Start date"
         value={filterStartDate}
         onChange={onFilterStartDate}
@@ -82,13 +82,13 @@ export default function ManualTableToolbar({
             }}
           />
         )}
-      />
+      /> */}
 
       <TextField
         fullWidth
         value={filterName}
         onChange={(event) => onFilterName(event.target.value)}
-        placeholder="Search client or invoice number..."
+        placeholder="Search"
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">

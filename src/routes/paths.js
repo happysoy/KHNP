@@ -33,4 +33,7 @@ export const PATH_DASHBOARD = {
   },
   report: path(ROOTS_DASHBOARD, '/report'),
   settings: path(ROOTS_DASHBOARD, '/settings'),
+  dataManagement: {
+    root: path(ROOTS_DASHBOARD, '/data-management'),
+  },
 };

@@ -7,6 +7,7 @@ import QueryStatsOutlinedIcon from '@mui/icons-material/QueryStatsOutlined';
 import PersonSearchOutlinedIcon from '@mui/icons-material/PersonSearchOutlined';
 import InsertChartOutlinedTwoToneIcon from '@mui/icons-material/InsertChartOutlinedTwoTone';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
+import ComputerOutlinedIcon from '@mui/icons-material/ComputerOutlined';
 import AssignmentOutlinedIcon from '@mui/icons-material/AssignmentOutlined';
 
 const ICONS = {
@@ -15,6 +16,7 @@ const ICONS = {
   manualEvaluation: <PersonSearchOutlinedIcon />,
   autoResult: <InsertChartOutlinedTwoToneIcon />,
   settings: <SettingsOutlinedIcon />,
+  dataManagement: <ComputerOutlinedIcon />,
   report: <AssignmentOutlinedIcon />,
 };
 
@@ -44,6 +46,11 @@ const navConfig = [
     title: `REPORT`,
     path: PATH_DASHBOARD.report,
     icon: ICONS.report,
+  },
+  {
+    title: `DATA MANAGEMENT`,
+    path: PATH_DASHBOARD.dataManagement.root,
+    icon: ICONS.dataManagement,
   },
   {
     title: `Settings`,

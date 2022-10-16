@@ -7,11 +7,11 @@ import 'react-lazy-load-image-component/src/effects/blur.css';
 import 'react-lazy-load-image-component/src/effects/opacity.css';
 import 'react-lazy-load-image-component/src/effects/black-and-white.css';
 // @mui
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { LocalizationProvider } from '@mui/x-date-pickers';
 // scroll bar
 import 'simplebar/src/simplebar.css';
-
+// slick-carousel
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 // theme
 import ThemeProvider from '../theme';
 // context
@@ -42,22 +42,20 @@ export default function MyApp(props) {
       <AuthProvider>
         <ReduxProvider store={store}>
           <PersistGate loading={null} persistor={persistor}>
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
-              <CollapseDrawerProvider>
+            <CollapseDrawerProvider>
+              <MotionLazyContainer>
                 <TableDataProvider>
                   <AxisStateProvider>
-                    <MotionLazyContainer>
-                      <ThemeProvider>
-                        <NotistackProvider>
-                          {getLayout(<Component {...pageProps} />)}
-                          <ProgressBar />
-                        </NotistackProvider>
-                      </ThemeProvider>
-                    </MotionLazyContainer>
+                    <ThemeProvider>
+                      <NotistackProvider>
+                        {getLayout(<Component {...pageProps} />)}
+                        <ProgressBar />
+                      </NotistackProvider>
+                    </ThemeProvider>
                   </AxisStateProvider>
                 </TableDataProvider>
-              </CollapseDrawerProvider>
-            </LocalizationProvider>
+              </MotionLazyContainer>
+            </CollapseDrawerProvider>
           </PersistGate>
         </ReduxProvider>
       </AuthProvider>

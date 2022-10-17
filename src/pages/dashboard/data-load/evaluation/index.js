@@ -17,6 +17,7 @@ import { useEffect } from 'react';
 import { getData } from 'src/redux/slices/test-information';
 import EvaluationDefectDetail from 'src/sections/dashboard/data-load/evaluation/EvaluationDefectDetail';
 import { getErrorGraphList } from '../../../../redux/slices/data';
+import NoDataGuard from 'src/guards/NoDataGuard';
 
 Evaluation.getLayout = function getLayout(page) {
   return <Layout>{page}</Layout>;
@@ -25,11 +26,23 @@ Evaluation.getLayout = function getLayout(page) {
 export default function Evaluation() {
   const theme = useTheme();
   const dispatch = useDispatch();
-
+  const { user } = useAuth();
+  const obj = {
+    userName: user?.displayName,
+  };
+  const { savedDatasECT } = useSelector((state) => state.testInformation);
   useEffect(() => {
     dispatch(getErrorGraphList());
+    // evluation 페이지 미리 업로드
+    dispatch(getData(obj));
   }, [dispatch]);
 
+  // console.log('savedDatasECT', savedDatasECT);
+  let parseECT;
+  if (savedDatasECT.length !== 0) {
+    parseECT = JSON.parse(savedDatasECT[0]?.jdoc);
+  }
+  console.log(parseECT);
   return (
     <Page title="데이터로드">
       <Container maxWidth="lg">
@@ -106,11 +119,15 @@ export default function Evaluation() {
           <Grid item sm={4} lg={4}>
             <EvaluationDetail />
           </Grid>
-          <Grid item sm={6} lg={6}>
+          <Grid item sm={12} lg={12}>
             <EvaluationDefectDetail title="Defect Detail" />
           </Grid>
           <Grid item sm={6} lg={6}>
-            <EvaluationSummary title="Test Result Summary" />
+            {parseECT === undefined ? (
+              <NoDataGuard />
+            ) : (
+              <EvaluationSummary title="Test Result Summary" parseECT={parseECT} />
+            )}
           </Grid>
         </Grid>
       </Container>

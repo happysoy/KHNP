@@ -47,9 +47,8 @@ export default function StandardCloneLissajous({ chartLabels, selectSeries, defe
       width: 500,
       height: 500,
       yaxis: {
-        fixedrange: true,
         showticklabels: false,
-        range: [range[3] - 1000, range[2] + 1000],
+        // range: [range[3] - 1000, range[2] + 1000],
       },
       xaxis: {
         showticklabels: false,

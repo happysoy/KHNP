@@ -91,10 +91,6 @@ export default function DataLoad() {
   const obj = {
     userName: user?.displayName,
   };
-  useEffect(() => {
-    // evluation 페이지 미리 업로드
-    dispatch(getData(obj));
-  }, [dispatch]);
 
   const [tableData, setTableData] = useState([]);
   const [filterName, setFilterName] = useState('');

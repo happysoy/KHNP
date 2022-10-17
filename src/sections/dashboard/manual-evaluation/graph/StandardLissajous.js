@@ -49,7 +49,7 @@ export default function StandardLissajous({ chartLabels, selectSeries, defectLis
       width: 500,
       height: 500,
       yaxis: {
-        fixedrange: true,
+        // fixedrange: true,
         showticklabels: false,
       },
       xaxis: {

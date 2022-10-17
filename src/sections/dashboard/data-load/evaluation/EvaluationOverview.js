@@ -24,7 +24,6 @@ export default function EvaluationOverview({ title, chartData, ...other }) {
 
   useEffect(() => {
     const mydiv = canvasEl.current.getContext('2d');
-    console.log(mydiv);
     const data = {
       labels: label,
       datasets: [

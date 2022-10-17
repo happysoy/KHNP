@@ -96,7 +96,7 @@ export default function EvaluationDefectDetail({ title, description, ...other })
                   <TableCell className={classes.tableCell} rowSpan={1} colSpan={1}>
                     Tube Location
                   </TableCell>
-                  <TableCell className={classes.tableCell} rowSpan={1} colSpan={3}>
+                  <TableCell className={classes.tableCell} rowSpan={1} colSpan={5}>
                     2차 OH
                   </TableCell>
                 </TableRow>
@@ -141,6 +141,8 @@ export default function EvaluationDefectDetail({ title, description, ...other })
                           {item.DEFECT_CODE}
                         </Label>
                       </TableCell>
+                      <TableCell className={classes.tableCell}>?</TableCell>
+                      <TableCell className={classes.tableCell}>?</TableCell>
                     </TableRow>
                   </>
                 ))}

@@ -4,6 +4,7 @@ import { RHFSwitch } from 'src/components/hook-form';
 import VerificationMethod from './VerificationMethod';
 import { useTheme } from '@mui/material/styles';
 import { makeStyles, styled } from '@mui/styles';
+import { fShortenNumber } from '../../../utils/formatNumber';
 // ----------------------------------------------------------------------
 
 export default function ErrorDataTableRow({
@@ -15,8 +16,8 @@ export default function ErrorDataTableRow({
   // onSelectRow,
 }) {
   // const theme = useTheme();
-
-  const { id, DEFECT_CODE, DEFECT_LOCATION } = row;
+  // console.log('야호', row);
+  const { id, DEFECT_CODE, DEFECT_LOCATION, DEFECT_DEGREE, DEFECT_VOLT } = row;
   const { control } = useFormContext();
 
   const theme = useTheme();
@@ -53,10 +54,10 @@ export default function ErrorDataTableRow({
           </Link>
         </TableCell>
         <TableCell>{DEFECT_CODE}</TableCell>
+        <TableCell>{fShortenNumber(DEFECT_VOLT)}</TableCell>
+        <TableCell>{fShortenNumber(DEFECT_DEGREE)}</TableCell>
         <TableCell>?</TableCell>
-        <TableCell>?</TableCell>
-        <TableCell>?</TableCell>
-        <TableCell>?</TableCell>
+        <TableCell>1</TableCell>
         <TableCell>{row.DEFECT_LOCATION}</TableCell>
 
         <TableCell padding="checkbox" sx={{ textAlign: 'center' }}>

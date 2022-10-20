@@ -20,7 +20,7 @@ export function fNumber(number) {
 }
 
 export function fShortenNumber(number) {
-  return numeral(number).format('0.00a').replace('.00', '');
+  return numeral(number).format('0.00');
 }
 
 export function fData(number) {

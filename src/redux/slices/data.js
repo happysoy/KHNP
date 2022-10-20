@@ -182,9 +182,14 @@ export function getErrorGraphList() {
         const defectTEIO = JSON.parse(data.TEIO);
         const defectLocation = JSON.parse(data.DEFECT_LOCATION);
         const defectList = JSON.parse(data.DEFECT_LIST);
+        const defectVolt = JSON.parse(data.DEFECT_VOLT_LIST);
+        const defectDeg = JSON.parse(data.DEFECT_DEGREE_LIST);
+
         const codeArray = Object.values(defectCode);
         const locationArray = Object.values(defectLocation);
+
         const listArray = Object.values(defectList);
+
         const pns = data.id;
         codeArray.map((item, idx) => {
           const obj = {
@@ -194,6 +199,8 @@ export function getErrorGraphList() {
             DEFECT_CODE: item,
             DEFECT_LOCATION: locationArray[idx],
             DEFECT_LIST: listArray[idx],
+            DEFECT_DEGREE: defectDeg[idx].split(' ')[0],
+            DEFECT_VOLT: defectVolt[idx].split(' ')[0],
           };
           refineList.push(obj);
         });

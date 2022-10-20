@@ -1,9 +1,13 @@
 function path(root, sublink) {
   return `${root}${sublink}`;
 }
-
+const ROOTS = '/';
 const ROOTS_AUTH = '/auth';
 const ROOTS_DASHBOARD = '/dashboard';
+
+export const PATH_ROOT = {
+  root: ROOTS,
+};
 
 export const PATH_AUTH = {
   root: ROOTS_AUTH,

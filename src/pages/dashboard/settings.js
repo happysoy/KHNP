@@ -18,7 +18,6 @@ export default function Settings() {
       <Container maxWidth="lg">
         <Title heading="Program Setting" />
         <div>Settings</div>
-        <p>{user?.displayName}</p>
       </Container>
     </Page>
   );

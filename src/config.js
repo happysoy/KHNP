@@ -1,9 +1,10 @@
 // routes
-import { PATH_DASHBOARD } from './routes/paths';
+import { PATH_DASHBOARD, PATH_AUTH } from './routes/paths';
 
 // API
 // ----------------------------------------------------------
 export const PATH_AFTER_LOGIN = PATH_DASHBOARD.autoEvaluation;
+export const PATH_BEFORE_LOGIN = PATH_AUTH.login;
 
 export const COGNITO_API = {
   userPoolId: process.env.NEXT_PUBLIC_AWS_COGNITO_USER_POOL_ID,

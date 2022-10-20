@@ -1,21 +1,21 @@
 // config
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import { PATH_AFTER_LOGIN } from '../../config';
+import { PATH_BEFORE_LOGIN } from '../config';
 // routes
-import { PATH_DASHBOARD } from '../../routes/paths';
+import { PATH_ROOT } from '../routes/paths';
 
 export default function Index() {
   const { pathname, replace, prefetch } = useRouter();
 
   useEffect(() => {
-    if (pathname === PATH_DASHBOARD.root) {
-      replace(PATH_AFTER_LOGIN);
+    if (pathname === PATH_ROOT.root) {
+      replace(PATH_BEFORE_LOGIN);
     }
-  }, [pathname]);
+  }, [[pathname]]);
 
   useEffect(() => {
-    prefetch(PATH_AFTER_LOGIN);
+    prefetch(PATH_BEFORE_LOGIN);
   }, []);
 
   return null;

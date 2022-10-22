@@ -13,7 +13,7 @@ import EvaluationDetail from 'src/sections/dashboard/data-load/evaluation/Evalua
 import EvaluationSummary from '../../../../sections/dashboard/data-load/evaluation/EvaluationSummary';
 import { useDispatch, useSelector } from 'src/redux/store';
 import useAuth from 'src/hooks/useAuth';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { getData } from 'src/redux/slices/test-information';
 import EvaluationDefectDetail from 'src/sections/dashboard/data-load/evaluation/EvaluationDefectDetail';
 import { getErrorGraphList } from '../../../../redux/slices/data';
@@ -36,13 +36,20 @@ export default function Evaluation() {
     // evluation 페이지 미리 업로드
     dispatch(getData(obj));
   }, [dispatch]);
+  const { errorDatas, isLoading } = useSelector((state) => state.data);
 
-  // console.log('savedDatasECT', savedDatasECT);
+  const [tableData, setTableData] = useState([]);
+  const [ectObject, setECTobject] = useState('');
+  useEffect(() => {
+    if (errorDatas.length) {
+      setTableData(errorDatas);
+    }
+  }, [errorDatas]);
+
   let parseECT;
   if (savedDatasECT.length !== 0) {
     parseECT = JSON.parse(savedDatasECT[0]?.jdoc);
   }
-  console.log(parseECT);
   return (
     <Page title="데이터로드">
       <Container maxWidth="lg">
@@ -117,10 +124,10 @@ export default function Evaluation() {
             />
           </Grid>
           <Grid item sm={4} lg={4}>
-            <EvaluationDetail />
+            {parseECT === undefined ? <NoDataGuard /> : <EvaluationDetail parseECT={parseECT} />}
           </Grid>
           <Grid item sm={12} lg={12}>
-            <EvaluationDefectDetail title="Defect Detail" />
+            <EvaluationDefectDetail title="Defect Detail" tableData={tableData} />
           </Grid>
           <Grid item sm={6} lg={6}>
             {parseECT === undefined ? (

@@ -19,11 +19,11 @@ export default function Report() {
     <ComponentPage title="Report">
       <Container maxWidth="lg">
         <Title heading="Report" />
-        <Box height="100vh">
+        <Box height="100vh" display="flex" justifyContent="center">
           <PDFViewer width="100%" height="100%" style={{ border: 'none' }}>
             <ReportPDF />
           </PDFViewer>
-          {/* <iframe width="800" height="800" src="/report.PDF#toolbar=0&navpanes=0&scrollbar=0" frameBorder="0"></iframe> */}
+          {/* <iframe width="600" height="1000" src="/page1.html#toolbar=1" frameBorder="0" /> */}
         </Box>
       </Container>
     </ComponentPage>

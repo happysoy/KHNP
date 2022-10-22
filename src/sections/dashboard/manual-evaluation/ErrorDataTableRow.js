@@ -5,6 +5,7 @@ import VerificationMethod from './VerificationMethod';
 import { useTheme } from '@mui/material/styles';
 import { makeStyles, styled } from '@mui/styles';
 import { fShortenNumber } from '../../../utils/formatNumber';
+
 // ----------------------------------------------------------------------
 
 export default function ErrorDataTableRow({

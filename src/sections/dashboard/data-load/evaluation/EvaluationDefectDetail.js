@@ -19,9 +19,9 @@ import {
   Paper,
 } from '@mui/material';
 import { useState, useEffect } from 'react';
-import { useSelector } from 'src/redux/store';
 import Label from 'src/components/Label';
 import Scrollbar from 'src/components/Scrollbar';
+import { fShortenNumber } from 'src/utils/formatNumber';
 
 // ----------------------------------------------------------------------
 const columns = [
@@ -52,7 +52,7 @@ const columns = [
 
 // ----------------------------------------------------------------------
 
-export default function EvaluationDefectDetail({ title, description, ...other }) {
+export default function EvaluationDefectDetail({ title, description, tableData, ...other }) {
   const theme = useTheme();
   // const { datas } = useSelector((state) => state.data);
 
@@ -70,16 +70,8 @@ export default function EvaluationDefectDetail({ title, description, ...other })
       textAlign: 'center',
     },
   });
-  const { errorDatas, isLoading } = useSelector((state) => state.data);
 
   const classes = useStyles();
-
-  // const {
-  //   equipmentData: {
-  //     equipmentTube: { columns, data },
-  //   },
-  // } = parseECT;
-  const [tableData, setTableData] = useState([]);
 
   return (
     <Card {...other}>
@@ -122,27 +114,24 @@ export default function EvaluationDefectDetail({ title, description, ...other })
                 </TableRow>
               </TableHead>
               <TableBody>
-                {/* <TableRow>
-                  <TableCell>야호</TableCell>
-                </TableRow> */}
-                {errorDatas.map((item, index) => (
+                {tableData.map((row, index) => (
                   <>
                     <TableRow key={index}>
                       <TableCell key={index} className={classes.tableCell}>
                         {index + 1}
                       </TableCell>
                       <TableCell key={index} className={classes.tableCell}>
-                        {item.pns}
+                        {row.pns}
                       </TableCell>
+                      <TableCell className={classes.tableCell}>{fShortenNumber(row.DEFECT_VOLT)}</TableCell>
+                      <TableCell className={classes.tableCell}>{fShortenNumber(row.DEFECT_DEGREE)}</TableCell>
                       <TableCell className={classes.tableCell}>?</TableCell>
                       <TableCell className={classes.tableCell}>?</TableCell>
                       <TableCell className={classes.tableCell}>
                         <Label variant="ghost" color="error">
-                          {item.DEFECT_CODE}
+                          {row.DEFECT_CODE}
                         </Label>
                       </TableCell>
-                      <TableCell className={classes.tableCell}>?</TableCell>
-                      <TableCell className={classes.tableCell}>?</TableCell>
                     </TableRow>
                   </>
                 ))}

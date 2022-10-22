@@ -31,7 +31,7 @@ const ChartWrapperStyle = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-export default function EvaluationDetail({ title, description, ...other }) {
+export default function EvaluationDetail({ title, description, parseECT, ...other }) {
   const theme = useTheme();
 
   // for (let i = 0; i < chartContents.length; i++) {
@@ -39,17 +39,30 @@ export default function EvaluationDetail({ title, description, ...other }) {
   //     console.log(chartContents[i][j].id);
   //   }
   // }
+  console.log(parseECT);
+  // const {
+  //   equipmentData: {
+  //     equipmentTube: { columns, data },
+  //   },
+  // } = parseECT;
+  const {
+    equipmentData: {
+      equipmentObject,
+      equipmentTube: { data },
+    },
+  } = parseECT;
+  const columnID = Object.keys(data[0])[2];
 
   return (
     <Card {...other}>
       <Stack direction="row" divider={<Divider orientation="vertical" flexItem />}>
         <Box sx={{ py: 2, width: 1, textAlign: 'center' }}>
           <Typography sx={{ mb: 1, typography: 'body2', color: 'text.secondary' }}>Object</Typography>
-          <Typography sx={{ typography: 'h4' }}>9</Typography>
+          <Typography sx={{ typography: 'h4' }}>{equipmentObject[0].사양}</Typography>
         </Box>
         <Box sx={{ py: 2, width: 1, textAlign: 'center' }}>
           <Typography sx={{ mb: 1, typography: 'body2', color: 'text.secondary' }}>전체 수량</Typography>
-          <Typography sx={{ typography: 'h4' }}>9</Typography>
+          <Typography sx={{ typography: 'h4' }}>{data[0][columnID]}</Typography>
         </Box>
       </Stack>
       <Divider />
@@ -60,7 +73,7 @@ export default function EvaluationDetail({ title, description, ...other }) {
         </Box>
         <Box sx={{ py: 2, width: 1, textAlign: 'center' }}>
           <Typography sx={{ mb: 1, typography: 'body2', color: 'text.secondary' }}>검사 수량</Typography>
-          <Typography sx={{ typography: 'h4' }}>9</Typography>
+          <Typography sx={{ typography: 'h4' }}>{data[3][columnID]}</Typography>
         </Box>
       </Stack>
     </Card>
